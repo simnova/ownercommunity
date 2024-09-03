@@ -19,7 +19,7 @@ import { AzMapsImpl } from '../../../../src/infrastructure-services-impl/maps/az
 import { DatastoreInfrastructureService } from '../../../../framework/domain/domain-infrastructure.interface';
 import { MemorydbDatastoreImpl } from '../../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
-import { PaymentInfrastructureService } from '../../../../src/app/infrastructure-services/payment';
+import { PaymentInfrastructureService } from '../../../../src/components/infrastructure-services/payment';
 import { CybersourceImpl } from '../../../../src/infrastructure-services-impl/payment/cybersource/impl';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';

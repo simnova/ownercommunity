@@ -6,27 +6,27 @@ import {
   ServiceTicketRevisionRequest,
   ServiceTicketRevisionRequestChanges,
 } from '../../../../models/cases/service-ticket';
-import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
-import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityEntityReference } from '../../../../../../../components/domain/contexts/community/community/community';
+import { CommunityDomainAdapter } from '../../../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { PropertyDomainAdapter } from '../../../property/property.domain-adapter';
-import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
-import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
+import { PropertyEntityReference } from '../../../../../../../components/domain/contexts/property/property/property';
+import { MemberEntityReference } from '../../../../../../../components/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
-import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
-import { ServiceTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
-import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
+import { ActivityDetailProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { ServiceTicketV1MessageProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
+import { PhotoProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
-import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
+import { ServiceEntityReference } from '../../../../../../../components/domain/contexts/community/service/service';
 import {
   ServiceTicketV1RevisionRequestEntityReference,
   ServiceTicketV1RevisionRequestProps,
-} from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
-import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
+} from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
+import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,

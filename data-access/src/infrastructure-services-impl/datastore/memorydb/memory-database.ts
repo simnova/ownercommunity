@@ -4,53 +4,53 @@ import { BaseDomainExecutionContext } from "../../../../framework/seedwork/domai
 import { MemoryUnitOfWork } from "../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryStore, ReadOnlyMemoryStore } from "../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 // community
-import { Community, CommunityProps } from "../../../app/domain/contexts/community/community/community";
+import { Community, CommunityProps } from "../../../components/domain/contexts/community/community/community";
 import { MemoryCommunityRepository } from "./infrastructure/community/community.memory-repository";
 import { buildMemoryCommunityUnitOfWork } from "./infrastructure/community/community.memory-uow"
 // import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
 // staff user
-import { StaffUser, StaffUserProps } from "../../../app/domain/contexts/users/staff-user/staff-user";
+import { StaffUser, StaffUserProps } from "../../../components/domain/contexts/users/staff-user/staff-user";
 import { MemoryStaffUserRepository } from "./infrastructure/users/staff-user/staff-user.memory-repository";
 import { buildMemoryStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staff-user.memory-uow";
 // end user
-import { EndUser, EndUserProps } from "../../../app/domain/contexts/users/end-user/end-user";
+import { EndUser, EndUserProps } from "../../../components/domain/contexts/users/end-user/end-user";
 import { MemoryEndUserRepository } from "./infrastructure/users/end-user/end-user.memory-repository";
 import { buildMemoryEndUserUnitOfWork } from "./infrastructure/users/end-user/end-user.memory-uow";
 // import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
 // end user role
-import { EndUserRole, EndUserRoleProps } from "../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
+import { EndUserRole, EndUserRoleProps } from "../../../components/domain/contexts/community/roles/end-user-role/end-user-role";
 import { MemoryEndUserRoleRepository } from "./infrastructure/roles/end-user-role/end-user-role.memory-repository";
 import { buildMemoryEndUserRoleUnitOfWork } from "./infrastructure/roles/end-user-role/end-user-role.memory-uow";
 
 // staff role
-import { StaffRole, StaffRoleProps } from "../../../app/domain/contexts/community/roles/staff-role/staff-role";
+import { StaffRole, StaffRoleProps } from "../../../components/domain/contexts/community/roles/staff-role/staff-role";
 import { MemoryStaffRoleRepository } from "./infrastructure/roles/staff-role/staff-role.memory-repository";
 import { buildMemoryStaffRoleUnitOfWork } from "./infrastructure/roles/staff-role/staff-role.memory-uow";
 // import { MemoryRoleDatastore } from "./infrastructure/role.memory-datastore";
 
 // member
-import { Member, MemberProps } from "../../../app/domain/contexts/community/member/member";
+import { Member, MemberProps } from "../../../components/domain/contexts/community/member/member";
 import { MemoryMemberRepository } from "./infrastructure/member/member.memory-repository";
 import { buildMemoryMemberUnitOfWork } from "./infrastructure/member/member.memory-uow";
 // import { MemoryMemberDatastore } from "./infrastructure/member.memory-datastore";
 
 // property
-import { Property, PropertyProps } from "../../../app/domain/contexts/property/property/property";
+import { Property, PropertyProps } from "../../../components/domain/contexts/property/property/property";
 import { MemoryPropertyRepository } from "./infrastructure/property/property.memory-repository";
 import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property/property.memory-uow";
 // import { MemoryPropertyDatastore } from "./infrastructure/property.memory-datastore";
 
 // service
-import { Service, ServiceProps } from "../../../app/domain/contexts/community/service/service";
+import { Service, ServiceProps } from "../../../components/domain/contexts/community/service/service";
 import { MemoryServiceRepository } from "./infrastructure/service/service.memory-repository";
 import { buildMemoryServiceUnitOfWork } from "./infrastructure/service/service.memory-uow";
 // import { MemoryServiceDatastore } from "./infrastructure/service.memory-datastore";
 
 // service-ticket
-import { ServiceTicketV1, ServiceTicketV1Props } from "../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
+import { ServiceTicketV1, ServiceTicketV1Props } from "../../../components/domain/contexts/cases/service-ticket/v1/service-ticket";
 import { MemoryServiceTicketV1Repository } from "./infrastructure/cases/service-ticket/v1/service-ticket.memory-repository";
 import { buildMemoryServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.memory-uow";
-import { ViolationTicketV1, ViolationTicketV1Props } from "../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket";
+import { ViolationTicketV1, ViolationTicketV1Props } from "../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket";
 import { MemoryViolationTicketV1Repository } from './infrastructure/cases/violation-ticket/v1/violation-ticket.memory-repository';
 import { buildMemoryViolationTicketV1UnitOfWork } from './infrastructure/cases/violation-ticket/v1/violation-ticket.memory-uow';
 // import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";

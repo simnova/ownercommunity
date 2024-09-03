@@ -1,5 +1,5 @@
-import { DatastoreVisa } from "../../src/app/datastore/datastore.visa";
-import { DomainVisa } from "../../src/app/domain/domain.visa";
+import { DatastoreVisa } from "../../src/components/datastore/datastore.visa";
+import { DomainVisa } from "../../src/components/domain/domain.visa";
 
 export interface Passport{
     domainVisa: DomainVisa;

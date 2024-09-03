@@ -1,5 +1,5 @@
 import { DomainInfrastructureService } from "./domain-infrastructure.interface";
-import { MongoCommunityUnitOfWork } from "src/app/community/data-impl-mongodb/community.mongo-uow";
+import { MongoCommunityUnitOfWork } from "@src/components/community/data-impl-mongodb/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/property/property.mongo-uow";
 import { MongoEndUserRoleUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-uow";

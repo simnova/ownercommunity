@@ -5,7 +5,7 @@
 // import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { CognitiveSearchDomain } from '../../../../../src/app/domain/infrastructure/cognitive-search/interfaces';
+import { CognitiveSearchDomain } from '../../../../../src/components/domain/infrastructure/cognitive-search/interfaces';
 import { DatastoreDomain } from '../../../../../framework/domain/infrastructure/datastore.domain-infra.interface';
 
 export interface DomainInfrastructureBDD_NOTINUSE {

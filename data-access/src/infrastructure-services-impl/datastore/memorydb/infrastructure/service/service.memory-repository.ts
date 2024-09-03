@@ -1,7 +1,7 @@
-import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
+import { CommunityEntityReference, CommunityProps } from "../../../../../components/domain/contexts/community/community/community";
 import { DomainExecutionContext } from "../../../../../../framework/domain/domain-execution-context";
-import { Service, ServiceProps } from "../../../../../app/domain/contexts/community/service/service";
-import { ServiceRepository } from "../../../../../app/domain/contexts/community/service/service.repository";
+import { Service, ServiceProps } from "../../../../../components/domain/contexts/community/service/service";
+import { ServiceRepository } from "../../../../../components/domain/contexts/community/service/service.repository";
 import { MemoryBaseAdapter } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 

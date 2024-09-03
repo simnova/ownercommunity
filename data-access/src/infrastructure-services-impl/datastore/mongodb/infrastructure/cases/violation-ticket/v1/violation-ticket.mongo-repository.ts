@@ -1,11 +1,11 @@
-import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicket } from '../../../../models/cases/violation-ticket';
 import { MongoRepositoryBase } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
-import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
-import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
-import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
-import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { MemberEntityReference } from '../../../../../../../components/domain/contexts/community/member/member';
+import { CommunityEntityReference } from '../../../../../../../components/domain/contexts/community/community/community';
+import { PropertyEntityReference } from '../../../../../../../components/domain/contexts/property/property/property';
+import { ViolationTicketV1Repository } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
 export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1Props>
   extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketDO<PropType>>

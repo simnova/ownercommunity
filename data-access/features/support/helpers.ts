@@ -1,4 +1,4 @@
-import { EndUserRoleProps } from "../../src/app/domain/contexts/community/roles/end-user-role/end-user-role";
+import { EndUserRoleProps } from "../../src/components/domain/contexts/community/roles/end-user-role/end-user-role";
 
 // remove word before {. 
 // for example, description DuyTheOwner{actor} is the admin member of Community1{word} will be converted into "{actor} creates a new community named {word}."

@@ -1,7 +1,7 @@
 import { Actor, Interaction } from "@serenity-js/core";
 import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 import { CommunityInDb } from "../questions/community-in-db";
-import { CommunityEntityReference } from "../../src/app/domain/contexts/community/community/community";
+import { CommunityEntityReference } from "../../src/components/domain/contexts/community/community/community";
 
 export const CreatePropertyInDb = (
   communityName: string,

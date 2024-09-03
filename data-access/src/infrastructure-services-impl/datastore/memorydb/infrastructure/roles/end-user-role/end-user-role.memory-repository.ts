@@ -1,11 +1,11 @@
 import { MemoryBaseAdapter } from "../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
-import { CommunityProps, CommunityEntityReference } from "../../../../../../app/domain/contexts/community/community/community";
-import { EndUserRoleProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
-import { EndUserRolePermissionsProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions";
+import { CommunityProps, CommunityEntityReference } from "../../../../../../components/domain/contexts/community/community/community";
+import { EndUserRoleProps } from "../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role";
+import { EndUserRolePermissionsProps } from "../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-permissions";
 import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
-import { EndUserRoleRepository } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role.repository";
-import { EndUserRole } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
+import { EndUserRoleRepository } from "../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role.repository";
+import { EndUserRole } from "../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role";
 
 export class MemoryEndUserRoleCommunityPermissions extends MemoryBaseAdapter {
   canManageRolesAndPermissions: boolean;

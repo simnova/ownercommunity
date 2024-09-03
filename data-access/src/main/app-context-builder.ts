@@ -1,14 +1,14 @@
-import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../../src/components/domain/domain.visa';
-import { MemberEntityReference } from '../../src/components/domain/contexts/community/member/member';
+import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../components/domain/domain.visa';
+import { MemberEntityReference } from '../components/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
-import {StaffUserEntityReference } from '../../src/components/domain/contexts/users/staff-user/staff-user';
-import { EndUserEntityReference } from '../../src/components/domain/contexts/users/end-user/end-user';
-import { ApplicationServices } from './application-services';
-import { InfrastructureServices } from './infrastructure-services';
-import { CommunityData, MemberData } from '../../src/components/external-dependencies/datastore';
+import {StaffUserEntityReference } from '../components/domain/contexts/users/staff-user/staff-user';
+import { EndUserEntityReference } from '../components/domain/contexts/users/end-user/end-user';
+import { ApplicationServices } from '../../app/main/application-services';
+import { InfrastructureServices } from '../infrastructure-services';
+import { CommunityData, MemberData } from '../components/external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
-import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../../src/components/datastore/datastore.visa';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../components/datastore/datastore.visa';
 
 export enum OpenIdConfigKeyEnum {
   ACCOUNT_PORTAL = 'AccountPortal',

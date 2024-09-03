@@ -1,22 +1,22 @@
-import { CommunityEntityReference, CommunityProps } from '../../../../../../../app/domain/contexts/community/community/community';
-import { MemberEntityReference, MemberProps } from '../../../../../../../app/domain/contexts/community/member/member';
+import { CommunityEntityReference, CommunityProps } from '../../../../../../../components/domain/contexts/community/community/community';
+import { MemberEntityReference, MemberProps } from '../../../../../../../components/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
-import { PropertyEntityReference, PropertyProps } from '../../../../../../../app/domain/contexts/property/property/property';
-import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
-import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
-import { ServiceEntityReference, ServiceProps } from '../../../../../../../app/domain/contexts/community/service/service';
+import { PropertyEntityReference, PropertyProps } from '../../../../../../../components/domain/contexts/property/property/property';
+import { ActivityDetailProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { PhotoProps } from '../../../../../../../components/domain/contexts/cases/service-ticket/v1/photo';
+import { ServiceEntityReference, ServiceProps } from '../../../../../../../components/domain/contexts/community/service/service';
 import { MemoryBaseAdapter } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
 import { MemoryRepositoryBase } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 import { v4 as uuidV4 } from 'uuid';
-import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
-import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
-import { ViolationTicketV1FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details';
-import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
-import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
-import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
-import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
-import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
+import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1Repository } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { ViolationTicketV1FinanceDetailProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details';
+import { ViolationTicketV1MessageProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
+import { TransactionsProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
+import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
+import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
+import { RevenueRecognitionProps } from '../../../../../../../components/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
 
 class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;

@@ -1,9 +1,9 @@
-import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
-import { MemberRepository } from '../../../../../app/domain/contexts/community/member/member.repository';
+import { Member as MemberDO, MemberProps } from '../../../../../components/domain/contexts/community/member/member';
+import { MemberRepository } from '../../../../../components/domain/contexts/community/member/member.repository';
 import { Member } from '../../models/member';
 import { MongoRepositoryBase } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
-import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
+import { CommunityEntityReference } from '../../../../../components/domain/contexts/community/community/community';
 
 export class MongoMemberRepository<PropType extends MemberProps>
   extends MongoRepositoryBase<DomainExecutionContext, Member, PropType, MemberDO<PropType>>

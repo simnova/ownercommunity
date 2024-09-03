@@ -1,6 +1,6 @@
 import { Question } from '@serenity-js/core/lib/screenplay';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
-import { MemberProps } from '../../src/app/domain/contexts/community/member/member';
+import { MemberProps } from '../../src/components/domain/contexts/community/member/member';
 
 export const MemberInDb = async (memberName:string) => Question.about(`read ${memberName} member`, async (actor) => {
   const [firstName, lastName] = memberName.split("The"); // logic based on Actors.prepare method in screenplay/actors.ts

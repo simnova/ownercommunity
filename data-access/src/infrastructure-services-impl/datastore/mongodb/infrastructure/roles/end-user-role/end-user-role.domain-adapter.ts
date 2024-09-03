@@ -1,18 +1,18 @@
 import { EndUserRole, EndUserRolePermissions, EndUserRoleCommunityPermissions, EndUserRolePropertyPermissions, EndUserRoleServicePermissions, EndUserRoleServiceTicketPermissions, EndUserRoleViolationTicketPermissions } from '../../../models/roles/end-user-role';
-import { EndUserRole as EndUserRoleDO, EndUserRoleProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
+import { EndUserRole as EndUserRoleDO, EndUserRoleProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role';
 import { MongooseDomainAdapter } from '../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../../../app/domain/contexts/community/community/community';
+import { CommunityProps } from '../../../../../../components/domain/contexts/community/community/community';
 
-import { CommunityDomainAdapter } from '../../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
-import { EndUserRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
-import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';
-import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-property-permissions';
-import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-permissions';
-import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-ticket-permissions';
-import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-violation-ticket-permissions';
+import { EndUserRolePermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
+import { EndUserRoleCommunityPermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';
+import { EndUserRolePropertyPermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-property-permissions';
+import { EndUserRoleServicePermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-service-permissions';
+import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-service-ticket-permissions';
+import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-violation-ticket-permissions';
 
 
 export class EndUserRoleConverter extends MongoTypeConverter<DomainExecutionContext, EndUserRole, EndUserRoleDomainAdapter, EndUserRoleDO<EndUserRoleDomainAdapter>> {

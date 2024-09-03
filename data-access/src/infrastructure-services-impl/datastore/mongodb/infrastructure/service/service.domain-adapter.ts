@@ -1,10 +1,10 @@
 import { Service } from '../../models/service';
-import { Service as ServiceDO, ServiceProps } from '../../../../../app/domain/contexts/community/service/service';
+import { Service as ServiceDO, ServiceProps } from '../../../../../components/domain/contexts/community/service/service';
 import { MongooseDomainAdapter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityProps } from '../../../../../components/domain/contexts/community/community/community';
+import { CommunityDomainAdapter } from '../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 
 export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {

@@ -1,6 +1,6 @@
 import { Question } from '@serenity-js/core/lib/screenplay';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
-import { CommunityProps } from '../../src/app/domain/contexts/community/community/community';
+import { CommunityProps } from '../../src/components/domain/contexts/community/community/community';
 
 export const CommunityInDb = async (communityName: string) => Question.about(`read ${communityName} community`, async (actor) => {
    let community: CommunityProps;

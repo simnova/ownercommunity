@@ -1,8 +1,8 @@
 import { Actor, Interaction } from "@serenity-js/core";
 import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 import { CommunityInDb } from "../questions/community-in-db";
-import { CommunityEntityReference } from "../../src/app/domain/contexts/community/community/community";
-import { EndUserRole, EndUserRoleProps } from "../../src/app/domain/contexts/community/roles/end-user-role/end-user-role";
+import { CommunityEntityReference } from "../../src/components/domain/contexts/community/community/community";
+import { EndUserRole, EndUserRoleProps } from "../../src/components/domain/contexts/community/roles/end-user-role/end-user-role";
 
 export const CreateRoleInDb = (
   communityName: string,

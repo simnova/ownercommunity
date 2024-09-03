@@ -1,16 +1,16 @@
 import { Member, Account, Profile, CustomView } from '../../models/member';
-import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
+import { Member as MemberDO, MemberProps } from '../../../../../components/domain/contexts/community/member/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { MemberAccountProps } from '../../../../../app/domain/contexts/community/member/member-account';
-import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { MemberAccountProps } from '../../../../../components/domain/contexts/community/member/member-account';
+import { CommunityEntityReference } from '../../../../../components/domain/contexts/community/community/community';
+import { CommunityDomainAdapter } from '../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
-import { EndUserRoleEntityReference } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
-import { MemberProfileProps } from '../../../../../app/domain/contexts/community/member/member-profile';
-import { MemberCustomViewProps } from '../../../../../app/domain/contexts/community/member/member-custom-view';
-import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
+import { EndUserRoleEntityReference } from '../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role';
+import { MemberProfileProps } from '../../../../../components/domain/contexts/community/member/member-profile';
+import { MemberCustomViewProps } from '../../../../../components/domain/contexts/community/member/member-custom-view';
+import { EndUserEntityReference } from '../../../../../components/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {

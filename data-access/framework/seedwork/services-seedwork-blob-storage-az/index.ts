@@ -4,8 +4,8 @@ import {  BlobActions } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
 
-import { BlobRequestSettings, BlobStorageBase, FileInfo } from '../services-seedwork-blob-storage-interfaces';
-export class AzBlobStorage implements BlobStorageBase {
+import { BlobRequestSettings, BlobStorageBase, BlobStorageInfrastructureService, FileInfo } from '../services-seedwork-blob-storage-interfaces';
+export abstract class AzBlobStorage implements BlobStorageBase {
 
   private readonly accountName:string;
   private readonly accountKey:string;
@@ -108,4 +108,19 @@ export class AzBlobStorage implements BlobStorageBase {
     return new AuthHeader().generateFromRequestLite(blobRequest,this.accountName, this.accountKey);
   }
   
+}
+
+export class AzBlobStorageImpl extends AzBlobStorage implements BlobStorageInfrastructureService {
+   
+  constructor(accountName: string, accountKey: string) {
+      super(accountName,  accountKey);
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('AzBlobStorageImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('AzBlobStorageImpl shutdown');
+  }
 }

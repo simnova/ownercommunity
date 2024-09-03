@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse, VercelBase } from './interfaces';
+import { VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse, VercelBase, VercelInfrastructureService } from './interfaces';
 
-export class VercelApi implements VercelBase {
+export abstract class VercelApi implements VercelBase {
   private readonly _vercelToken: string;
   private readonly _vercelProject: string;
 
@@ -102,5 +102,20 @@ export class VercelApi implements VercelBase {
     });
     console.log('getDomainConfig results: ', results);
     return results.data;
+  }
+}
+
+export class VercelApiImpl extends VercelApi implements VercelInfrastructureService {
+  
+  constructor(vercelToken: string, vercelProject: string) {
+      super(vercelToken, vercelProject);
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('VercelApiImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('VercelApiImpl shutdown');
   }
 }

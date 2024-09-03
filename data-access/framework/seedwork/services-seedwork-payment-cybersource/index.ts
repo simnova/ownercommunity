@@ -12,9 +12,10 @@ import {
   PaymentTokenInfo,
   PaymentInstrumentInfo,
   TransactionSearchResponse,
+  CybersourceInfrastructureService,
 } from '../services-seedwork-payment-cybersource-interfaces';
 
-export class Cybersource implements CybersourceBase {
+export abstract class Cybersource implements CybersourceBase {
   private readonly _authenticationType: string;
 
   private readonly _applicationNameKey: string = 'CYBERSOURCE_APP_NAME';
@@ -596,5 +597,30 @@ export class Cybersource implements CybersourceBase {
         }
       });
     });
+  }
+}
+
+export class CybersourceImpl extends Cybersource implements CybersourceInfrastructureService {
+
+  /**
+   * needs following environment variables:
+   * ** CYBERSOURCE_APP_NAME
+   * ** CYBERSOURCE_MERCHANT_ID
+   * ** CYBERSOURCE_MERCHANT_KEY_ID
+   * ** CYBERSOURCE_MERCHANT_KEY_SECRET
+   * ** CYBERSOURCE_RUN_ENVIRONMENT
+   * ** CYBERSOURCE_ENABLE_LOG
+   * ** CYBERSOURCE_IFRAME_TARGET_ORIGIN
+   */
+  constructor() {
+    super();
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('CybersourceImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('CybersourceImpl shutdown');
   }
 }

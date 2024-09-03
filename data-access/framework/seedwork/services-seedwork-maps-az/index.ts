@@ -2,8 +2,9 @@ import { AccountSasParameters, AzureMapsManagementClient } from '@azure/arm-maps
 import { TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions, AzureCliCredential} from '@azure/identity';
 import dayjs from 'dayjs';
 import { setLogLevel } from '@azure/logger';
+import { MapsInfrastructureService } from '@library/services-seedwork-maps-interfaces';
 
-export class AzMaps {
+export abstract class AzMaps {
 
     //There is a problem with VSCode Authentication as of 2022-12-07 
     // https://github.com/Azure/azure-sdk-for-js/issues/22904
@@ -87,4 +88,19 @@ export class AzMaps {
         return JSON.stringify(error);
       }
     }
+}
+
+export class AzMapsImpl extends AzMaps implements MapsInfrastructureService {
+  
+  /**
+   * needs following environment variables:
+    ** MAPS_AZURE_SUBSCRIPTION_ID
+    ** MAPS_RESOURCE_GROUP
+    ** MAPS_OBJECT_PRINCIPAL_ID
+    ** MAPS_ACCOUNT_NAME
+    ** MAPS_USER_ASSIGNED_FUNCTION_IDENTITY_CLIENT_ID
+   */  
+  constructor() {
+      super();
+  }
 }

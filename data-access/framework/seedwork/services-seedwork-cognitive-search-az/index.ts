@@ -1,8 +1,8 @@
 import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
 import { SearchIndexClient, SearchClient, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
-import { CognitiveSearchBase } from '../services-seedwork-cognitive-search-interfaces';
+import { CognitiveSearchBase, CognitiveSearchInfrastructureService } from '../services-seedwork-cognitive-search-interfaces';
 
-export class AzCognitiveSearch implements CognitiveSearchBase {
+export abstract class AzCognitiveSearch implements CognitiveSearchBase {
   private client: SearchIndexClient;
   private searchClients: Map<string, SearchClient<unknown>> = new Map<string, SearchClient<unknown>>();
 
@@ -84,4 +84,25 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
   //   const index = await this.client.getIndex(indexName);
   //   this.client.createOrUpdateIndex(index);
   // }
+}
+
+export class AzCognitiveSearchImpl extends AzCognitiveSearch implements CognitiveSearchInfrastructureService {
+  
+  /**
+   * needs following environment variables:
+   ** NODE_ENV =  "development" | "test" | "production"
+   ** MANAGED_IDENTITY_CLIENT_ID: DefaultAzureCredentialOptions
+   * 
+   */  
+  constructor(searchKey: string, endpoint: string) {
+      super(searchKey,  endpoint);
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('AzCognitiveSearchImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('AzCognitiveSearchImpl shutdown');
+  }
 }

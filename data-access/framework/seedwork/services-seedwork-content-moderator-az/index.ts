@@ -1,8 +1,8 @@
 import { ContentModeratorClient } from '@azure/cognitiveservices-contentmoderator';
 import { CognitiveServicesCredentials } from '@azure/ms-rest-azure-js';
-import { BatchModerationResult, ContentModeratorBase, ModeratedContentType, ModerationResult } from '../services-seedwork-content-moderator-interfaces';
+import { BatchModerationResult, ContentModeratorBase, ContentModeratorInfrastructureService, ModeratedContentType, ModerationResult } from '../services-seedwork-content-moderator-interfaces';
 
-export class AzContentModerator implements ContentModeratorBase {
+export abstract class AzContentModerator implements ContentModeratorBase {
   private client: ContentModeratorClient;
 
   tryGetEnvVar(envVar: string): string {
@@ -47,5 +47,20 @@ export class AzContentModerator implements ContentModeratorBase {
       }
     }
     return { batchApproved: true, failedKey: '' } as BatchModerationResult;
+  }
+}
+
+export class AzContentModeratorImpl extends AzContentModerator implements ContentModeratorInfrastructureService {
+  
+  constructor(endpoint: string, subscriptionKey: string) {
+      super(endpoint, subscriptionKey);
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('AzContentModeratorImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('AzContentModeratorImpl shutdown');
   }
 }

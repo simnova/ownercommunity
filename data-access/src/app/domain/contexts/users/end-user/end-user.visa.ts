@@ -1,4 +1,4 @@
-import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../../../framework/seedwork/passport-seedwork/visa';
 import { EndUserEntityReference } from './end-user';
 
 export interface EndUserPermissionsSpec {

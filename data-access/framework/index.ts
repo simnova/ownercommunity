@@ -12,7 +12,7 @@ import {
 } from "./domain/domain-execution-context";
 import { BlobStorageInfrastructureService as BlobStorageInfrastructureServiceInterface} from "./infrastructure-services/blob-storage.infra.interface";
 import { ApplicationServices as ApplicationServicesInterface } from "../src/app/application-services";
-import { AppContext as AppContextInterface } from "../src/app/init/app-context-builder";
+import { AppContext as AppContextInterface } from "./app/app-context-builder";
 import * as GraphqlSchemaTypes from '../src/routes/http/graphql/schema/builder/generated';
 
 export namespace App {
@@ -56,15 +56,11 @@ export namespace Community {
         export const UnitOfWork = {}
     }
     export namespace MongoImpl {
+        export interface DocumentType {}
         export const UnitOfWork = {}
         export const Repository = {}
         export const DomainAdapter = {}
         export const Converter = {}
-    }
-    export namespace ApplicationServices {
-        export const BlobStorage = {}
-        export const 
-    }
-    
+    }    
 }
 

@@ -1,4 +1,4 @@
-import { AppContext } from "../../../../init/app-context-builder";
+import { AppContext } from "../../../../../../framework/app/app-context-builder";
 import { ViolationTicketV1UnitOfWork } from "../../../../external-dependencies/domain";
 import { ViolationTicketModel } from "../../../../external-dependencies/datastore";
 import { ViolationTicketV1DataApi, ViolationTicketV1DataApiImpl } from "./violation-ticket.data";

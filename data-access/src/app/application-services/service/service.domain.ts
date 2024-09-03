@@ -4,7 +4,7 @@ import { Service } from "../../domain/contexts/community/service/service";
 import { ServiceData } from "../../external-dependencies/datastore";
 import { ServiceDomainAdapter, CommunityConverter, ServiceConverter, ServiceRepository } from "../../external-dependencies/domain";
 import { ServiceCreateInput, ServiceUpdateInput } from "../../external-dependencies/graphql-api";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface ServiceDomainApi {
   serviceCreate(input: ServiceCreateInput) : Promise<ServiceData>;

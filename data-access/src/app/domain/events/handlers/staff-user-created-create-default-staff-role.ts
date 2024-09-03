@@ -3,7 +3,7 @@ import { SystemExecutionContext } from '../../../../../framework/domain/domain-e
 import { StaffRole } from '../../contexts/community/roles/staff-role/staff-role';
 import { StaffRoleUnitOfWork } from '../../contexts/community/roles/staff-role/staff-role.uow';
 import { StaffUserUnitOfWork } from '../../contexts/users/staff-user/staff-user.uow';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 
 
 export default (

@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid";
-import { BlobRequestSettings } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
+import { BlobRequestSettings } from "../../../../framework/seedwork/services-seedwork-blob-storage-interfaces";
 import { BlobDataSource } from "../../data-sources/blob-data-source";
 import { PropertyConverter } from "../../external-dependencies/domain";
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from "../../external-dependencies/graphql-api";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface PropertyBlobApi {
   propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void>;

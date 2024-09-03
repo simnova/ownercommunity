@@ -1,9 +1,9 @@
-import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from './events/handlers/community-created-create-default-roles-member';
+import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../community/domain/events/handlers/community-created-create-default-roles-member';
 import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from './events/handlers/role-deleted-reassign-member-new-role';
-import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from './events/handlers/community-created-create-blob-container';
-import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from './events/handlers/community-domain-updated-update-domain-blob';
-import { default as RegisterCommunityDomainUpdatedUpdateVercel } from './events/handlers/community-domain-updated-update-vercel';
-import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from './events/handlers/community-white-label-domain-updated-update-domain-blob';
+import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from '../community/domain/events/handlers/community-created-create-blob-container';
+import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from '../community/domain/events/handlers/community-domain-updated-update-domain-blob';
+import { default as RegisterCommunityDomainUpdatedUpdateVercel } from '../community/domain/events/handlers/community-domain-updated-update-vercel';
+import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from '../community/domain/events/handlers/community-white-label-domain-updated-update-domain-blob';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './events/handlers/property-deleted-update-search-index';
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
 import { default as RegisterStaffUserCreatedCreateDefaultStaffRoleHandler } from './events/handlers/staff-user-created-create-default-staff-role';
@@ -13,7 +13,7 @@ import { default as RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler } f
 import { default as RegisterViolationTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-deleted-update-search-index';
 import { DatastoreDomain, DatastoreInitializeable } from '../../../framework/domain/infrastructure/datastore.domain-infra.interface';
 import { CognitiveSearchDomain, CognitiveSearchInitializeable } from './infrastructure/cognitive-search/interfaces';
-import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
+import { NodeEventBusInstance } from '../../../framework/seedwork/event-bus-seedwork-node';
 import { BlobStorageDomain } from './infrastructure/blob-storage/interfaces';
 import { VercelDomain } from '../../../framework/domain/infrastructure/vercel.domain-infra.interface';
 import { PaymentDomain } from './infrastructure/cybersource/interfaces';

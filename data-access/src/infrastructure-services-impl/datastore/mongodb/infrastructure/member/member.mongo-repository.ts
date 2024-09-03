@@ -1,7 +1,7 @@
 import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
 import { MemberRepository } from '../../../../../app/domain/contexts/community/member/member.repository';
 import { Member } from '../../models/member';
-import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
+import { MongoRepositoryBase } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 

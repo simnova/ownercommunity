@@ -11,7 +11,7 @@ import { SystemExecutionContext } from '../../../../../framework/domain/domain-e
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 import { PropertyRepository } from '../../contexts/property/property/property.repository';
 
 export default (

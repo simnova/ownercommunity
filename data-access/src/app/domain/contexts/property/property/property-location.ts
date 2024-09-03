@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../framework/seedwork/domain-seedwork/value-object';
 import { PropertyVisa } from './property.visa';
 import { PropertyLocationAddress, PropertyLocationAddressEntityReference, PropertyLocationAddressProps } from './property-location-address';
 import { PropertyLocationPosition, PropertyLocationPositionEntityReference, PropertyLocationPositionProps } from './property-location-position';

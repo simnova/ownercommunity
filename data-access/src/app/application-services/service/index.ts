@@ -1,4 +1,4 @@
-import { AppContext } from '../../init/app-context-builder';
+import { AppContext } from '../../../../framework/app/app-context-builder';
 import { ServiceModel } from '../../external-dependencies/datastore';
 import { ServiceUnitOfWork } from '../../external-dependencies/domain';
 import { ServiceDataApi, ServiceDataApiImpl } from './service.data';

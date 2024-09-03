@@ -3,7 +3,7 @@ import { SystemExecutionContext, ReadOnlyContext } from '../../../../../framewor
 import { RoleDeletedReassignEvent } from '../types/role-deleted-reassign';
 import { EndUserRoleModel } from '../../../../infrastructure-services-impl/datastore/mongodb/models/roles/end-user-role';
 import { EndUserRoleConverter } from '../../../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.domain-adapter';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 
 export default (
 ) => { EventBusInstance.register(RoleDeletedReassignEvent, async (payload) => {

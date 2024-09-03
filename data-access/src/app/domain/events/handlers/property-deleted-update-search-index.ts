@@ -1,7 +1,7 @@
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { PropertyDeletedEvent } from '../types/property-deleted';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 
 export default (
   cognitiveSearch:CognitiveSearchDomain,

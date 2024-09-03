@@ -7,10 +7,10 @@ import { MemberProfileProps } from '../../../../../app/domain/contexts/community
 import { EndUserRoleEntityReference, EndUserRoleProps } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
-import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
-import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
-import { MemoryRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
+import { DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
+import { MemoryBaseAdapter } from '../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
+import { MemoryPropArray } from '../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
+import { MemoryRepositoryBase } from '../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 
 class MemoryProfile implements MemberProfileProps {
   name: string;

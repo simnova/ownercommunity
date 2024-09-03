@@ -1,4 +1,4 @@
-import { DomainEntity, DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { PropertyVisa } from './property.visa';
 import * as ValueObjects from './property-listing-detail-bedroom-detail.value-objects';
 

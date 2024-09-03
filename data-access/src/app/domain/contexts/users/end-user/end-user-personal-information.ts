@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
+import { ValueObject, ValueObjectProps } from "../../../../../../framework/seedwork/domain-seedwork/value-object";
 import { EndUserContactInformation, EndUserContactInformationEntityReference, EndUserContactInformationProps } from "./end-user-contact-information";
 import { EndUserIdentityDetails, EndUserIdentityDetailsEntityReference, EndUserIdentityDetailsProps } from "./end-user-identity-details";
 

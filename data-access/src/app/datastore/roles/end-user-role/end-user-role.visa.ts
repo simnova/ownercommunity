@@ -1,5 +1,5 @@
 
-import { Visa } from '../../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../../framework/seedwork/passport-seedwork/visa';
 import { EndUserRoleCommunityPermissions } from '../../../external-dependencies/datastore';
 import { MemberData, EndUserRoleData } from '../../../external-dependencies/datastore';
 

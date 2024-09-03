@@ -4,7 +4,7 @@ import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { MemberData } from "../../external-dependencies/datastore";
 import { MemberDomainAdapter, CommunityConverter, MemberConverter, EndUserRoleConverter, EndUserConverter, MemberRepository } from "../../external-dependencies/domain";
 import { MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from "../../external-dependencies/graphql-api";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface MemberDomainApi {
   memberCreate(input: MemberCreateInput) : Promise<MemberData>;

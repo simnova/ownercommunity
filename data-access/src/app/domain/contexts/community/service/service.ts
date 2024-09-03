@@ -1,6 +1,6 @@
-import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
-import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot } from '../../../../../../framework/seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import * as ValueObjects from './service.value-objects';
 import { ServiceVisa } from './service.visa';

@@ -2,8 +2,8 @@ import { CommunityEntityReference, CommunityProps } from "../../../../../app/dom
 import { DomainExecutionContext } from "../../../../../../framework/domain/domain-execution-context";
 import { Service, ServiceProps } from "../../../../../app/domain/contexts/community/service/service";
 import { ServiceRepository } from "../../../../../app/domain/contexts/community/service/service.repository";
-import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
-import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 class MemoryService extends MemoryBaseAdapter implements ServiceProps  {
 

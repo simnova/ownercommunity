@@ -5,9 +5,9 @@ import { PropertyEntityReference, PropertyProps } from '../../../../../../../app
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { ServiceEntityReference, ServiceProps } from '../../../../../../../app/domain/contexts/community/service/service';
-import { MemoryBaseAdapter } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
-import { MemoryPropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
-import { MemoryRepositoryBase } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
+import { MemoryBaseAdapter } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
+import { MemoryPropArray } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
+import { MemoryRepositoryBase } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 import { v4 as uuidV4 } from 'uuid';
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';

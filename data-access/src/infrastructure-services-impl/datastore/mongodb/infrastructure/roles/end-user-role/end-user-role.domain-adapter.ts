@@ -1,11 +1,11 @@
 import { EndUserRole, EndUserRolePermissions, EndUserRoleCommunityPermissions, EndUserRolePropertyPermissions, EndUserRoleServicePermissions, EndUserRoleServiceTicketPermissions, EndUserRoleViolationTicketPermissions } from '../../../models/roles/end-user-role';
 import { EndUserRole as EndUserRoleDO, EndUserRoleProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
-import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { MongooseDomainAdapter } from '../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 import { CommunityProps } from '../../../../../../app/domain/contexts/community/community/community';
 
-import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { EndUserRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
 import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';

@@ -1,5 +1,5 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
-import { Base, SubdocumentBase, NestedPath, Patterns } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Base, SubdocumentBase, NestedPath, Patterns } from '../../../../../framework/seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as EndUser from './users/end-user';
 import * as Community from './community';
 import * as EndUserRole from './roles/end-user-role';

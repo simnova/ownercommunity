@@ -1,4 +1,4 @@
-import { CustomDomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
+import { CustomDomainEventImpl } from '../../../../../framework/seedwork/domain-seedwork/domain-event';
 
 export interface EndUserCreatedProps {
   userId: string;

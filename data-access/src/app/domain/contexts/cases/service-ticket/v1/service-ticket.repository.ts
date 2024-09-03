@@ -1,5 +1,5 @@
 import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
-import { Repository } from '../../../../../../../seedwork/domain-seedwork/repository';
+import { Repository } from '../../../../../../../framework/seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../../community/community/community';
 import { PropertyEntityReference } from '../../../property/property/property';
 import { MemberEntityReference } from '../../../community/member/member';

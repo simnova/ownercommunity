@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../../framework/seedwork/domain-seedwork/value-object';
 import { ServiceTicketV1Visa } from './service-ticket.visa';
 
 export interface ServiceTicketV1RevisionRequestedChangesProps extends ValueObjectProps {

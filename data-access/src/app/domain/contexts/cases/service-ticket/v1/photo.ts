@@ -1,4 +1,4 @@
-import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { ServiceTicketV1Visa } from './service-ticket.visa';
 

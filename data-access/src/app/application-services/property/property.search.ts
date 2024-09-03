@@ -1,8 +1,8 @@
 import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from "../../external-dependencies/graphql-api";
-import { SearchDocumentsResult } from '../../../../seedwork/services-seedwork-cognitive-search-interfaces';
+import { SearchDocumentsResult } from '../../../../framework/seedwork/services-seedwork-cognitive-search-interfaces';
 import dayjs from "dayjs";
 import { CognitiveSearchDataSource } from "../../data-sources/cognitive-search-data-source";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface PropertySearchApi {
   propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>>;

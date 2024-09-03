@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
 import { ServiceData } from "../../external-dependencies/datastore";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface ServiceDataApi {
   getServiceById(id: string): Promise<ServiceData>;

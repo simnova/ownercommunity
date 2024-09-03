@@ -1,5 +1,5 @@
 import { ServiceTicketV1UnitOfWork } from '../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.uow';
-import { CommunityUnitOfWork } from '../../src/app/domain/contexts/community/community/community.uow';
+import { CommunityUnitOfWork } from '../../src/app/community/domain/community.uow';
 import { MemberUnitOfWork } from '../../src/app/domain/contexts/community/member/member.uow';
 import { EndUserRoleUnitOfWork } from '../../src/app/domain/contexts/community/roles/end-user-role/end-user-role.uow';
 import { StaffRoleUnitOfWork } from '../../src/app/domain/contexts/community/roles/staff-role/staff-role.uow';

@@ -1,4 +1,4 @@
-import { AppContext } from '../../init/app-context-builder';
+import { AppContext } from '../../../../framework/app/app-context-builder';
 import { MemberModel } from '../../external-dependencies/datastore';
 import { MemberUnitOfWork } from '../../external-dependencies/domain';
 import { MemberBlobApi, MemberBlobApiImpl } from './member.blob';

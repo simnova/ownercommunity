@@ -1,6 +1,6 @@
 import { CosmosDataSource } from "../../../data-sources/cosmos-data-source";
 import { EndUserData } from "../../../external-dependencies/datastore";
-import { AppContext } from "../../../init/app-context-builder";
+import { AppContext } from "../../../../../framework/app/app-context-builder";
 
 export interface EndUserDataApi {
   getUserById(userId : string): Promise<EndUserData>;

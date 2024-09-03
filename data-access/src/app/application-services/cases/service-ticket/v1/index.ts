@@ -1,4 +1,4 @@
-import { AppContext } from "../../../../init/app-context-builder";
+import { AppContext } from "../../../../../../framework/app/app-context-builder";
 import { ServiceTicketV1DataApi, ServiceTicketV1DataApiImpl } from "./service-ticket.data";
 import { ServiceTicketV1DomainApi, ServiceTicketV1DomainApiImpl } from "./service-ticket.domain";
 import { ServiceTicketV1UnitOfWork } from "../../../../external-dependencies/domain";

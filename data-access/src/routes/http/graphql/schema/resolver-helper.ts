@@ -1,4 +1,4 @@
-import { OpenIdConfigKeyEnum, VerifiedUser } from "../../../../app/init/app-context-builder";
+import { OpenIdConfigKeyEnum, VerifiedUser } from "../../../../../framework/app/app-context-builder";
 import { GraphqlContext } from "../init/graphql-context-builder";
 import { Member } from "./builder/generated";
 

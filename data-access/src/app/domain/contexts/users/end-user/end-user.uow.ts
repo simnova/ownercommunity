@@ -1,4 +1,4 @@
-import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-work';
+import { UnitOfWork } from '../../../../../../framework/seedwork/domain-seedwork/unit-of-work';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUser, EndUserProps } from './end-user';
 import { EndUserRepository } from './end-user.repository';

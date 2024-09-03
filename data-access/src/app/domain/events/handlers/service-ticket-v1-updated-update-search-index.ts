@@ -5,7 +5,7 @@ import { ServiceTicketV1UpdatedEvent } from '../types/service-ticket-v1-updated'
 import retry from 'async-retry';
 import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket';
 import dayjs from 'dayjs';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
 import { ServiceTicketV1Repository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
 

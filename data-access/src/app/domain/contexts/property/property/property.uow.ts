@@ -1,4 +1,4 @@
-import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-work';
+import { UnitOfWork } from '../../../../../../framework/seedwork/domain-seedwork/unit-of-work';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { Property, PropertyProps } from './property';
 import { PropertyRepository } from './property.repository';

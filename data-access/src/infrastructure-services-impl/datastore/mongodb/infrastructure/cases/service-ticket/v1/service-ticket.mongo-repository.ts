@@ -1,7 +1,7 @@
 import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { ServiceTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
 import { ServiceTicket } from '../../../../models/cases/service-ticket';
-import { MongoRepositoryBase } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
+import { MongoRepositoryBase } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';

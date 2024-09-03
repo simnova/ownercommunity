@@ -1,4 +1,4 @@
-import { AppContext } from '../../init/app-context-builder';
+import { AppContext } from '../../../../framework/app/app-context-builder';
 import { ServiceTicketApi, ServiceTicketApiImpl } from './service-ticket';
 import { ViolationTicketApi, ViolationTicketApiImpl } from './violation-ticket';
 

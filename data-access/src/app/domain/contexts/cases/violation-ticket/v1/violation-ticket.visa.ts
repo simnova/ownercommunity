@@ -1,4 +1,4 @@
-import { Visa } from "../../../../../../../seedwork/passport-seedwork/visa";
+import { Visa } from "../../../../../../../framework/seedwork/passport-seedwork/visa";
 import { ViolationTicketV1EntityReference } from "./violation-ticket";
 import { MemberEntityReference } from "../../../community/member/member";
 import { StaffRoleViolationTicketPermissionsSpec } from "../../../community/roles/staff-role/staff-role-violation-ticket-permissions";

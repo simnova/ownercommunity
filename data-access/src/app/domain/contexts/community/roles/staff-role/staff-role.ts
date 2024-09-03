@@ -1,5 +1,5 @@
-import { AggregateRoot } from "../../../../../../../seedwork/domain-seedwork/aggregate-root";
-import { DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
+import { AggregateRoot } from "../../../../../../../framework/seedwork/domain-seedwork/aggregate-root";
+import { DomainEntityProps } from "../../../../../../../framework/seedwork/domain-seedwork/domain-entity";
 import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { RoleDeletedReassignEvent } from "../../../../events/types/role-deleted-reassign";
 import { CommunityVisa } from "../../community.visa";

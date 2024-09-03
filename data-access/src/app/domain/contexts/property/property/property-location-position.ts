@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
+import { ValueObject, ValueObjectProps } from "../../../../../../framework/seedwork/domain-seedwork/value-object";
 
 export interface PropertyLocationPositionProps extends ValueObjectProps {
     type?: string;

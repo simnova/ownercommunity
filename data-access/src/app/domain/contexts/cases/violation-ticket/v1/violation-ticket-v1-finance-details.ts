@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../../framework/seedwork/domain-seedwork/value-object';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { RevenueRecognition, RevenueRecognitionProps } from './finance-detail-revenue-recognition';
 import { Transactions, TransactionsEntityReference, TransactionsProps } from './violation-ticket-v1-finance-details-transactions';

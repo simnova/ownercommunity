@@ -1,10 +1,10 @@
 import { Member, Account, Profile, CustomView } from '../../models/member';
 import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { MemberAccountProps } from '../../../../../app/domain/contexts/community/member/member-account';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../community/community.domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUserRoleEntityReference } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';

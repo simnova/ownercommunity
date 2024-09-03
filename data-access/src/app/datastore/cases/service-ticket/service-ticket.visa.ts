@@ -1,4 +1,4 @@
-import { Visa } from "../../../../../seedwork/passport-seedwork/visa";
+import { Visa } from "../../../../../framework/seedwork/passport-seedwork/visa";
 import { MemberData, ServiceTicketData, StaffRoleServiceTicketPermissions, EndUserRoleServiceTicketPermissions } from "../../../external-dependencies/datastore";
 
 export type ServiceTicketPermissions = StaffRoleServiceTicketPermissions | EndUserRoleServiceTicketPermissions;

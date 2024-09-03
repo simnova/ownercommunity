@@ -1,6 +1,6 @@
 import { InvocationContext, Timer } from "@azure/functions";
 import { InfrastructureServices } from '../../../../framework/infrastructure-services';
-import { AppContext, AppContextBuilder, VerifiedUser, OpenIdConfigKeyEnum } from '../../../app/init/app-context-builder';
+import { AppContext, AppContextBuilder, VerifiedUser, OpenIdConfigKeyEnum } from '../../../../framework/app/app-context-builder';
 
 
 export interface TimerContext extends AppContext{

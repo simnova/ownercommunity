@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
 import { MemberData, MemberModel, EndUserRoleModel, ViolationTicketModel } from "../../external-dependencies/datastore";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface MemberDataApi {
   getMembers(): Promise<MemberData[]>;

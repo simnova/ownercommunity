@@ -1,14 +1,14 @@
-import { DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntityProps } from '../../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../../../community/community/community';
 import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
-import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot } from '../../../../../../../framework/seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
-import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
+import { PropArray } from '../../../../../../../framework/seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { ServiceTicketV1Visa } from './service-ticket.visa';

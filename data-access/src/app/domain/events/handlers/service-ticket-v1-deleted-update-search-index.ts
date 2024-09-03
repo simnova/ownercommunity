@@ -1,7 +1,7 @@
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { ServiceTicketV1DeletedEvent } from '../types/service-ticket-v1-deleted';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 
 export default (
   cognitiveSearch:CognitiveSearchDomain

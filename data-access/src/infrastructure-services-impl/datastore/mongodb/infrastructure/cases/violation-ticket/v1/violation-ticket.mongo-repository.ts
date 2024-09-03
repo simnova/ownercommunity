@@ -1,6 +1,6 @@
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicket } from '../../../../models/cases/violation-ticket';
-import { MongoRepositoryBase } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
+import { MongoRepositoryBase } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';

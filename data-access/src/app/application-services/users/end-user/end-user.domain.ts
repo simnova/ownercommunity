@@ -3,7 +3,7 @@ import { EndUser } from "../../../domain/contexts/users/end-user/end-user";
 import { EndUserData } from "../../../external-dependencies/datastore";
 import { EndUserDomainAdapter, EndUserConverter, EndUserRepository } from "../../../external-dependencies/domain";
 import { UserUpdateInput } from "../../../external-dependencies/graphql-api";
-import { AppContext } from "../../../init/app-context-builder";
+import { AppContext } from "../../../../../framework/app/app-context-builder";
 
 export interface EndUserDomainApi {
   addUser() : Promise<EndUserData>;

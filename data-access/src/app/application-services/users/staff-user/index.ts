@@ -1,4 +1,4 @@
-import { AppContext } from '../../../init/app-context-builder';
+import { AppContext } from '../../../../../framework/app/app-context-builder';
 import { StaffUserModel } from '../../../external-dependencies/datastore';
 import { StaffUserUnitOfWork } from '../../../external-dependencies/domain';
 import { StaffUserDataApi, StaffUserDataApiImpl } from './staff-user.data';

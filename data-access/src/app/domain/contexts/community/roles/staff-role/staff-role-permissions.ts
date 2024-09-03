@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../../framework/seedwork/domain-seedwork/value-object';
 import { StaffRoleCommunityPermissions, StaffRoleCommunityPermissionsEntityReference, StaffRoleCommunityPermissionsProps } from './staff-role-community-permissions';
 import { CommunityVisa } from "../../community.visa";
 import { StaffRolePropertyPermissions, StaffRolePropertyPermissionsEntityReference, StaffRolePropertyPermissionsProps } from './staff-role-property-permissions';

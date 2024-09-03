@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../../framework/seedwork/domain-seedwork/value-object';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 
 export interface GlTransactionProps extends ValueObjectProps {

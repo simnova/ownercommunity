@@ -1,5 +1,5 @@
 
-import { Visa } from '../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../framework/seedwork/passport-seedwork/visa';
 import { MemberData, PropertyData, EndUserRolePropertyPermissions, StaffRolePropertyPermissions } from '../../external-dependencies/datastore';
 
 export type PropertyPermissions = StaffRolePropertyPermissions | EndUserRolePropertyPermissions;

@@ -1,8 +1,8 @@
 // core
-import { DomainEntityProps } from "../../../../seedwork/domain-seedwork/domain-entity";
-import { BaseDomainExecutionContext } from "../../../../seedwork/domain-seedwork/base-domain-execution-context";
-import { MemoryUnitOfWork } from "../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
-import { MemoryStore, ReadOnlyMemoryStore } from "../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
+import { DomainEntityProps } from "../../../../framework/seedwork/domain-seedwork/domain-entity";
+import { BaseDomainExecutionContext } from "../../../../framework/seedwork/domain-seedwork/base-domain-execution-context";
+import { MemoryUnitOfWork } from "../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
+import { MemoryStore, ReadOnlyMemoryStore } from "../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 // community
 import { Community, CommunityProps } from "../../../app/domain/contexts/community/community/community";
 import { MemoryCommunityRepository } from "./infrastructure/community/community.memory-repository";

@@ -1,5 +1,5 @@
-import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
-import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
+import { ValueObject, ValueObjectProps } from '../../../../../../framework/seedwork/domain-seedwork/value-object';
+import { PropArray } from '../../../../../../framework/seedwork/domain-seedwork/prop-array';
 import { PropertyListingDetailBedroomDetail, PropertyListingDetailBedroomDetailProps, PropertyListingDetailBedroomDetailReference } from './property-listing-detail-bedroom-detail';
 import { PropertyListingDetailAdditionalAmenity, PropertyListingDetailAdditionalAmenityProps, PropertyListingDetailAdditionalAmenityReference } from './property-listing-detail-additional-amenity';
 import * as ValueObjects from './property-listing-detail.value-objects';

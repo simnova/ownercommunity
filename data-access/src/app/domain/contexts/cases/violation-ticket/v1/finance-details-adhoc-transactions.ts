@@ -1,4 +1,4 @@
-import { DomainEntity, DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
+import { DomainEntity, DomainEntityProps } from "../../../../../../../framework/seedwork/domain-seedwork/domain-entity";
 import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { Member, MemberEntityReference, MemberProps } from "../../../community/member/member";
 import { FinanceReference, FinanceReferenceProps } from "./finance-detail-adhoc-transactions-finance-reference";

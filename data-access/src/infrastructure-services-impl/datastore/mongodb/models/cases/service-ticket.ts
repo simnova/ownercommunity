@@ -1,5 +1,5 @@
 import { Schema, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { NestedPath, NestedPathOptions, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { NestedPath, NestedPathOptions, SubdocumentBase } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './../community';
 import * as Property from './../property';
 import * as Member from './../member';

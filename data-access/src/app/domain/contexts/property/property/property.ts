@@ -1,11 +1,11 @@
-import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../../community/community/community';
 import { Member, MemberEntityReference, MemberProps } from '../../community/member/member';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import * as ValueObjects from './property.value-objects';
 import { PropertyListingDetail, PropertyListingDetailProps, PropertyListingDetailEntityReference } from './property-listing-detail';
 import { PropertyLocation, PropertyLocationEntityReference, PropertyLocationProps } from './property-location';
-import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot } from '../../../../../../framework/seedwork/domain-seedwork/aggregate-root';
 import { PropertyVisa } from './property.visa';
 import { PropertyCreatedEvent } from '../../../events/types/property-created';
 import { PropertyDeletedEvent } from '../../../events/types/property-deleted';

@@ -17,7 +17,7 @@ import {
   ViolationTicketProcessPaymentInput,
   AdhocPaymentRequestInput,
 } from '../../../../external-dependencies/graphql-api';
-import { AppContext } from '../../../../init/app-context-builder';
+import { AppContext } from '../../../../../../framework/app/app-context-builder';
 import { CybersourcePaymentTransactionResponse } from '../../../member/member.payment';
 
 export interface ViolationTicketV1DomainApi {

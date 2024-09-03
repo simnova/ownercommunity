@@ -1,5 +1,5 @@
-import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { AggregateRoot } from '../../../../../../framework/seedwork/domain-seedwork/aggregate-root';
+import { DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import * as ValueObjects from './staff-user.value-objects';
 import { StaffRole, StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';

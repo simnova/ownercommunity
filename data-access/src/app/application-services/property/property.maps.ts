@@ -1,5 +1,5 @@
 import { MapsDataSource } from '../../data-sources/maps-data-source';
-import { AppContext } from '../../init/app-context-builder';
+import { AppContext } from '../../../../framework/app/app-context-builder';
 
 export interface PropertyMapsApi {
   getSasToken(): Promise<string>;

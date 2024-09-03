@@ -1,5 +1,5 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc } from 'mongoose';
-import { Base } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Base } from '../../../../../framework/seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as  Community from './community';
 
 export interface Service extends Base {

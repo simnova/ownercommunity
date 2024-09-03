@@ -1,4 +1,4 @@
-import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../../../framework/seedwork/passport-seedwork/visa';
 import { StaffUserEntityReference } from './staff-user';
 
 export interface StaffUserPermissionsSpec {

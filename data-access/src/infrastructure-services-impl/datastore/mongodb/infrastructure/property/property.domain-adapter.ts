@@ -4,9 +4,9 @@ import { MemberEntityReference } from '../../../../../app/domain/contexts/commun
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { PropertyLocationProps } from '../../../../../app/domain/contexts/property/property/property-location';
 import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain/contexts/property/property/property';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { CommunityDomainAdapter } from '../community/community.domain-adapter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { CommunityDomainAdapter } from '../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { MemberDomainAdapter } from '../member/member.domain-adapter';
 import { PropertyListingDetailProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail';
 import { PropertyListingDetailBedroomDetailProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail-bedroom-detail';

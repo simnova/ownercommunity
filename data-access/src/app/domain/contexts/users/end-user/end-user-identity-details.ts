@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
+import { ValueObject, ValueObjectProps } from "../../../../../../framework/seedwork/domain-seedwork/value-object";
 import * as ValueObjects from './end-user.value-objects';
 
 export interface EndUserIdentityDetailsProps extends ValueObjectProps {

@@ -1,9 +1,9 @@
 
-import { Cybersource } from "../../../../seedwork/services-seedwork-payment-cybersource";
-import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface, CustomerPaymentInstrumentResponse } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
+import { Cybersource } from "../../../../framework/seedwork/services-seedwork-payment-cybersource";
+import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface, CustomerPaymentInstrumentResponse } from "../../../../framework/seedwork/services-seedwork-payment-cybersource-interfaces";
 import { PaymentDataSource } from "../../data-sources/payment-data-source";
 import { AddPaymentInstrumentInput, PaymentBillingInfo, PaymentInstrument } from "../../external-dependencies/graphql-api";
-import { AppContext } from "../../init/app-context-builder";
+import { AppContext } from "../../../../framework/app/app-context-builder";
 
 export interface PaymentCybersourceApi {
   generatePublicKey(): Promise<string>;

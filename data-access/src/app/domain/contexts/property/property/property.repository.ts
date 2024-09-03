@@ -1,5 +1,5 @@
 import { Property, PropertyProps } from './property';
-import { Repository } from '../../../../../../seedwork/domain-seedwork/repository';
+import { Repository } from '../../../../../../framework/seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../community/community/community';
 
 export interface PropertyRepository<props extends PropertyProps> extends Repository<Property<props>> {

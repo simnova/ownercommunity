@@ -1,4 +1,4 @@
-import { AppContext } from '../../init/app-context-builder';
+import { AppContext } from '../../../../framework/app/app-context-builder';
 import { PropertyModel } from '../../external-dependencies/datastore';
 import { PropertyUnitOfWork } from '../../external-dependencies/domain';
 import { PropertyBlobApi, PropertyBlobApiImpl } from './property.blob';

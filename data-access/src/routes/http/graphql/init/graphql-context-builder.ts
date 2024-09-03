@@ -1,8 +1,8 @@
 import { HttpRequest } from '@azure/functions';
-import { PortalTokenValidation } from '../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
+import { PortalTokenValidation } from '../../../../../framework/seedwork/auth-seedwork-oidc/portal-token-validation';
 import { InfrastructureServices } from '../../../../../framework/infrastructure-services';
-import * as util from '../../../../../seedwork/auth-seedwork-oidc/util';
-import { AppContext, AppContextBuilder, OpenIdConfigKeyEnum, VerifiedUser } from '../../../../app/init/app-context-builder';
+import * as util from '../../../../../framework/seedwork/auth-seedwork-oidc/util';
+import { AppContext, AppContextBuilder, OpenIdConfigKeyEnum, VerifiedUser } from '../../../../../framework/app/app-context-builder';
 
 export interface GraphqlContext extends AppContext{
   init(

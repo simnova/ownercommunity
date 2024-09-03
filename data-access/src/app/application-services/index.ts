@@ -1,5 +1,5 @@
 
-import { CommunityApi } from "./community";
+import { CommunityApi } from "../community/api";
 import { MemberApi } from "./member";
 import { PropertyApi } from "./property";
 import { CasesApi } from "./cases";

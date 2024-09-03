@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
-import { SearchDocumentsResult } from '../../../../../../seedwork/services-seedwork-cognitive-search-interfaces';
+import { SearchDocumentsResult } from '../../../../../../framework/seedwork/services-seedwork-cognitive-search-interfaces';
 import { CognitiveSearchDataSource } from '../../../../data-sources/cognitive-search-data-source';
 import { ReadOnlyContext } from '../../../../../../framework/domain/domain-execution-context';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../../../domain/infrastructure/cognitive-search/service-ticket-search-index-format';
 import { ServiceTicketV1UnitOfWork } from '../../../../external-dependencies/domain';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../../../external-dependencies/graphql-api';
-import { AppContext } from '../../../../init/app-context-builder';
+import { AppContext } from '../../../../../../framework/app/app-context-builder';
 
 export interface ServiceTicketV1SearchApi {
   serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;

@@ -1,5 +1,5 @@
 
-import { Visa } from '../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../framework/seedwork/passport-seedwork/visa';
 import { StaffRoleCommunityPermissions, EndUserRoleCommunityPermissions } from '../../external-dependencies/datastore';
 
 export type CommunityPermissions = StaffRoleCommunityPermissions & EndUserRoleCommunityPermissions;

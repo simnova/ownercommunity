@@ -9,9 +9,9 @@ import { PropertyLocationProps } from "../../../../../app/domain/contexts/proper
 import { PropertyLocationPositionProps } from "../../../../../app/domain/contexts/property/property/property-location-position";
 import { Property, PropertyProps } from "../../../../../app/domain/contexts/property/property/property";
 import { PropertyRepository } from "../../../../../app/domain/contexts/property/property/property.repository";
-import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
-import { MemoryPropArray } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
-import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryPropArray } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
+import { MemoryRepositoryBase } from "../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 class MemoryAdditionalAmenity extends MemoryBaseAdapter implements PropertyListingDetailAdditionalAmenityProps {
   category: string;

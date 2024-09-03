@@ -1,5 +1,5 @@
 
-import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
+import { Visa } from '../../../../../../framework/seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../member/member';
 import { StaffRoleServicePermissionsSpec } from '../roles/staff-role/staff-role-service-permissions';
 import { EndUserRoleServicePermissionsSpec } from '../roles/end-user-role/end-user-role-service-permissions';

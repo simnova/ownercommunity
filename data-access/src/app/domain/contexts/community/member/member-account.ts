@@ -1,4 +1,4 @@
-import { DomainEntity, DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';

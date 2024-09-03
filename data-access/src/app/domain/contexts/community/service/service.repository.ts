@@ -1,5 +1,5 @@
 import { Service, ServiceProps } from './service';
-import { Repository } from '../../../../../../seedwork/domain-seedwork/repository';
+import { Repository } from '../../../../../../framework/seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../community/community';
 
 export interface ServiceRepository<props extends ServiceProps> extends Repository<Service<props>> {

@@ -7,7 +7,7 @@ import { ViolationTicketV1UpdatedEvent } from '../types/violation-ticket-v1-upda
 import { SystemExecutionContext } from '../../../../../framework/domain/domain-execution-context';
 import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
-import { EventBusInstance } from '../event-bus';
+import { EventBusInstance } from '../../../../../framework/domain/event-bus';
 import { ViolationTicketV1Repository } from '../../contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
 export default (cognitiveSearch: CognitiveSearchDomain, violationTicketV1UnitOfWork: ViolationTicketV1UnitOfWork) => {

@@ -1,5 +1,5 @@
 import { StaffUser, StaffUserProps } from './staff-user';
-import { Repository } from '../../../../../../seedwork/domain-seedwork/repository';
+import { Repository } from '../../../../../../framework/seedwork/domain-seedwork/repository';
 
 export interface StaffUserRepository<props extends StaffUserProps> extends Repository<StaffUser<props>> {
   delete(id:string): Promise<void>;

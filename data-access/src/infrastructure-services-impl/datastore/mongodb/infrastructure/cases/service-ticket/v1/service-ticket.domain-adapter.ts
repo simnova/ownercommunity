@@ -7,11 +7,11 @@ import {
   ServiceTicketRevisionRequestChanges,
 } from '../../../../models/cases/service-ticket';
 import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../community/community.domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../../../app/community/data-impl-mongodb/community.mongo-domain-adapter';
 import { PropertyDomainAdapter } from '../../../property/property.domain-adapter';
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';

@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
+import { AggregateRoot } from '../../../../../../framework/seedwork/domain-seedwork/aggregate-root';
+import { DomainEntityProps } from '../../../../../../framework/seedwork/domain-seedwork/domain-entity';
 import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
-import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
+import { PropArray } from '../../../../../../framework/seedwork/domain-seedwork/prop-array';
 import { MemberAccount, MemberAccountEntityReference, MemberAccountProps } from './member-account';
 import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';

@@ -1,5 +1,5 @@
-import { MemoryBaseAdapter } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
-import { MemoryRepositoryBase } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../../../../../../framework/seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import { CommunityProps, CommunityEntityReference } from "../../../../../../app/domain/contexts/community/community/community";
 import { EndUserRoleProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
 import { EndUserRolePermissionsProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions";

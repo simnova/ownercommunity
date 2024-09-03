@@ -4,7 +4,7 @@ import { EndUserRolePropertyPermissions, EndUserRolePropertyPermissionsEntityRef
 import { EndUserRoleServiceTicketPermissions, EndUserRoleServiceTicketPermissionsEntityReference, EndUserRoleServiceTicketPermissionsProps } from './end-user-role-service-ticket-permissions';
 import { EndUserRoleServicePermissions, EndUserRoleServicePermissionsEntityReference, EndUserRoleServicePermissionsProps } from './end-user-role-service-permissions';
 import { EndUserRoleViolationTicketPermissions, EndUserRoleViolationTicketPermissionsEntityReference, EndUserRoleViolationTicketPermissionsProps } from './end-user-role-violation-ticket-permissions';
-import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
+import { ValueObject, ValueObjectProps } from '../../../../../../../framework/seedwork/domain-seedwork/value-object';
 
 export interface EndUserRolePermissionsProps extends ValueObjectProps {
   readonly communityPermissions: EndUserRoleCommunityPermissionsProps;

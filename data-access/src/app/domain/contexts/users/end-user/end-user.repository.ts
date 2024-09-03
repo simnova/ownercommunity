@@ -1,5 +1,5 @@
 import { EndUser, EndUserProps } from './end-user';
-import { Repository } from '../../../../../../seedwork/domain-seedwork/repository';
+import { Repository } from '../../../../../../framework/seedwork/domain-seedwork/repository';
 
 export interface EndUserRepository<props extends EndUserProps> extends Repository<EndUser<props>> {
   delete(id:string): Promise<void>;

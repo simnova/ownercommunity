@@ -11,7 +11,7 @@ import { DomainInfrastructureBDD_NOTINUSE } from './test/domain-infrastructure';
 // import { ServiceUnitOfWork } from '../../../../src/app/domain/contexts/service-ticket/service.uow';
 // import { ServiceTicketUnitOfWork } from '../../../../src/app/domain/contexts/service-ticket/service-ticket.uow';
 // import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
-import { DatastoreInfrastructureService } from '../../../../framework/infrastructure-services/domain.infra.interface';
+import { DatastoreInfrastructureService } from '../../../../framework/domain/domain-infrastructure.interface';
 import { CognitiveSearchInfrastructureService } from '../../../../framework/infrastructure-services/cognitive-search.infra.interface';
 
 export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD_NOTINUSE{

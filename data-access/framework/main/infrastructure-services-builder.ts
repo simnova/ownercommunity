@@ -2,8 +2,8 @@ import { VercelInfrastructureService } from '../infrastructure-services/vercel.i
 import { VercelApiImpl } from '../infrastructure-services-impl/vercel/api/impl';
 import { CognitiveSearchInfrastructureService } from '../infrastructure-services/cognitive-search.infra.interface';
 import { AzCognitiveSearchImpl } from '../infrastructure-services-impl/cognitive-search/az/impl';
-import { DatastoreInfrastructureService } from '../infrastructure-services/domain.infra.interface';
-import { MongodbDatastoreImpl } from '../infrastructure-services-impl/datastore/mongodb/impl';
+import { DatastoreInfrastructureService } from '../domain/domain-infrastructure.interface';
+import { DomainMongoImpl } from '../domain/domain-infrastructure.mongo-impl';
 import { BlobStorageInfrastructureService } from '../infrastructure-services/blob-storage.infra.interface';
 import { AzBlobStorageImpl } from '../infrastructure-services-impl/blob-storage/az/impl';
 import { ContentModeratorInfrastructureService } from '../infrastructure-services/content-moderator.infra.interface';
@@ -89,7 +89,7 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   }
 
   private InitDataStore(): DatastoreInfrastructureService {
-    return new MongodbDatastoreImpl();
+    return new DomainMongoImpl();
   }
 
   private InitMaps(): MapsInfrastructureService {

@@ -1,11 +1,11 @@
-import { DataSource, DataSourceConfig } from '../../seedwork/data-source-seedwork/data-source';
-import { MongoUnitOfWork } from '../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
-import { MongoRepositoryBase } from '../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { AggregateRoot } from '../../seedwork/domain-seedwork/aggregate-root';
-import { DomainEntityProps } from '../../seedwork/domain-seedwork/domain-entity';
+import { AppContext } from '@framework/main/app-context-builder';
+import { DataSource, DataSourceConfig } from 'library/data-source-seedwork/data-source';
+import { AggregateRoot } from 'library/domain-seedwork/aggregate-root';
+import { DomainEntityProps } from 'library/domain-seedwork/domain-entity';
+import { MongoRepositoryBase } from 'library/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
+import { MongoUnitOfWork } from 'library/services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { Document } from 'mongoose';
-import { DomainExecutionContext } from '../domain/domain-execution-context';
-import { AppContext } from '../../src/app/init/app-context-builder';
+import { DomainExecutionContext } from '@framework/application-services/domain/domain-execution-context';
 
 export class DomainDataSource<
   Context extends AppContext,

@@ -1,7 +1,8 @@
-import { DataSource } from '@library/data-source-seedwork/data-source';
-import { BlobStorageInfrastructureService } from '../../infrastructure-services/blob-storage.infra.interface';
-import { AppContext } from 'framework/main/app-context-builder';
-import { Passport } from 'framework/main/passport';
+import { AppContext } from "@framework/main/app-context-builder";
+import { Passport } from "@framework/main/passport";
+import { DataSource } from "library/data-source-seedwork/data-source";
+import { BlobStorageInfrastructureService } from "library/services-seedwork-blob-storage-interfaces";
+
 
 export class BlobDataSource<Context extends AppContext> extends DataSource<Context> {
 

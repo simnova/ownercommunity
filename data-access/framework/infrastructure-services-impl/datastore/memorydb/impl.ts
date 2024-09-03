@@ -1,4 +1,4 @@
-import { DatastoreInfrastructureService } from "../../../../framework/infrastructure-services/domain.infra.interface";
+import { DatastoreInfrastructureService } from "../../../domain/domain-infrastructure.interface";
 import { IMemoryDatabase, MemoryDatabase } from "./memory-database";
 
 export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructureService {

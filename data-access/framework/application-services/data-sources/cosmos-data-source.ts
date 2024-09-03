@@ -1,5 +1,5 @@
+import { AppContext } from "@framework/main/app-context-builder";
 import { MongoDataSource, MongoDataSourceConfig } from "apollo-datasource-mongodb";
-import { AppContext } from "../../src/app/init/app-context-builder";
 
 export class CosmosDataSource<TData, Context extends AppContext> extends MongoDataSource<TData> {
   private _context: Context;

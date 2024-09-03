@@ -12,9 +12,8 @@
     // "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@app": ["./framework/index.ts"],
-      "@library/*": ["./framework/seedwork/*"],
-      // "@seedwork/*": ["seedwork/*"],
+      "@framework/*": ["./framework/*"],
+      "@library/*": ["library/*"],
       // "@app/*": ["app/*"],
       // "@features/*": ["features/*"],
       // "@screenplay/*": ["screenplay/*"],

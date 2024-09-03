@@ -1,7 +1,7 @@
-import { DataSource } from '../../seedwork/data-source-seedwork/data-source';
-import { AppContext } from '../../src/app/init/app-context-builder';
-import { Passport } from '../../src/app/init/passport';
-import { VercelInfrastructureService } from '../infrastructure-services/vercel.infra.interface';
+import { AppContext } from "@framework/main/app-context-builder";
+import { Passport } from "@framework/main/passport";
+import { DataSource } from "library/data-source-seedwork/data-source";
+import { VercelInfrastructureService } from "library/services-seedwork-vercel-api/interfaces";
 
 export class VercelDataSource<Context extends AppContext> extends DataSource<Context> {
   

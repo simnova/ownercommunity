@@ -16,7 +16,7 @@ import { AzContentModeratorImpl } from '../../../../src/infrastructure-services-
 import { MapsInfrastructureService } from '../../../../framework/infrastructure-services/maps.infra.interface';
 import { AzMapsImpl } from '../../../../src/infrastructure-services-impl/maps/az/impl';
 // datastore
-import { DatastoreInfrastructureService } from '../../../../framework/infrastructure-services/domain.infra.interface';
+import { DatastoreInfrastructureService } from '../../../../framework/domain/domain-infrastructure.interface';
 import { MemorydbDatastoreImpl } from '../../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { PaymentInfrastructureService } from '../../../../src/app/infrastructure-services/payment';

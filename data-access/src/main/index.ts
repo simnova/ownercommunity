@@ -5,11 +5,11 @@ import { app } from '@azure/functions';
 import { CosmosDbConnection } from '../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection';
 import { PortalTokenValidation } from '../seedwork/auth-seedwork-oidc/portal-token-validation';
 import { ApolloServerRequestHandler } from '../../src/routes/http/graphql/init/apollo-server-request-handler';
-import { GraphqlContextBuilder as ApolloContext } from './graphql/graphql-context-builder';
-import { startServerAndCreateHandler } from '../../library/apollo-server-integration-azure-functions-seedwork/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
+import { GraphqlContextBuilder as ApolloContext } from '../../app/main/graphql/graphql-context-builder';
+import { startServerAndCreateHandler } from '../init/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../seedwork/utils/get-env-var';
-import { DomainImpl } from './domain.impl';
+import { DomainImpl } from '../../app/main/domain.impl';
 import { TimerContextBuilder } from '../../src/routes/timer/init/timer-context-builder';
 import { ProcessGLTransactions } from '../../src/routes/timer/gl-transaction';
 

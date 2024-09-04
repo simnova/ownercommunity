@@ -1,5 +1,5 @@
 import { OpenIdConfigKeyEnum, VerifiedUser } from "../../../../../framework/app/app-context-builder";
-import { GraphqlContext } from "../init/graphql-context-builder";
+import { GraphqlContext } from "../../../../../app/main/graphql/graphql-context-builder";
 import { Member } from "./builder/generated";
 
 export const getMemberForCurrentUser = async (context: GraphqlContext): Promise<Member|undefined>  => {

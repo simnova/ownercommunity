@@ -5,7 +5,7 @@ import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../.
 import { MongoTypeConverter } from '../../../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../../components/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../../../components/community/mongo-impl/community.mongo-domain-adapter';
 import { PropertyDomainAdapter } from '../../../property/property.domain-adapter';
 import { PropertyEntityReference } from '../../../../../../../components/domain/contexts/property/property/property';
 import { MemberEntityReference } from '../../../../../../../components/domain/contexts/community/member/member';

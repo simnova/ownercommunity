@@ -9,7 +9,7 @@ import { GraphqlContextBuilder as ApolloContext } from '../../src/routes/http/gr
 import { startServerAndCreateHandler } from '../../library/apollo-server-integration-azure-functions-seedwork/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../seedwork/utils/get-env-var';
-import { DomainImpl } from '../../src/components/domain/domain-impl';
+import { DomainImpl } from './domain.impl';
 import { TimerContextBuilder } from '../../src/routes/timer/init/timer-context-builder';
 import { ProcessGLTransactions } from '../../src/routes/timer/gl-transaction';
 

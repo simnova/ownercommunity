@@ -1,11 +1,11 @@
 
 import { CommunityApi } from "../../src/components/community/api";
-import { MemberApi } from "../../src/components/application-services/member";
+import { MemberApi } from "../../src/components/member/api";
 import { PropertyApi } from "../../src/components/application-services/property";
-import { CasesApi } from "../../src/components/application-services/cases";
-import { RoleApi } from "../../src/components/application-services/roles";
-import { ServiceApi } from "../../src/components/application-services/service";
-import { UsersApi } from "../../src/components/application-services/users";
+import { CasesApi } from "../../src/components/cases/cases.api-impl";
+import { RoleApi } from "../../src/components/roles/role.api-impl";
+import { ServiceApi } from "../../src/components/service/api";
+import { UsersApi } from "../../src/components/users/user.api-impl";
 
 export interface ApplicationServices {
   community: CommunityApi;

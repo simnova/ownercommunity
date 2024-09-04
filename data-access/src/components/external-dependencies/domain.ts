@@ -1,7 +1,7 @@
 // community
-export { MongoCommunityUnitOfWork as CommunityUnitOfWork} from '../community/data-impl-mongodb/community.mongo-uow';
-export { CommunityDomainAdapter, CommunityConverter } from '../community/data-impl-mongodb/community.mongo-domain-adapter';
-export { MongoCommunityRepository as CommunityRepository } from '../community/data-impl-mongodb/community.mongo-repository';
+export { MongoCommunityUnitOfWork as CommunityUnitOfWork} from '../community/mongo-impl/community.mongo-uow';
+export { CommunityDomainAdapter, CommunityConverter } from '../community/mongo-impl/community.mongo-domain-adapter';
+export { MongoCommunityRepository as CommunityRepository } from '../community/mongo-impl/community.mongo-repository';
 
 // member
 export { MongoMemberUnitOfWork as MemberUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-uow';

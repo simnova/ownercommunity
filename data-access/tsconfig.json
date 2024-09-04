@@ -14,7 +14,7 @@
     "paths": {
       "@app/*": ["./app/*"],
       "@library/*": ["./library/*"],
-      "@src/*": ["src/*"],
+      "@src/*": ["./src/*"],
       // "@features/*": ["features/*"],
       // "@screenplay/*": ["screenplay/*"],
     }

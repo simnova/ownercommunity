@@ -4,7 +4,7 @@ import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../fram
 import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { MemberAccountProps } from '../../../../../components/domain/contexts/community/member/member-account';
 import { CommunityEntityReference } from '../../../../../components/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../components/community/mongo-impl/community.mongo-domain-adapter';
 import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUserRoleEntityReference } from '../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role';

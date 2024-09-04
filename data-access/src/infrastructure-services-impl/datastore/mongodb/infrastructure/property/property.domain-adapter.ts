@@ -6,7 +6,7 @@ import { PropertyLocationProps } from '../../../../../components/domain/contexts
 import { Property as PropertyDO, PropertyProps } from '../../../../../components/domain/contexts/property/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { CommunityDomainAdapter } from '../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../components/community/mongo-impl/community.mongo-domain-adapter';
 import { MemberDomainAdapter } from '../member/member.domain-adapter';
 import { PropertyListingDetailProps } from '../../../../../components/domain/contexts/property/property/property-listing-detail';
 import { PropertyListingDetailBedroomDetailProps } from '../../../../../components/domain/contexts/property/property/property-listing-detail-bedroom-detail';

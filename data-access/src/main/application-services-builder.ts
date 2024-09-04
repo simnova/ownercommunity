@@ -10,12 +10,12 @@ import {
 } from "../../app/main/application-services";
 import { AppContext } from "./app-context-builder";
 import { CommunityApiImpl } from "../components/community/api";
-import { MemberApiImpl } from "../components/application-services/member";
+import { MemberApiImpl } from "../components/member/api";
 import { PropertyApiImpl } from "../components/application-services/property";
-import { RoleApiImpl } from "../components/application-services/roles";
-import { ServiceApiImpl } from "../components/application-services/service";
-import { UsersApiImpl } from "../components/application-services/users";
-import { CasesApiImpl } from "../components/application-services/cases";
+import { RoleApiImpl } from "../components/roles/role.api-impl";
+import { ServiceApiImpl } from "../components/service/api";
+import { UsersApiImpl } from "../components/users/user.api-impl";
+import { CasesApiImpl } from "../components/cases/cases.api-impl";
 ;
 export class ApplicationServicesBuilder implements ApplicationServices {
   community: CommunityApi;

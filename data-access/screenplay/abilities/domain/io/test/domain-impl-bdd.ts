@@ -1,13 +1,13 @@
 import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../../../src/components/community/domain/events/handlers/community-created-create-default-roles-member';
-import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from '../../../../../src/components/domain/events/handlers/role-deleted-reassign-member-new-role';
+import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from '../../../../../src/components/roles/end-user-role/domain/events/handlers/role-deleted-reassign-member-new-role';
 import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from '../../../../../src/components/community/domain/events/handlers/community-created-create-blob-container';
 import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from '../../../../../src/components/community/domain/events/handlers/community-domain-updated-update-domain-blob';
 import { default as RegisterCommunityDomainUpdatedUpdateVercel } from '../../../../../src/components/community/domain/events/handlers/community-domain-updated-update-vercel';
 import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from '../../../../../src/components/community/domain/events/handlers/community-white-label-domain-updated-update-domain-blob';
-import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from '../../../../../src/components/domain/events/handlers/property-deleted-update-search-index';
-import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from '../../../../../src/components/domain/events/handlers/property-updated-update-search-index';
-import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../src/components/domain/events/handlers/service-ticket-v1-updated-update-search-index';
-import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../src/components/domain/events/handlers/service-ticket-v1-deleted-update-search-index';
+import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from '../../../../../src/components/property/domain/events/handlers/property-deleted-update-search-index';
+import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from '../../../../../src/components/property/domain/events/handlers/property-updated-update-search-index';
+import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../src/components/cases/service-ticket/domain/v1/events/handlers/service-ticket-v1-updated-update-search-index';
+import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../src/components/cases/service-ticket/domain/v1/events/handlers/service-ticket-v1-deleted-update-search-index';
 import { DatastoreDomain, DatastoreInitializeable } from '../../../../../framework/domain/infrastructure/datastore.domain-infra.interface';
 import { CognitiveSearchDomain, CognitiveSearchInitializeable } from '../../../../../src/components/domain/infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../../../framework/seedwork/event-bus-seedwork-node';

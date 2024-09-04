@@ -4,7 +4,7 @@ import { MongooseDomainAdapter } from '../../../../../../framework/seedwork/serv
 import { MongoTypeConverter } from '../../../../../../framework/seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 import { CommunityProps } from '../../../../../components/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from '../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../components/community/mongo-impl/community.mongo-domain-adapter';
 import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 
 export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {

@@ -5,7 +5,7 @@ import { MongoTypeConverter } from '../../../../../../../framework/seedwork/serv
 
 import { CommunityProps } from '../../../../../../components/domain/contexts/community/community/community';
 
-import { CommunityDomainAdapter } from '../../../../../../components/community/data-impl-mongodb/community.mongo-domain-adapter';
+import { CommunityDomainAdapter } from '../../../../../../components/community/mongo-impl/community.mongo-domain-adapter';
 import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { EndUserRolePermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
 import { EndUserRoleCommunityPermissionsProps } from '../../../../../../components/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';

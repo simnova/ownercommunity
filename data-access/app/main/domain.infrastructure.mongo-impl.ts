@@ -1,10 +1,10 @@
 import { DomainInfrastructureService } from "./domain.infrastructure.interface";
-import { MongoCommunityUnitOfWork } from "@src/components/community/data-impl-mongodb/community.mongo-uow";
+import { MongoCommunityUnitOfWork } from "@src/components/community/mongo-impl/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/property/property.mongo-uow";
 import { MongoEndUserRoleUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-uow";
 import { MongoStaffRoleUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.mongo-uow";
-import { MongoServiceTicketV1UnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/service-ticket/v1/service-ticket.uow";
+import { MongoServiceTicketV1UnitOfWork } from "../../src/components/cases/service-ticket/mongo-impl/service-ticket-v1.mongo-uow";
 import { MongoServiceUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/service/service.uow";
 import { MongoViolationTicketV1UnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.uow";
 import { MongoEndUserUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/users/end-user/end-user.uow";

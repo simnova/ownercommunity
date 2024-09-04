@@ -1,13 +1,13 @@
 import { CommunityVisa } from './community/community.visa';
-import { CommunityVisaImplForCommunity } from '../community/data-impl-mongodb/community.visa-impl.for-community';
-import { CommunityVisaImplForMember } from '../community/data-impl-mongodb/community.visa-impl.for-member';
-import { CommunityVisaImplForEndUserRole } from '../community/data-impl-mongodb/community.visa-impl.for-end-user-role';
+import { CommunityVisaImplForCommunity } from '../community/mongo-impl/community.visa-impl.for-community';
+import { CommunityVisaImplForMember } from '../community/mongo-impl/community.visa-impl.for-member';
+import { CommunityVisaImplForEndUserRole } from '../community/mongo-impl/community.visa-impl.for-end-user-role';
 import { PropertyVisa, PropertyVisaImplForProperty } from './property/property.visa';
 import { ServiceTicketVisa, ServiceTicketVisaImplForServiceTicket } from './cases/service-ticket/service-ticket.visa';
 import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from './cases/violation-ticket/violation-ticket.visa';
 import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, EndUserData, ViolationTicketData, StaffUserData } from '../external-dependencies/datastore';
 import { ServiceVisa, ServiceVisaImplForService } from './service/service.visa';
-import { CommunityVisaImplForStaffRole } from '../community/data-impl-mongodb/community.visa-impl.for-staff-role';
+import { CommunityVisaImplForStaffRole } from '../community/mongo-impl/community.visa-impl.for-staff-role';
 import { CommunityPermissionsSpec } from '../domain/contexts/community/community.visa';
 
 export const SystemUserId = 'system';

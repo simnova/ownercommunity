@@ -2,11 +2,11 @@ import { CommunityVisa } from './community/community.visa';
 import { CommunityVisaImplForCommunity } from '../community/mongo-impl/community.visa-impl.for-community';
 import { CommunityVisaImplForMember } from '../community/mongo-impl/community.visa-impl.for-member';
 import { CommunityVisaImplForEndUserRole } from '../community/mongo-impl/community.visa-impl.for-end-user-role';
-import { PropertyVisa, PropertyVisaImplForProperty } from './property/property.visa';
-import { ServiceTicketVisa, ServiceTicketVisaImplForServiceTicket } from './cases/service-ticket/service-ticket.visa';
-import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from './cases/violation-ticket/violation-ticket.visa';
-import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, EndUserData, ViolationTicketData, StaffUserData } from '../external-dependencies/datastore';
-import { ServiceVisa, ServiceVisaImplForService } from './service/service.visa';
+import { PropertyVisa, PropertyVisaImplForProperty } from '../../src/components/property/mongo-impl/property.mongo-visa';
+import { ServiceTicketVisa, ServiceTicketVisaImplForServiceTicket } from '../../src/components/cases/service-ticket/mongo-impl/service-ticket.mongo-visa';
+import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from '../../src/components/cases/violation-ticket/mongo-impl/violation-ticket.mongo-visa';
+import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, EndUserData, ViolationTicketData, StaffUserData } from '../../src/components/external-dependencies/datastore';
+import { ServiceVisa, ServiceVisaImplForService } from '../../src/components/service/mongo-impl/service.mongo-visa';
 import { CommunityVisaImplForStaffRole } from '../community/mongo-impl/community.visa-impl.for-staff-role';
 import { CommunityPermissionsSpec } from '../domain/contexts/community/community.visa';
 

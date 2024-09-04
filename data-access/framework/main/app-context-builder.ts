@@ -3,12 +3,12 @@ import { MemberEntityReference } from '../../src/components/domain/contexts/comm
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import {StaffUserEntityReference } from '../../src/components/domain/contexts/users/staff-user/staff-user';
 import { EndUserEntityReference } from '../../src/components/domain/contexts/users/end-user/end-user';
-import { ApplicationServices } from './application-services';
-import { InfrastructureServices } from './infrastructure-services';
+import { ApplicationServices } from '../../app/main/application-services';
+import { InfrastructureServices } from '../infrastructure-services';
 import { CommunityData, MemberData } from '../../src/components/external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
-import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from './datastore.visa';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../../app/main/datastore.visa';
 
 export enum OpenIdConfigKeyEnum {
   ACCOUNT_PORTAL = 'AccountPortal',

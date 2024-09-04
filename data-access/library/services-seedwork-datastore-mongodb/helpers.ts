@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import { StaffUserSchema } from "./infrastructure-services-impl/datastore/mongodb/models/users/staff-user";
-import { EndUserSchema } from "./infrastructure-services-impl/datastore/mongodb/models/users/end-user";
+// import { StaffUserSchema } from "./infrastructure-services-impl/datastore/mongodb/models/users/staff-user";
+// import { EndUserSchema } from "./infrastructure-services-impl/datastore/mongodb/models/users/end-user";
 
 export default function extractSchemaToObject(schema: Schema) {
   const paths = schema.paths;
@@ -24,7 +24,7 @@ export default function extractSchemaToObject(schema: Schema) {
 
 
 
-console.log(extractSchemaToObject(EndUserSchema))
+// console.log(extractSchemaToObject(EndUserSchema))
 
 export const GetDomainAggregateRootDefinition = () => {
   let result = null;

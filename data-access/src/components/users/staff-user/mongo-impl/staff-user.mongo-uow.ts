@@ -1,6 +1,6 @@
 import { MongoUnitOfWork } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { StaffUserModel } from '../../../models/users/staff-user';
-import { StaffUserConverter } from './staff-user.domain-adapter';
+import { StaffUserConverter } from './staff-user.mongo-domain-adapter';
 import { MongoStaffUserRepository } from './staff-user.mongo-repository';
 import { NodeEventBusInstance, InProcEventBusInstance } from '../../../../../../seedwork/event-bus-seedwork-node';
 

@@ -1,6 +1,6 @@
 import { Model, ObjectId, PopulatedDoc, Schema } from "mongoose";
 import * as StaffRole from "../roles/staff-role";
-import { User, UserModel, userOptions } from "./user";
+import { User, UserModel, userOptions } from "../../user.mongo-model";
 import { Patterns } from "../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base";
 
 export interface StaffUser extends User {

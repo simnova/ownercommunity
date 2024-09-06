@@ -12,9 +12,9 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
   const [form] = Form.useForm<MemberAccountAddInput>();
   const [formLoading,setFormLoading] = React.useState<boolean>(false);
 
-  const handleFinish = (values: MemberAccountAddInput) => {
+  const handleFinish = async (values: MemberAccountAddInput) => {
     setFormLoading(true);
-    props.onSave(values);
+    await props.onSave(values);
     setFormLoading(false);
   }
 

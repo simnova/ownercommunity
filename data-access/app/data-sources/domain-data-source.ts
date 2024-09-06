@@ -5,7 +5,7 @@ import { DomainEntityProps } from '@library/domain-seedwork/domain-entity';
 import { MongoRepositoryBase } from '@library/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { MongoUnitOfWork } from '@library/services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { Document } from 'mongoose';
-import { DomainExecutionContext } from '@app/application-services/domain/domain-execution-context';
+import { DomainExecutionContext } from '@app/domain/domain-execution-context';
 
 export class DomainDataSource<
   Context extends AppContext,

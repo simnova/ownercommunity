@@ -5,10 +5,10 @@
 
 import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema, mergeSchemas, makeExecutableSchema } from '@graphql-tools/schema';
-import { resolvers } from './resolver-builder';
+import { resolvers } from '@app/functions/http/graphql/schema/builder/resolver-builder';
 import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import * as Scalars from 'graphql-scalars';
-import { GraphqlContext } from '../../init/graphql-context-builder';
+import { GraphqlContext } from '@app/main/graphql/graphql-context-builder';
 
 const schema = loadSchemaSync('./src/routes/http/graphql/schema/builder/graphql.schema.json', {
   loaders: [new JsonFileLoader()],

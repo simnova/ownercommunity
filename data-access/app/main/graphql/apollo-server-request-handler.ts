@@ -3,9 +3,9 @@ import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import { applyMiddleware } from 'graphql-middleware';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
 import mongoose from 'mongoose';
-import { combinedSchema } from '../schema/builder/schema-builder';
-import { permissions } from '../schema/builder/resolver-builder';
-import { GraphqlContext as ApolloContext } from './graphql-context-builder';
+import { combinedSchema } from '@app/functions/http/graphql/schema/builder/schema-builder';
+import { permissions } from '@app/functions/http/graphql/schema/builder/resolver-builder';
+import { GraphqlContext as ApolloContext } from '@app/main/graphql/graphql-context-builder';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (securedSchema: GraphQLSchemaWithFragmentReplacements) => {

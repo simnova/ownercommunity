@@ -6,7 +6,7 @@ import { CosmosDbConnection } from '../seedwork/services-seedwork-datastore-mong
 import { PortalTokenValidation } from '../seedwork/auth-seedwork-oidc/portal-token-validation';
 import { ApolloServerRequestHandler } from '../../src/routes/http/graphql/init/apollo-server-request-handler';
 import { GraphqlContextBuilder as ApolloContext } from './graphql/graphql-context-builder';
-import { startServerAndCreateHandler } from '../../library/apollo-server-integration-azure-functions-seedwork/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
+import { startServerAndCreateHandler } from '../../library/function-http-seedwork-graphql/apollo-server-integration-azure-function-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../seedwork/utils/get-env-var';
 import { DomainImpl } from './domain.impl';

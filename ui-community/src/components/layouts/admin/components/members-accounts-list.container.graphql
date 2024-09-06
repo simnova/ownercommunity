@@ -6,23 +6,27 @@ query AdminMembersAccountsListContainerMember($id: ID!) {
 
 fragment AdminMembersAccountsListContainerMemberFields on Member {
   accounts {
-    firstName
-    lastName
-    user {
-      personalInformation {
-        contactInformation {
-          email
-        }
-      }
-
-      id
-    }
-    statusCode
-
-    id
-    createdAt
-    updatedAt
+    ...AdminMembersAccountsListContainerMemberAccountFields
   }
 
   id
+}
+
+fragment AdminMembersAccountsListContainerMemberAccountFields on MemberAccount {
+  firstName
+  lastName
+  user {
+    personalInformation {
+      contactInformation {
+        email
+      }
+    }
+
+    id
+  }
+  statusCode
+
+  id
+  createdAt
+  updatedAt
 }

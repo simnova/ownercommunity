@@ -2389,6 +2389,24 @@ export type AdminMembersAccountsListContainerMemberFieldsFragment = {
   } | null> | null;
 };
 
+export type AdminMembersAccountsListContainerMemberAccountFieldsFragment = {
+  __typename?: 'MemberAccount';
+  firstName: string;
+  lastName?: string | null;
+  statusCode?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  user?: {
+    __typename?: 'User';
+    id: any;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+    } | null;
+  } | null;
+};
+
 export type AdminMembersCreateContainerMemberCreateMutationVariables = Exact<{
   input: MemberCreateInput;
 }>;
@@ -7514,6 +7532,54 @@ export const AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment
     }
   ]
 } as unknown as DocumentNode<AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment, unknown>;
+export const AdminMembersAccountsListContainerMemberAccountFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberAccountFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAccount' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'personalInformation' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                        }
+                      }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminMembersAccountsListContainerMemberAccountFieldsFragment, unknown>;
 export const AdminMembersAccountsListContainerMemberFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7530,43 +7596,57 @@ export const AdminMembersAccountsListContainerMemberFieldsFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberAccountFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberAccountFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAccount' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
+                  name: { kind: 'Name', value: 'personalInformation' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'personalInformation' },
+                        name: { kind: 'Name', value: 'contactInformation' },
                         selectionSet: {
                           kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'contactInformation' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
-                              }
-                            }
-                          ]
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
                         }
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+                      }
                     ]
                   }
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } }
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
       }
     }
@@ -13910,6 +13990,49 @@ export const AdminMembersAccountsListContainerMemberDocument = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberAccountFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAccount' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'personalInformation' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                        }
+                      }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberFields' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
       selectionSet: {
@@ -13921,39 +14044,10 @@ export const AdminMembersAccountsListContainerMemberDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                 {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'personalInformation' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'contactInformation' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMemberAccountFields' }
+                }
               ]
             }
           },

@@ -12,17 +12,19 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
   const [form] = Form.useForm<MemberAccountAddInput>();
   const [formLoading,setFormLoading] = React.useState<boolean>(false);
 
+  const handleFinish = async (values: MemberAccountAddInput) => {
+    setFormLoading(true);
+    await props.onSave(values);
+    setFormLoading(false);
+  }
+
   return (
     <div>
       <Form
         layout="vertical"
         form={form}
         initialValues={props.data}
-        onFinish={(values) => {
-          setFormLoading(true);
-          props.onSave(values);
-          setFormLoading(false);
-        }}
+        onFinish={handleFinish}
         >
         <Form.Item
           name={["account", "firstName"]}
@@ -36,7 +38,6 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
         <Form.Item
           name={["account", "lastName"]}
           label="Last Name"
-
         >
           <Input placeholder='Last Name' maxLength={200}  />
         </Form.Item>
@@ -45,7 +46,6 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
           label="User ID"
           rules={[
             { required: true, message: 'User ID is required.' },
-            
           ]}
         >
           <Input placeholder='User ID Name' maxLength={200}  />

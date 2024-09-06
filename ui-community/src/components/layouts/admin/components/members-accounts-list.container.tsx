@@ -27,7 +27,7 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
   return (
     <ComponentQueryLoader
       loading={memberLoading}
-      hasData={memberData?.member}
+hasData={Boolean(memberData?.member)}
       hasDataComponent={<MembersAccountsList data={memberData?.member?.accounts as AdminMembersAccountsListContainerMemberAccountFieldsFragment[]} />}
       error={memberError}
     />

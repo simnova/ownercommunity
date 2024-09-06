@@ -2,19 +2,19 @@ import { UsergroupAddOutlined } from '@ant-design/icons';
 import { Button, Table, TableColumnsType } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { AdminMembersAccountsListContainerMemberFieldsFragment } from '../../../../generated';
+import { AdminMembersAccountsListContainerMemberAccountFieldsFragment } from '../../../../generated';
 
 export interface MembersAccountsListProps {
-  data: AdminMembersAccountsListContainerMemberFieldsFragment[];
+  data: AdminMembersAccountsListContainerMemberAccountFieldsFragment[];
 }
 
 export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) => {
   const navigate = useNavigate();
-  const columns:TableColumnsType<AdminMembersAccountsListContainerMemberFieldsFragment> = [
+  const columns:TableColumnsType<AdminMembersAccountsListContainerMemberAccountFieldsFragment> = [
     {
       title: "Action",
       dataIndex: "id",
-      render: (text) => <Button type="primary" size="small" onClick={() => navigate(text)}>Edit</Button>
+      render: (text:AdminMembersAccountsListContainerMemberAccountFieldsFragment['id']) => <Button type="primary" size="small" onClick={() => navigate(text)}>Edit</Button>
     },
     {
       title: "First Name",
@@ -45,13 +45,13 @@ export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) =
       title: "Updated",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (text) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
+      render: (text:AdminMembersAccountsListContainerMemberAccountFieldsFragment['updatedAt']) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
     {
       title: "Created",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
+      render: (text:AdminMembersAccountsListContainerMemberAccountFieldsFragment['createdAt']) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
 

@@ -109,19 +109,19 @@ export const ContactsCreate: React.FC<ContactsCreateProps> = (props) =>  {
         <Form.Item name="age" label="Age">
             <Input />
         </Form.Item>
-        <Form.Item name={["address"]["addressLine1"]}label="Address Line 1">
+        <Form.Item name={["address", "addressLine1"]}label="Address Line 1">
             <Input />
         </Form.Item>
-        <Form.Item name={["address"]["addressLine2"]}label="Address Line 2">
+        <Form.Item name={["address", "addressLine2"]}label="Address Line 2">
             <Input /> 
         </Form.Item>
-        <Form.Item name={["address"]["city"]}label="City">
+        <Form.Item name={["address", "city"]}label="City">
             <Input />
         </Form.Item>
-        <Form.Item name={["address"]["state"]}label="State">
+        <Form.Item name={["address", "state"]}label="State">
             <Input /> 
         </Form.Item>
-        <Form.Item name={["address"]["zip"]}label="Zip">
+        <Form.Item name={["address", "zip"]}label="Zip">
             <Input />
         </Form.Item>
 

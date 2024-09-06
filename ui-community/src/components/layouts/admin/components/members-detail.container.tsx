@@ -64,25 +64,22 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
     }
   };
 
-  const content = () => {
-    if (memberLoading || roleLoading) {
-      return (
-        <div>
-          <Skeleton active />
-        </div>
-      );
-    } else if (memberError || roleError) {
-      return <div>{JSON.stringify(memberError ?? roleError)}</div>;
-    } else if (memberData?.member && roleData?.rolesByCommunityId) {
-      const detailData = {
-        member: memberData.member as AdminMembersDetailContainerMemberFieldsFragment,
-        roles: roleData.rolesByCommunityId as AdminMembersDetailContainerRoleFieldsFragment[]
-      };
-      return <MembersDetail data={detailData} onSave={handleSave} />;
-    } else {
-      return <div>No data</div>;
-    }
-  };
-
-  return <>{content()}</>;
+  if (memberLoading || roleLoading) {
+    return (
+      <div>
+        <Skeleton active />
+      </div>
+    );
+  } else if (memberError || roleError) {
+    return <div>{JSON.stringify(memberError ?? roleError)}</div>;
+  } else if (memberData?.member && roleData?.rolesByCommunityId) {
+    const detailData = {
+      member: memberData.member as AdminMembersDetailContainerMemberFieldsFragment,
+      roles: roleData.rolesByCommunityId as AdminMembersDetailContainerRoleFieldsFragment[]
+    };
+    return <MembersDetail data={detailData} onSave={handleSave} />;
+  } else {
+    return <div>No data</div>;
+  }
+  
 };

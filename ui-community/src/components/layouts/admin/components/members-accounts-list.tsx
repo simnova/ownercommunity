@@ -14,7 +14,7 @@ export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) =
     {
       title: "Action",
       dataIndex: "id",
-      render: (text: any) => <Button type="primary" size="small" onClick={() => navigate(text)}>Edit</Button>
+      render: (text) => <Button type="primary" size="small" onClick={() => navigate(text)}>Edit</Button>
     },
     {
       title: "First Name",
@@ -45,13 +45,13 @@ export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) =
       title: "Updated",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
+      render: (text) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
     {
       title: "Created",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
+      render: (text) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
 
@@ -61,7 +61,7 @@ export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) =
       <Table 
         columns={columns} 
         dataSource={props.data}
-        rowKey={(record: AdminMembersAccountsListContainerMemberFieldsFragment) => record.id}
+        rowKey={(record) => record.id}
       />
     </div>
   </>)

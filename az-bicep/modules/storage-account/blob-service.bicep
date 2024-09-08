@@ -20,7 +20,8 @@ param corsExposedHeaders array
 @description('Number of seconds to cache the preflight response for CORS.')
 param corsMaxAgeInSeconds int
 
-
+@description('Enable blob versioning')
+param isVersioningEnabled bool
 // == RESOURCES ==
 
 // storage account
@@ -48,13 +49,14 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01'
       allowPermanentDelete: false
       enabled: false
     }
+    isVersioningEnabled: isVersioningEnabled
   }
 }
 
 // blob containers
 resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = [for container in containers: {
-  name: container.name
   parent: blobService
+  name: container.name
   properties: {
     publicAccess: container.publicAccess
   }

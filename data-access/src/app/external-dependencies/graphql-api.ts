@@ -1,1 +1,1 @@
-export * from '../../routes/http/graphql/schema/builder/generated';
+export * from '../../functions/http/graphql/schema/builder/generated';

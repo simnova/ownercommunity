@@ -17,6 +17,7 @@ var appServicePlanApplicationPrefix = paramsJson.appServicePlanApplicationPrefix
 
 var moduleNameSuffix = '-Module-main-${applicationPrefix}-${environment}'
 
+
 // app service plan
 module appServicePlan '../../az-bicep/modules/app-service-plan/main.bicep' = [for instance in envParams.appServicePlan.instances: if(instance.run == true) {
   name: 'appServicePlan${moduleNameSuffix}-${instance.name}'
@@ -90,6 +91,7 @@ module storageAccount '../../az-bicep/modules/storage-account/main.bicep' = [for
     corsExposedHeaders: instance.cors.exposedHeaders
     corsMaxAgeInSeconds: instance.cors.maxAgeInSeconds
     enableTableService: instance.enableTableService
+    isVersioningEnabled: instance.isVersioningEnabled
     tables: instance.tables
     tags: instance.tags
   }

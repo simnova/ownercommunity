@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Descriptions, Form, Input } from 'antd';
+import { Button, Checkbox, Descriptions, Form, Input, message } from 'antd';
 import dayjs from 'dayjs';
 
 import { AdminRolesDetailContainerRoleFieldsFragment, RoleAddInput, RoleUpdateInput } from '../../../../generated';
@@ -7,13 +7,46 @@ import { Helmet } from 'react-helmet-async';
 
 export interface RolesDetailProps {
   data: AdminRolesDetailContainerRoleFieldsFragment ;
-  onAdd: (role: RoleAddInput) => void;
-  onUpdate: (role: RoleUpdateInput) => void;
+}
+export interface RolesDetailAddProps extends RolesDetailProps {
+  onAdd: (role: RoleAddInput) => Promise<void>;
+}
+export interface RolesDetailUpdateProps extends RolesDetailProps {
+  onUpdate: (role: RoleUpdateInput) => Promise<void>;
 }
 
-export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
+// Type guard for RolesDetailsAddProps
+function isRolesDetailAddProps(props: RolesDetailAddProps | RolesDetailUpdateProps): props is RolesDetailAddProps {
+  return typeof (props as RolesDetailAddProps).onAdd === 'function';
+}
+
+// Type guard for RolesDetailsUpdateProps
+function isRolesDetailUpdateProps(props: RolesDetailAddProps | RolesDetailUpdateProps): props is RolesDetailUpdateProps {
+  return typeof (props as RolesDetailUpdateProps).onUpdate === 'function';
+}
+
+
+export const RolesDetail: React.FC<RolesDetailAddProps|RolesDetailUpdateProps> = (props) => {
   const [form] = Form.useForm<RoleAddInput|RoleUpdateInput>();
   const [formLoading, setFormLoading] = React.useState<boolean>(false);
+
+  const handleFinish = async (values: RoleAddInput|RoleUpdateInput) => {
+    setFormLoading(true);
+    try {
+      if (isRolesDetailUpdateProps(props)) {
+        (values as RoleUpdateInput).id = props.data!.id;
+        await props.onUpdate(values as RoleUpdateInput);
+      } else if(isRolesDetailAddProps(props)) {
+        await props.onAdd(values as RoleAddInput);
+      }
+    } catch (e) {
+      console.error(e);
+      message.error('Failed to save role.',);
+    } finally {
+      setFormLoading(false);
+    }
+  }
+
   return (
     <div>
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
@@ -31,16 +64,7 @@ export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
         layout="vertical"
         form={form}
         initialValues={props.data}
-        onFinish={(values) => {
-          setFormLoading(true);
-          if (props.data?.id) {
-            (values as RoleUpdateInput).id = props.data!.id;
-            props.onUpdate(values as RoleUpdateInput);
-          } else {
-            props.onAdd(values as RoleAddInput);
-          }
-          setFormLoading(false);
-        }}
+        onFinish={handleFinish}
       >
         <Form.Item
           name={['roleName']}

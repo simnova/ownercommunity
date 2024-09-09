@@ -3,6 +3,7 @@ import { message } from 'antd';
 import {
   AdminRolesDetailContainerRoleDocument,
   AdminRolesDetailContainerRoleUpdateDocument,
+  RoleAddInput,
   RoleUpdateInput
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
@@ -48,7 +49,7 @@ export const RolesDetailContainer: React.FC<RolesDetailContainerProps> = (props)
     <ComponentQueryLoader
       loading={roleLoading}
       hasData={roleData?.role}
-      hasDataComponent={roleData?.role && <RolesDetail data={roleData.role} onAdd={() => {}} onUpdate={handleUpdate} />}
+      hasDataComponent={roleData?.role && <RolesDetail data={roleData.role} onUpdate={handleUpdate} />}
       error={roleError ?? updateError}
     />
   );

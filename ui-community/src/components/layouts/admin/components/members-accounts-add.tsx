@@ -1,11 +1,11 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import React from 'react';
 
 import { MemberAccountAddInput } from '../../../../generated';
 
 export interface MembersAccountsAddProps {
   data: MemberAccountAddInput;
-  onSave: (member: MemberAccountAddInput) => void;
+  onSave: (member: MemberAccountAddInput) => Promise<void>;
 }
 
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
@@ -14,8 +14,15 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
 
   const handleFinish = async (values: MemberAccountAddInput) => {
     setFormLoading(true);
-    await props.onSave(values);
-    setFormLoading(false);
+    try {
+      await props.onSave(values);
+    }
+    catch (e) {
+      console.error(e);
+      message.error('Failed to add Member Account.',);
+    } finally {
+      setFormLoading(false);
+    }
   }
 
   return (

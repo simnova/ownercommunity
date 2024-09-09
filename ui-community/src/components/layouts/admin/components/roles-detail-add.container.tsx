@@ -79,5 +79,5 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
     }
   };
 
-  return <RolesDetail onAdd={handleAdd} onUpdate={() =>{}} data={defaultValues} />;
+  return <RolesDetail  data={defaultValues} onAdd={handleAdd}  />;
 };

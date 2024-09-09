@@ -17,18 +17,8 @@ export interface RolesDetailUpdateProps extends RolesDetailBaseProps {
   onUpdate: (role: RoleUpdateInput) => Promise<void>;
 }
 
-export type RolesDetailProps = RolesDetailAddProps | RolesDetailUpdateProps;
+export interface RolesDetailProps extends RolesDetailAddProps, RolesDetailUpdateProps {}
 
-
-// Type guard for RolesDetailsAddProps
-function isRolesDetailAddProps(props: RolesDetailAddProps | RolesDetailUpdateProps): props is RolesDetailAddProps {
-  return typeof (props as RolesDetailAddProps).onAdd === 'function';
-}
-
-// Type guard for RolesDetailsUpdateProps
-function isRolesDetailUpdateProps(props: RolesDetailAddProps | RolesDetailUpdateProps): props is RolesDetailUpdateProps {
-  return typeof (props as RolesDetailUpdateProps).onUpdate === 'function';
-}
 
 
 export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
@@ -38,10 +28,10 @@ export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
   const handleFinish = async (values: RoleAddInput|RoleUpdateInput) => {
     setFormLoading(true);
     try {
-      if (isRolesDetailUpdateProps(props)) {
-        (values as RoleUpdateInput).id = props.data!.id;
+      if (props.onUpdate) {
+        (values as RoleUpdateInput).id = props.data.id;
         await props.onUpdate(values as RoleUpdateInput);
-      } else if(isRolesDetailAddProps(props)) {
+      } else if (props.onAdd) {
         await props.onAdd(values as RoleAddInput);
       }
     } catch (e) {

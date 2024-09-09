@@ -5,7 +5,7 @@ ui-*/**/*.tsx
 
 - The exported react component name should match the container name (the file name should be kabob-cased, and the component name should be PascalCased) unless the file name is index.tsx, then the component name should match the parent folder name.
 - The component should be a functional component.
-- An interface should be defined for the component's props, named \<ComponentName>Props.    
+- An interface or type should be defined for the component's props, named \<ComponentName>Props.    
   - the props should refer to data only by the fragment name or graphql input type name
 - Any use of the AntDesign Table should leverage TableColumnsType and must specify the type of the data (usually the fragment type)
 - Any use of the AntDesign useForm hook must specify the type of the form data (usually the GraphQL input type)

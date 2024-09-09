@@ -2,7 +2,7 @@
 data-access/src/**/graphql/schema/types/*.graphql
 
 ### Rules:
-- aggregate root graphql files should be found in the following path pattern: data-access/src/**/graphql/schema/types/
+- aggregate root GraphQL files should be found in the following path pattern: data-access/src/**/graphql/schema/types/
 - each file should correspond to an aggregate root
 - the file name should be kebab-cased and match the name of the aggregate root
 - for multi-word aggregate roots, use kebab-case (e.g., 'user-profile.graphql' for 'UserProfile')

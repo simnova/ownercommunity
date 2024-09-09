@@ -2,6 +2,6 @@
     "editor.tabSize": 2,
     "sonarlint.connectedMode.project": {
         "connectionId": "simnova",
-        "projectKey": "simnova_ownercommunity-ui"
+        "projectKey": "oc-ui"
     }
 }

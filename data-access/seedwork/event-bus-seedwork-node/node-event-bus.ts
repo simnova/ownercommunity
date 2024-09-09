@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { CustomDomainEvent, DomainEvent } from '../domain-seedwork/domain-event';
+import { DomainEvent, DomainEventBase } from '../domain-seedwork/domain-event';
 import { EventBus } from '../domain-seedwork/event-bus';
 import api, { trace, TimeInput, SpanStatusCode } from '@opentelemetry/api';
 import { SEMATTRS_DB_SYSTEM, SEMATTRS_DB_NAME, SEMATTRS_DB_STATEMENT } from '@opentelemetry/semantic-conventions';
@@ -37,7 +37,7 @@ class NodeEventBusImpl implements EventBus {
     this.broadcaster.removeAllListeners();
   }
 
-  async dispatch<T extends DomainEvent>(event: new (...args: any) => T, data: any): Promise<void> {
+  async dispatch<T extends DomainEventBase>(event: new (...args: any) => T, data: any): Promise<void> {
     console.log(`Dispatching node event ${event.constructor.name} with data ${JSON.stringify(data)}`);
 
     let contextObject = {};
@@ -63,7 +63,7 @@ class NodeEventBusImpl implements EventBus {
     });
   }
 
-  register<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (...args: any) => T, func: (payload: T['payload']) => Promise<void>): void {
+  register<EventProps, T extends DomainEvent<EventProps>>(event: new (...args: any) => T, func: (payload: T['payload']) => Promise<void>): void {
     console.log(`Registering node event handler for: ${event.name}`);
 
     this.broadcaster.on(event.name, async (rawPayload: string) => {

@@ -3,8 +3,9 @@ import { DomainEntityProps } from "../../domain-seedwork/domain-entity";
 import { Repository } from "../../domain-seedwork/repository";
 import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-execution-context";
 import { EventBus } from "../../domain-seedwork/event-bus";
-import { DomainEvent } from "../../domain-seedwork/domain-event";
+import { DomainEventBase } from "../../domain-seedwork/domain-event";
 import { MemoryStore } from "./memory-store";
+import { SyncDomainEventBus } from "../../event-bus-seedwork-node/sync-domain-event-bus";
 
 export class MemoryRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
@@ -15,7 +16,7 @@ export class MemoryRepositoryBase<
   private itemsInTransaction: DomainType[] = [];
   // protected memoryStore = new MemoryStore<PropType>();
   constructor(
-    protected eventBus: EventBus,
+    protected syncDomainEventBus: SyncDomainEventBus,
     protected domainClass: new (args: PropType, context: ContextType) => DomainType,
     protected context: ContextType,
     protected memoryStore: MemoryStore<PropType>
@@ -51,7 +52,7 @@ export class MemoryRepositoryBase<
     return Promise.resolve(item);
   }
 
-  async getIntegrationEvents(): Promise<DomainEvent[]> {
+  async getIntegrationEvents(): Promise<DomainEventBase[]> {
     const integrationEventsGroup = this.itemsInTransaction.map((item) => {
       const integrationEvents = item.getIntegrationEvents();
       item.clearIntegrationEvents();
@@ -62,7 +63,7 @@ export class MemoryRepositoryBase<
 
   private async dispatchDomainEvents(item: DomainType) {
     for await (let event of item.getDomainEvents()) {
-      await this.eventBus.dispatch(event as any, event['payload']);
+      await this.syncDomainEventBus.dispatch(event as any);
     }
     item.clearDomainEvents();
   }
@@ -73,13 +74,13 @@ export class MemoryRepositoryBase<
     DomainType extends AggregateRoot<PropType>,
     RepoType extends MemoryRepositoryBase<ContextType, PropType, DomainType>
   >(
-    eventBus: EventBus,
+    syncDomainEventBus: SyncDomainEventBus,
     domainClass: new (args: PropType, context: ContextType) => DomainType,
     context: ContextType,
     memoryStore: MemoryStore<PropType>,
-    repoClass: new (eventBus: EventBus, domainClass:new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
+    repoClass: new (syncDomainEventBus: SyncDomainEventBus, domainClass:new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
   ): RepoType {
-    return new repoClass(eventBus, domainClass, context, memoryStore);
+    return new repoClass(syncDomainEventBus, domainClass, context, memoryStore);
   }
 
 }

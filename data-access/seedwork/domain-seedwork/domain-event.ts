@@ -1,20 +1,18 @@
-export interface CustomDomainEvent<T> extends DomainEvent {
-  get payload(): T;
-  set payload(payload: T);
-}
-
-export interface DomainEvent {
+export interface DomainEventBase {
   get aggregateId(): string;
 }
-
-export abstract class DomainEventBase implements DomainEvent {
+export abstract class DomainEventBaseImpl implements DomainEventBase {
   constructor(private readonly _aggregateId: string) {}
   get aggregateId(): string {
     return this._aggregateId;
   }
 }
 
-export abstract class CustomDomainEventImpl<T> extends DomainEventBase implements CustomDomainEvent<T> {
+export interface DomainEvent<T> extends DomainEventBase {
+  get payload(): T;
+  set payload(payload: T);
+}
+export abstract class DomainEventImpl<T> extends DomainEventBaseImpl implements DomainEvent<T> {
   private _payload: T;
   get payload(): T {
     return this._payload;

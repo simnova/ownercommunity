@@ -1,11 +1,11 @@
 import { EventBus } from '../domain-seedwork/event-bus';
-import { CustomDomainEvent, DomainEvent } from '../domain-seedwork/domain-event';
+import { DomainEvent, DomainEventBase } from '../domain-seedwork/domain-event';
 
 class InProcEventBusImpl implements EventBus {
   private eventSubscribers: { [eventType: string]: Array<(rawpayload: string) => Promise<void>> } = {};
   private static instance: InProcEventBusImpl;
 
-  async dispatch<T extends DomainEvent>(event: new (...args: any) => T, data: any): Promise<void> {
+  async dispatch<T extends DomainEventBase>(event: new (...args: any) => T, data: any): Promise<void> {
     console.log(`Dispatching in-proc event ${event.constructor.name} with data ${JSON.stringify(data)}`);
     if (this.eventSubscribers[event.constructor.name]) {
       for await (const subscriber of this.eventSubscribers[event.constructor.name]) {
@@ -14,7 +14,7 @@ class InProcEventBusImpl implements EventBus {
     }
   }
 
-  register<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (...args: any) => T, func: (payload: T['payload']) => Promise<void>): void {
+  register<EventProps, T extends DomainEvent<EventProps>>(event: new (...args: any) => T, func: (payload: T['payload']) => Promise<void>): void {
     console.log(`Registering in-proc event handler for: ${event.name}`);
     if (!this.eventSubscribers[event.name]) {
       this.eventSubscribers[event.name] = [];

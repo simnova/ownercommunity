@@ -63,7 +63,7 @@ export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => 
     };
 
     loadLocalStorage(props.communityId).catch((error) =>
-      console.log('app: cannot find community to load into local storage:', error)
+      console.log('app: cannot find community to load into local storage: ', error)
     );
     setLoading(false);
   }, [setLoading, props.communityId]);

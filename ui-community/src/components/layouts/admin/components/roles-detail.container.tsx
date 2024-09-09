@@ -3,7 +3,6 @@ import { message } from 'antd';
 import {
   AdminRolesDetailContainerRoleDocument,
   AdminRolesDetailContainerRoleUpdateDocument,
-  RoleAddInput,
   RoleUpdateInput
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';

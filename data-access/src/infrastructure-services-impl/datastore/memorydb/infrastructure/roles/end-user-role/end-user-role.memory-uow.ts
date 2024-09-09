@@ -2,10 +2,10 @@ import { EndUserRole, EndUserRoleProps } from "../../../../../../app/domain/cont
 import { MemoryStore } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryEndUserRoleRepository } from "./end-user-role.memory-repository";
-import { InProcEventBusInstance, NodeEventBusInstance } from "../../../../../../../seedwork/event-bus-seedwork-node";
+import { SyncDomainEventBusInstance, NodeEventBusInstance } from "../../../../../../../seedwork/event-bus-seedwork-node";
 
 export const buildMemoryEndUserRoleUnitOfWork = (
   endUserRoleMemoryStore: MemoryStore<EndUserRoleProps>,
 ) => {
-  return new MemoryUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, EndUserRole, endUserRoleMemoryStore, MemoryEndUserRoleRepository);
+  return new MemoryUnitOfWork(SyncDomainEventBusInstance, NodeEventBusInstance, EndUserRole, endUserRoleMemoryStore, MemoryEndUserRoleRepository);
 };

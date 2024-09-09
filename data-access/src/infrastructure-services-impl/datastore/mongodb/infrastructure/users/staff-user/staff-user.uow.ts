@@ -2,6 +2,6 @@ import { MongoUnitOfWork } from '../../../../../../../seedwork/services-seedwork
 import { StaffUserModel } from '../../../models/users/staff-user';
 import { StaffUserConverter } from './staff-user.domain-adapter';
 import { MongoStaffUserRepository } from './staff-user.mongo-repository';
-import { NodeEventBusInstance, InProcEventBusInstance } from '../../../../../../../seedwork/event-bus-seedwork-node';
+import { SyncDomainEventBusInstance, NodeEventBusInstance } from '../../../../../../../seedwork/event-bus-seedwork-node';
 
-export const MongoStaffUserUnitOfWork = new MongoUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, StaffUserModel, new StaffUserConverter(), MongoStaffUserRepository);
+export const MongoStaffUserUnitOfWork = new MongoUnitOfWork(SyncDomainEventBusInstance, NodeEventBusInstance, StaffUserModel, new StaffUserConverter(), MongoStaffUserRepository);

@@ -2,10 +2,10 @@ import { StaffUser, StaffUserProps } from "../../../../../../app/domain/contexts
 import { MemoryStore } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryStaffUserRepository } from "./staff-user.memory-repository";
-import { InProcEventBusInstance, NodeEventBusInstance } from "../../../../../../../seedwork/event-bus-seedwork-node";
+import { SyncDomainEventBusInstance, NodeEventBusInstance } from "../../../../../../../seedwork/event-bus-seedwork-node";
 
 export const buildMemoryStaffUserUnitOfWork = (
   userMemoryStore: MemoryStore<StaffUserProps>,
 ) => {
-  return new MemoryUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, StaffUser, userMemoryStore, MemoryStaffUserRepository);
+  return new MemoryUnitOfWork(SyncDomainEventBusInstance, NodeEventBusInstance, StaffUser, userMemoryStore, MemoryStaffUserRepository);
 };

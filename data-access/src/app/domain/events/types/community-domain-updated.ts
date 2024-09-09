@@ -1,4 +1,4 @@
-import { CustomDomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
+import { DomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
 
 export interface CommunityDomainUpdatedProps {
   communityId: string;
@@ -6,4 +6,4 @@ export interface CommunityDomainUpdatedProps {
   oldDomain?: string;
 }
 
-export class CommunityDomainUpdatedEvent extends CustomDomainEventImpl<CommunityDomainUpdatedProps> {}
+export class CommunityDomainUpdatedEvent extends DomainEventImpl<CommunityDomainUpdatedProps> {}

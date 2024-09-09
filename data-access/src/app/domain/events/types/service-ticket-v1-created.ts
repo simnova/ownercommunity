@@ -1,7 +1,7 @@
-import { CustomDomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
+import { DomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
 
 export interface ServiceTicketV1CreatedProps {
   id: string;
 }
 
-export class ServiceTicketV1CreatedEvent extends CustomDomainEventImpl<ServiceTicketV1CreatedProps> {}
+export class ServiceTicketV1CreatedEvent extends DomainEventImpl<ServiceTicketV1CreatedProps> {}

@@ -1,7 +1,7 @@
-import { CustomDomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
+import { DomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
 
 export interface PropertyCreatedProps {
   id: string;
 }
 
-export class PropertyCreatedEvent extends CustomDomainEventImpl<PropertyCreatedProps> {}
+export class PropertyCreatedEvent extends DomainEventImpl<PropertyCreatedProps> {}

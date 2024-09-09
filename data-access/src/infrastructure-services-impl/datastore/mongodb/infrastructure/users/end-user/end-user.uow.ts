@@ -2,6 +2,6 @@ import { MongoUnitOfWork } from '../../../../../../../seedwork/services-seedwork
 import { EndUserModel } from '../../../models/users/end-user';
 import { EndUserConverter } from './end-user.domain-adapter';
 import { MongoEndUserRepository } from './end-user.mongo-repository';
-import { NodeEventBusInstance, InProcEventBusInstance } from '../../../../../../../seedwork/event-bus-seedwork-node';
+import { SyncDomainEventBusInstance, NodeEventBusInstance } from '../../../../../../../seedwork/event-bus-seedwork-node';
 
-export const MongoEndUserUnitOfWork = new MongoUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, EndUserModel, new EndUserConverter(), MongoEndUserRepository);
+export const MongoEndUserUnitOfWork = new MongoUnitOfWork(SyncDomainEventBusInstance, NodeEventBusInstance, EndUserModel, new EndUserConverter(), MongoEndUserRepository);

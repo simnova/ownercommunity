@@ -1,4 +1,4 @@
-import { CustomDomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
+import { DomainEventImpl } from '../../../../../seedwork/domain-seedwork/domain-event';
 
 export interface CommunityWhiteLabelDomainUpdatedProps {
   communityId: string;
@@ -6,4 +6,4 @@ export interface CommunityWhiteLabelDomainUpdatedProps {
   oldWhiteLabelDomain?: string;
 }
 
-export class CommunityWhiteLabelDomainUpdatedEvent extends CustomDomainEventImpl<CommunityWhiteLabelDomainUpdatedProps> {}
+export class CommunityWhiteLabelDomainUpdatedEvent extends DomainEventImpl<CommunityWhiteLabelDomainUpdatedProps> {}

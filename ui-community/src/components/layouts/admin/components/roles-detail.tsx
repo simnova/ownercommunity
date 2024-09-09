@@ -5,15 +5,20 @@ import dayjs from 'dayjs';
 import { AdminRolesDetailContainerRoleFieldsFragment, RoleAddInput, RoleUpdateInput } from '../../../../generated';
 import { Helmet } from 'react-helmet-async';
 
-export interface RolesDetailProps {
-  data: AdminRolesDetailContainerRoleFieldsFragment ;
+export interface RolesDetailBaseProps {
+  data: AdminRolesDetailContainerRoleFieldsFragment;
 }
-export interface RolesDetailAddProps extends RolesDetailProps {
+
+export interface RolesDetailAddProps extends RolesDetailBaseProps {
   onAdd: (role: RoleAddInput) => Promise<void>;
 }
-export interface RolesDetailUpdateProps extends RolesDetailProps {
+
+export interface RolesDetailUpdateProps extends RolesDetailBaseProps {
   onUpdate: (role: RoleUpdateInput) => Promise<void>;
 }
+
+export type RolesDetailProps = RolesDetailAddProps | RolesDetailUpdateProps;
+
 
 // Type guard for RolesDetailsAddProps
 function isRolesDetailAddProps(props: RolesDetailAddProps | RolesDetailUpdateProps): props is RolesDetailAddProps {
@@ -26,7 +31,7 @@ function isRolesDetailUpdateProps(props: RolesDetailAddProps | RolesDetailUpdate
 }
 
 
-export const RolesDetail: React.FC<RolesDetailAddProps|RolesDetailUpdateProps> = (props) => {
+export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
   const [form] = Form.useForm<RoleAddInput|RoleUpdateInput>();
   const [formLoading, setFormLoading] = React.useState<boolean>(false);
 

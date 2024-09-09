@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AdminMembersAccountsEditContainerMemberAccountEditDocument, AdminMembersAccountsEditContainerMemberAccountRemoveDocument, AdminMembersAccountsEditContainerMemberDocument, MemberAccountEditInput } from '../../../../generated';
+import { AdminMembersAccountEditContainerMemberFieldsFragment, AdminMembersAccountsEditContainerMemberAccountEditDocument, AdminMembersAccountsEditContainerMemberAccountRemoveDocument, AdminMembersAccountsEditContainerMemberDocument, MemberAccountEditInput } from '../../../../generated';
 import { MembersAccountsEdit } from './members-accounts-edit';
 
 export interface MembersAccountsEditContainerProps  {
@@ -65,7 +65,7 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
     const accountToEdit = memberData.member.accounts.find(x => x?.id === params.accountId);
 
     if(accountToEdit) {
-      const defaultValues: MemberAccountEditInput = {
+      const defaultValues: Omit<(AdminMembersAccountEditContainerMemberFieldsFragment & MemberAccountEditInput),'id'> = {
         memberId: props.data.memberId,
         accountId: params.accountId,
         firstName: accountToEdit.firstName,

@@ -1,12 +1,10 @@
 import React from 'react';
-
 import { UserDeleteOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-
-import { MemberAccountEditInput } from '../../../../generated';
+import { Button, Form, Input, message } from 'antd';
+import { MemberAccountEditInput, AdminMembersAccountEditContainerMemberFieldsFragment } from '../../../../generated';
 
 export interface MembersAccountsEditProps {
-  data: MemberAccountEditInput;
+  data: Omit<(AdminMembersAccountEditContainerMemberFieldsFragment & MemberAccountEditInput),'id'>;
   onSave: (member: MemberAccountEditInput) => Promise<void>;
   onRemove: () => Promise<void>;
 }
@@ -14,17 +12,27 @@ export interface MembersAccountsEditProps {
 export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) => {
   const [form] = Form.useForm<MemberAccountEditInput>();
   const [formLoading,setFormLoading] = React.useState<boolean>(false);
+
+  const handleFinish = async (values: MemberAccountEditInput) => {
+    setFormLoading(true);
+    try {
+      await props.onSave(values);
+    }
+    catch (e) {
+      console.error(e);
+      message.error('Failed to save Member Account.',);
+    } finally {
+      setFormLoading(false);
+    }
+  }
+
   return (
     <div>
       <Form
         layout="vertical"
         form={form}
         initialValues={props.data}
-        onFinish={(values) => {
-          setFormLoading(true);
-          props.onSave(values);
-          setFormLoading(false);
-        }}
+        onFinish={handleFinish}
         >
         <Form.Item
           name={[ "firstName"]}

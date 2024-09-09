@@ -5,7 +5,7 @@ ui-*/**/*.container.graphql
 
 ### Rules:
 - container graphql files are named: \<componentName>.container.graphql
-- container graphql files should be found in the following path pattern: ui-\<PortalName>/src/components/layouts/\<AreaName>>/components/\<componentName>.container.graphql
+- container graphql files should be found in the following path pattern: ui-\<PortalName>/src/components/layouts/\<AreaName>/components/\<componentName>.container.graphql
 - container graphql files should contain queries and mutations for the container
     - query and mutation naming convention should follow pattern: \<AreaName>\<ContainerName>\<QueryName|MutationName>
     - queries and mutations should only define fields to return by using the spread operator with fragments

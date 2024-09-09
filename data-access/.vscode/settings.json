@@ -18,6 +18,6 @@
     ],
     "sonarlint.connectedMode.project": {
         "connectionId": "simnova",
-        "projectKey": "simnova_ownercommuntiy-data-access"
+        "projectKey": "oc-data-access"
     }
 }

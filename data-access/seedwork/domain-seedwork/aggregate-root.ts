@@ -12,15 +12,22 @@ export  class AggregateRoot<PropType extends DomainEntityProps, VisaType extends
   extends DomainEntity<PropType> 
   implements RootEventRegistry {
   private executionContext: DomainExecutionContext;
-  
+  private _t = "temporary text";
   constructor(
     props: PropType, 
     private readonly _domainExecutionContext: DomainExecutionContext,
     private readonly _visaFunc: (executionContext: DomainExecutionContext) => VisaType,
-    private readonly _syncDomainEventMap: {[key: string]: Array<() => void>}
+    private readonly _syncDomainEventMap: {[key: string]: []}// Array<() => void>}
   ) {
     super(props);
     this.executionContext = this._domainExecutionContext;
+    // this._syncDomainEventMap.();
+    const m = new Map<string, Array<() => void>>([
+      ['AccountPortal', [
+        () => {console.log(`before ${this._t} after`)}
+      ]],
+    ])
+    m.get('AccountPortal')?.forEach(f => f.bind(this));
   }
 
   public get visa(): VisaType {

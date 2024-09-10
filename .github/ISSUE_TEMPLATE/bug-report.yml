@@ -52,7 +52,7 @@ body:
     attributes:
       label: Steps to reproduce the behavior
       placeholder: Tell us how to recreate the issue!
-      value: "Take the wrong turn!"
+      # value: "Take the wrong turn!"
     validations:
       required: true
   - type: textarea

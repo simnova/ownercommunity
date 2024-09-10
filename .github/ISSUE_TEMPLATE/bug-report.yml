@@ -60,7 +60,7 @@ body:
     attributes:
       label: What data did you use to test?
       placeholder: Tell us about the test data set!
-      value: "userId: John Doe, caseId: 123xyz!"
+      value: "userId: EXAMPLE_USER_ID, caseId: EXAMPLE_CASE_ID"
     validations:
       required: true
   - type: textarea

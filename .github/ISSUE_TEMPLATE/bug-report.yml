@@ -1,0 +1,76 @@
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["issue:bug"]
+projects: ["simnova/ownercommunity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: portals
+    attributes:
+      label: What system area are you seeing the problem on?
+      multiple: true
+      options:
+        - admin site
+        - member site
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: environments
+    attributes:
+      label: What environments are you seeing the problem in?
+      multiple: true
+      options:
+        - QA
+        - UAT
+        - TRN
+        - PRD
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Please provide a clear and concise description of the issue
+      placeholder: Describe the bug you encountered...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+      placeholder: Tell us what you see!
+      # value: "Everything should work as expected!"
+    validations:
+      required: true
+  - type: textarea
+    id: simulation-instructions
+    attributes:
+      label: Steps to reproduce the behavior
+      placeholder: Tell us how to recreate the issue!
+      # value: "Take the wrong turn!"
+    validations:
+      required: true
+  - type: textarea
+    id: test-data
+    attributes:
+      label: What data did you use to test?
+      placeholder: Tell us about the test data set!
+      value: "userId: EXAMPLE_USER_ID, caseId: EXAMPLE_CASE_ID"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.

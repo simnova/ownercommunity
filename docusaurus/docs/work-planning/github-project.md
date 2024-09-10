@@ -38,7 +38,12 @@ High-level tasks describe a broader area of work and require:
    Every high-level task must have an assigned team member who is responsible for its overall progress.
 
 4. **Completion Criteria**:  
-   The task must define clear criteria for completion, such as passing tests, code reviews, or delivering a user-facing feature.
+   The task must define clear criteria for completion, such as:
+   - Passing all unit and integration tests
+   - Approved code review by at least two team members
+   - Successfully deploying to staging environment
+   - Demonstrating the feature to the product owner
+   - Updating relevant documentation
 
 ## Subtasks
 

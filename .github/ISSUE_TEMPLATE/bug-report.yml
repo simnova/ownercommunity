@@ -35,7 +35,8 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      value: "A bug happened!"
+      description: Please provide a clear and concise description of the issue
+      placeholder: Describe the bug you encountered...
     validations:
       required: true
   - type: textarea

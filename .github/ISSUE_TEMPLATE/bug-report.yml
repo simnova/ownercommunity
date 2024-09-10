@@ -53,7 +53,8 @@ body:
   - type: textarea
     id: test-data
     attributes:
-      label: Test Data
+      label: Test Data (Do not include sensitive information)
+      description: Provide sample data to reproduce the issue. Ensure all data is anonymized.
       placeholder: Tell us about the test data set!  EXAMPLE_USER_ID,  EXAMPLE_CASE_ID
     validations:
       required: true

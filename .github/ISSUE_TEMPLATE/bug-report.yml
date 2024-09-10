@@ -44,7 +44,7 @@ body:
     attributes:
       label: What did you expect to happen?
       placeholder: Tell us what you see!
-      value: "Everything should work as expected!"
+      # value: "Everything should work as expected!"
     validations:
       required: true
   - type: textarea
@@ -72,5 +72,5 @@ body:
   - type: textarea
     id: screenshot
     attributes:
-      label: Sreenshots
+      label: Screenshots
       description: If applicable, add screenshots to help explain your problem.

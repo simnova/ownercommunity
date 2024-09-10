@@ -1,3 +1,5 @@
+import { DomainExecutionContext, SystemExecutionContext } from '../../src/app/domain/domain-execution-context';
+import { Visa } from '../passport-seedwork/visa';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { DomainEvent, DomainEventBase } from './domain-event';
 
@@ -6,7 +8,36 @@ export interface RootEventRegistry {
   addIntegrationEvent<EventProps, T extends DomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
 }
 
-export  class AggregateRoot<PropType extends DomainEntityProps> extends DomainEntity<PropType> implements RootEventRegistry {
+export  class AggregateRoot<PropType extends DomainEntityProps, VisaType extends Visa> 
+  extends DomainEntity<PropType> 
+  implements RootEventRegistry {
+  private executionContext: DomainExecutionContext;
+  
+  constructor(
+    props: PropType, 
+    private readonly _domainExecutionContext: DomainExecutionContext,
+    private readonly _visaFunc: (executionContext: DomainExecutionContext) => VisaType,
+    private readonly _syncDomainEventMap: {[key: string]: Array<() => void>}
+  ) {
+    super(props);
+    this.executionContext = this._domainExecutionContext;
+  }
+
+  public get visa(): VisaType {
+    return this._visaFunc(this.executionContext);
+  }
+
+  public get _context(): DomainExecutionContext {
+    return this.executionContext;
+  }
+
+  public executeAsDomainEvent(func:(() => void)) : void {
+    this.executionContext = SystemExecutionContext();
+    func();
+    this.executionContext = this._domainExecutionContext;
+  }
+
+
   private _isDeleted: boolean = false;
   public get isDeleted(): boolean {
     return this._isDeleted;

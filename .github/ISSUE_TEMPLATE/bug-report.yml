@@ -4,14 +4,11 @@ title: "[Bug]: "
 labels: ["issue:bug"]
 projects: ["simnova/ownercommunity"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
   - type: dropdown
-    id: portals
+    id: system-areas
     attributes:
-      label: What system area are you seeing the problem on?
+      label: System Area
+      description: What system areas are you seeing the problem in?
       multiple: true
       options:
         - admin site
@@ -22,7 +19,8 @@ body:
   - type: dropdown
     id: environments
     attributes:
-      label: What environments are you seeing the problem in?
+      label: Environments
+      description: What environments are you seeing the problem in?
       multiple: true
       options:
         - QA
@@ -34,33 +32,29 @@ body:
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
-      description: Please provide a clear and concise description of the issue
-      placeholder: Describe the bug you encountered...
+      label: Issue Description
+      placeholder: Tell us what you see! Please provide a clear and concise description of the issue
     validations:
       required: true
   - type: textarea
     id: expected-behavior
     attributes:
-      label: What did you expect to happen?
-      placeholder: Tell us what you see!
-      # value: "Everything should work as expected!"
+      label: Expected Behavior
+      placeholder: Tell us what did you expect to happen!
     validations:
       required: true
   - type: textarea
-    id: simulation-instructions
+    id: recreate-instructions
     attributes:
-      label: Steps to reproduce the behavior
-      placeholder: Tell us how to recreate the issue!
-      # value: "Take the wrong turn!"
+      label: Steps to Reproduce
+      placeholder: Describe the steps to recreate the issue!
     validations:
       required: true
   - type: textarea
     id: test-data
     attributes:
-      label: What data did you use to test?
-      placeholder: Tell us about the test data set!
-      value: "userId: EXAMPLE_USER_ID, caseId: EXAMPLE_CASE_ID"
+      label: Test Data
+      placeholder: Tell us about the test data set!  EXAMPLE_USER_ID,  EXAMPLE_CASE_ID
     validations:
       required: true
   - type: textarea

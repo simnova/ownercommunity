@@ -16,7 +16,8 @@ This document describes the process of using GitHub Issues to track feature requ
 
 | Label | Description |
 | --- | --- |
-| `issue:feature` | Represents a high-level system feature requested by the business. Add a `tasklist` inside `feature` to create one or more `tasks` and/or `bugs`|  
+| `issue:feature` | Represents a high-level system feature requested by the business. Add a `tasklist` (a GitHub feature for creating a list of work items) inside `feature` to create one or more `tasks` and/or `bugs`. For more information on tasklists, see [GitHub's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-tasklists). |  
+
 | `issue:task` | Represents a granular developer work item that contributes to a feature. |
 | `issue:bug` | Represents a bug identified during QA testing. |
 
@@ -30,6 +31,16 @@ This document describes the process of using GitHub Issues to track feature requ
 
 
 ### 3. Issue Lifecycle
+
+#### Issue Lifecycle Differences  
+
+Features, Tasks, and Bugs have distinct lifecycles due to their unique purposes:  
+
+- Features: Involve larger development efforts and require QA verification.  
+- Tasks: Focus on smaller, specific work items with SME review.  
+- Bugs: Prioritize quick resolution and verification of fixes.  
+
+These differences are reflected in their respective state labels and workflows. 
 
 #### Feature
 | Label | Description | Set By |
@@ -58,7 +69,7 @@ This document describes the process of using GitHub Issues to track feature requ
 | Label | Description | Set By |
 | --- | --- | --- |
 | `state:created` | The bug is created and work has not started. | QA |
-| `state:assigned` | The bug is assigned to a developer and is ready to be worked on. | SME/Developer  |
+| `state:assigned` | The bug is assigned to a developer and is ready to be worked on. | SME/Developer |
 | `state:dev-in-progress` | A developer is actively working on the bug fix. | Developer |
 | `state:dev-blocked` | Development is blocked because of a dependency or an open question to business | Developer |
 | `state:awaiting-sme-review` | Development is complete and waiting for SME review | Developer |

@@ -6,12 +6,14 @@ import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-ex
 import { Repository } from '../../domain-seedwork/repository';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
 import { SyncDomainEventBus } from '../../event-bus-seedwork-node/sync-domain-event-bus';
+import { Visa } from '../../passport-seedwork/visa';
 
 export abstract class MongoRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
   MongoType extends Document,
   PropType extends DomainEntityProps,
-  DomainType extends AggregateRoot<PropType>
+  VisaType extends Visa,
+  DomainType extends AggregateRoot<PropType, ContextType, VisaType>
 > implements Repository<DomainType>
 {
   protected itemsInTransaction: DomainType[] = [];
@@ -70,8 +72,9 @@ export abstract class MongoRepositoryBase<
     ContextType extends BaseDomainExecutionContext,
     MongoType extends Document,
     PropType extends DomainEntityProps,
-    DomainType extends AggregateRoot<PropType>,
-    RepoType extends MongoRepositoryBase<ContextType, MongoType, PropType, DomainType>
+    VisaType extends Visa,
+    DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
+    RepoType extends MongoRepositoryBase<ContextType, MongoType, PropType, VisaType, DomainType>
   >(
     syncDomainEventBus: SyncDomainEventBus,
     model: Model<MongoType>,

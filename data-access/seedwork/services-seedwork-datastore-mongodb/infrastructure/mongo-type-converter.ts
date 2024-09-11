@@ -2,8 +2,15 @@ import { Base } from '../interfaces/base';
 import { AggregateRoot } from '../../domain-seedwork/aggregate-root';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
 import { MongooseDomainAdapterType } from './mongo-domain-adapter';
+import { Visa } from '../../passport-seedwork/visa';
 
-export abstract class MongoTypeConverter<ContextType, MongooseModelType extends Base,DomainPropInterface extends MongooseDomainAdapterType<MongooseModelType>, DomainType extends AggregateRoot<DomainPropInterface>> implements TypeConverter<MongooseModelType, DomainType,DomainPropInterface,ContextType> {
+export abstract class MongoTypeConverter<
+  ContextType, 
+  MongooseModelType extends Base,
+  DomainPropInterface extends MongooseDomainAdapterType<MongooseModelType>,
+  VisaType extends Visa, 
+  DomainType extends AggregateRoot<DomainPropInterface, ContextType, VisaType>
+> implements TypeConverter<MongooseModelType, DomainType,DomainPropInterface,ContextType> {
   constructor(
     private adapter: new(args:MongooseModelType) => DomainPropInterface,
     private domainObject: new(args:DomainPropInterface, context:ContextType) => DomainType

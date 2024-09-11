@@ -8,8 +8,16 @@ import { EventBus } from '../../domain-seedwork/event-bus';
 import { DomainEventBase } from '../../domain-seedwork/domain-event';
 import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 import { SyncDomainEventBus } from '../../event-bus-seedwork-node/sync-domain-event-bus';
+import { Visa } from '../../passport-seedwork/visa';
 
-export class MongoUnitOfWork<ContextType extends BaseDomainExecutionContext, MongoType extends Document,PropType extends DomainEntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
+export class MongoUnitOfWork<
+  ContextType extends BaseDomainExecutionContext, 
+  MongoType extends Document,
+  PropType extends DomainEntityProps, 
+  VisaType extends Visa,
+  DomainType  extends AggregateRoot<PropType, ContextType, VisaType>, 
+  RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,VisaType, DomainType> 
+> extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
       let repoEvents: DomainEventBase[] = [];
       console.log('withTransaction');

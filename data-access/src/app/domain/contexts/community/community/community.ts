@@ -2,10 +2,11 @@ import { CommunityCreatedEvent } from '../../../events/types/community-created';
 import { CommunityDomainUpdatedEvent } from '../../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
+import { CommunitySyncDomainEventClass, CommunitySyncDomainEventHandlers } from './sync-domain-events';
 
 export interface CommunityProps extends DomainEntityProps {
   name: string;
@@ -23,12 +24,12 @@ export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 
   readonly createdBy: EndUserEntityReference;
 }
 
-export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference {
-  private readonly visa: CommunityVisa;
+export class Community<props extends CommunityProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements CommunityEntityReference {
+  // private readonly visa: CommunityVisa;
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forCommunity(this);
+    super(props,context, SystemExecutionContext(), (context) => context.domainVisa.forCommunity(this), CommunitySyncDomainEventHandlers);
+    // this.visa = context.domainVisa.forCommunity(this);
   }
 
   get id() {
@@ -76,6 +77,8 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   private MarkAsNew(): void {
     this.isNew = true;
     this.addIntegrationEvent(CommunityCreatedEvent, { communityId: this.props.id });
+    // this.addSyncDomainEvent(new communitySyncDomainEventClass.mg( { name: this.props.name });
+    this.addSyncDomainEvent(CommunitySyncDomainEventClass.CommunityCreated,{name: this.props.name});
   }
 
   // use setters from TS 5.1

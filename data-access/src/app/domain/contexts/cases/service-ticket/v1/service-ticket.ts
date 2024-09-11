@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../../../prope
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
@@ -79,12 +79,13 @@ export interface ServiceTicketV1EntityReference
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
-export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
+export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
-  private readonly visa: ServiceTicketV1Visa;
+  // private readonly visa: ServiceTicketV1Visa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forServiceTicketV1(this);
+    // super(props);
+    // this.visa = context.domainVisa.forServiceTicketV1(this);
+    super(props,context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(

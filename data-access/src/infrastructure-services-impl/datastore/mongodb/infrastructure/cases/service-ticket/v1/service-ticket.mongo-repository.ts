@@ -6,9 +6,10 @@ import { DomainExecutionContext } from '../../../../../../../app/domain/domain-e
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
+import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 
 export class MongoServiceTicketV1Repository<PropType extends ServiceTicketV1Props>
-  extends MongoRepositoryBase<DomainExecutionContext, ServiceTicket, PropType, ServiceTicketDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, ServiceTicket, PropType, ServiceTicketV1Visa, ServiceTicketDO<PropType, DomainExecutionContext, ServiceTicketV1Visa>>
   implements ServiceTicketV1Repository<PropType>
 {
   async getNewInstance(

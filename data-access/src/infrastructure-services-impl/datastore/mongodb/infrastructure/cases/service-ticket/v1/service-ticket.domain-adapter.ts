@@ -27,12 +27,14 @@ import {
   ServiceTicketV1RevisionRequestProps,
 } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
+import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ServiceTicket,
   ServiceTicketV1DomainAdapter,
-  ServiceTicketDO<ServiceTicketV1DomainAdapter>
+  ServiceTicketV1Visa,
+  ServiceTicketDO<ServiceTicketV1DomainAdapter, DomainExecutionContext, ServiceTicketV1Visa>
 > {
   constructor() {
     super(ServiceTicketV1DomainAdapter, ServiceTicketDO);

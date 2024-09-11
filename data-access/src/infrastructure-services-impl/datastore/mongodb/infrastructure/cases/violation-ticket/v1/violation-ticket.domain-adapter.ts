@@ -27,12 +27,14 @@ import { RevenueRecognitionProps } from '../../../../../../../app/domain/context
 import { GlTransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition-gl-transaction';
 import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-adhoc-transactions-finance-reference';
 import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
+import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
   ViolationTicketV1DomainAdapter,
-  ViolationTicketDO<ViolationTicketV1DomainAdapter>
+  ViolationTicketV1Visa
+  ViolationTicketDO<ViolationTicketV1DomainAdapter, DomainExecutionContext,ViolationTicketV1Visa>
 > {
   constructor() {
     super(ViolationTicketV1DomainAdapter, ViolationTicketDO);

@@ -5,8 +5,8 @@ import { DomainEntityProps } from '../../domain-seedwork/domain-entity';
 import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 import { Repository } from '../../domain-seedwork/repository';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
-import { SyncDomainEventBus } from '../../event-bus-seedwork-node/sync-domain-event-bus';
 import { Visa } from '../../passport-seedwork/visa';
+import { EventBus } from '../../domain-seedwork/event-bus';
 
 export abstract class MongoRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
@@ -18,7 +18,7 @@ export abstract class MongoRepositoryBase<
 {
   protected itemsInTransaction: DomainType[] = [];
   constructor(
-    protected syncDomainEventBus: SyncDomainEventBus,
+    protected eventBus: EventBus,
     protected model: Model<MongoType>,
     public typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
     protected session: ClientSession,
@@ -33,16 +33,16 @@ export abstract class MongoRepositoryBase<
     item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
-
-    do{
-      let syncDomainEventsToProcess: DomainEventBase[] = item.getSyncDomainEvents();
-      item.clearSyncDomainEvents();
-      syncDomainEventsToProcess.forEach((event: DomainEventBase) => this.syncDomainEventBus.dispatch(event));
-      // for await (let event of item.getDomainEvents()) {
-      //   console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);
-      //   await this.domainEventBus.dispatch(event as any, event['payload']);
-      // }
-    } while (item.getSyncDomainEvents().length > 0);
+    item.processSyncDomainEvents();
+    // do{
+    //   let syncDomainEventsToProcess: DomainEventBase[] = item.getSyncDomainEvents();
+    //   item.clearSyncDomainEvents();
+    //   syncDomainEventsToProcess.forEach((event: DomainEventBase) => this.eventBus.dispatch(event));
+    //   // for await (let event of item.getDomainEvents()) {
+    //   //   console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);
+    //   //   await this.domainEventBus.dispatch(event as any, event['payload']);
+    //   // }
+    // } while (item.getSyncDomainEvents().length > 0);
     this.itemsInTransaction.push(item);
     try {
       if (item.isDeleted === true) {
@@ -76,19 +76,19 @@ export abstract class MongoRepositoryBase<
     DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
     RepoType extends MongoRepositoryBase<ContextType, MongoType, PropType, VisaType, DomainType>
   >(
-    syncDomainEventBus: SyncDomainEventBus,
+    eventBus: EventBus,
     model: Model<MongoType>,
     typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
     session: ClientSession,
     context: ContextType,
     repoClass: new (
-      syncDomainEventBus: SyncDomainEventBus,
+      eventBus: EventBus,
       model: Model<MongoType>,
       typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
       session: ClientSession,
       context: ContextType
     ) => RepoType
   ): RepoType {
-    return new repoClass(syncDomainEventBus, model, typeConverter, session, context);
+    return new repoClass(eventBus, model, typeConverter, session, context);
   }
 }

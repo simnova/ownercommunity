@@ -1,7 +1,7 @@
 import { EndUserCreatedEvent } from '../../../events/types/end-user-created';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './end-user.value-objects';
 import { EndUserVisa } from './end-user.visa';
 import { EndUserPersonalInformation, EndUserPersonalInformationEntityReference, EndUserPersonalInformationProps } from './end-user-personal-information';
@@ -24,12 +24,13 @@ export interface EndUserEntityReference extends Readonly<Omit<EndUserProps, 'per
   readonly personalInformation: EndUserPersonalInformationEntityReference;
 }
 
-export class EndUser<props extends EndUserProps> extends AggregateRoot<props> implements EndUserEntityReference  {
+export class EndUser<props extends EndUserProps> extends AggregateRoot<props, DomainExecutionContext, EndUserVisa> implements EndUserEntityReference  {
   private isNew: boolean = false;
-  private readonly visa: EndUserVisa;
+  // private readonly visa: EndUserVisa;
   constructor(props: props, private readonly context: DomainExecutionContext) { 
-    super(props); 
-    this.visa = context.domainVisa.forEndUser(this);
+    // super(props); 
+    // this.visa = context.domainVisa.forEndUser(this);
+    super(props,context, SystemExecutionContext(), (context) => context.domainVisa.forEndUser(this), {});
   }
 
   get id(): string {return this.props.id;}

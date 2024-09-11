@@ -65,6 +65,9 @@ const Footer: any = ({ socialLinks, legalLinks, copyright, ...props } : FooterPr
             </a>
           ))}
         </div>
+        <div>
+          Copyright 2024
+        </div>
       </div>
       <div className="text-sm ml-4 mt-4 text-center"  style={{
                 color: colorTextBase,

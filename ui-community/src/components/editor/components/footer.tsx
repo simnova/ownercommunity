@@ -90,7 +90,7 @@ const FooterSettings = () => {
       onFinish={(values) => {
         setProp((props:any) =>  {
           Object.assign(props, values);
-          console.log(props);
+
           //return newProps
         });
       }}

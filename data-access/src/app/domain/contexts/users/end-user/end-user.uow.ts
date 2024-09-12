@@ -2,6 +2,7 @@ import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-w
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { EndUser, EndUserProps } from './end-user';
 import { EndUserRepository } from './end-user.repository';
+import { EndUserVisa } from './end-user.visa';
 
-export interface EndUserUnitOfWork extends UnitOfWork<DomainExecutionContext, EndUserProps, EndUser<EndUserProps>, EndUserRepository<EndUserProps>> {
+export interface EndUserUnitOfWork extends UnitOfWork<DomainExecutionContext, EndUserProps, EndUserVisa, EndUser<EndUserProps>, EndUserRepository<EndUserProps>> {
 }

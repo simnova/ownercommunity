@@ -2,6 +2,7 @@ import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-w
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { Property, PropertyProps } from './property';
 import { PropertyRepository } from './property.repository';
+import { PropertyVisa } from './property.visa';
 
-export interface PropertyUnitOfWork extends UnitOfWork<DomainExecutionContext, PropertyProps, Property<PropertyProps>, PropertyRepository<PropertyProps>> {
+export interface PropertyUnitOfWork extends UnitOfWork<DomainExecutionContext, PropertyProps, PropertyVisa, Property<PropertyProps>, PropertyRepository<PropertyProps>> {
 }

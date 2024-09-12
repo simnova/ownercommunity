@@ -11,6 +11,7 @@ import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/do
 import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
 import { MemoryRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
+import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
 
 class MemoryProfile implements MemberProfileProps {
   name: string;
@@ -78,7 +79,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
 }
 
 export class MemoryMemberRepository<PropType extends MemberProps, DomainType extends Member<PropType>>
-  extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType>
+  extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType>
   implements MemberRepository<PropType>
 {
   async getNewInstance(name: string, community: CommunityEntityReference): Promise<Member<PropType>> {

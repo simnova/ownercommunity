@@ -4,6 +4,7 @@ import { MemoryRepositoryBase } from "../../../../../../../seedwork/services-see
 import { StaffRoleEntityReference, StaffRoleProps } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role";
 import { StaffUserProps, StaffUser } from "../../../../../../app/domain/contexts/users/staff-user/staff-user";
 import { StaffUserRepository } from "../../../../../../app/domain/contexts/users/staff-user/staff-user.repository";
+import { StaffUserVisa } from "../../../../../../app/domain/contexts/users/staff-user/staff-user.visa";
 import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
 
 export class MemoryStaffUser extends MemoryBaseAdapter implements StaffUserProps{
@@ -25,7 +26,7 @@ export class MemoryStaffUser extends MemoryBaseAdapter implements StaffUserProps
 export class MemoryStaffUserRepository<
   PropType extends StaffUserProps, 
   DomainType extends StaffUser<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, StaffUserVisa, DomainType> 
     implements StaffUserRepository<PropType> 
   {
 

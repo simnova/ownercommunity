@@ -5,7 +5,7 @@ import { PropertyEntityReference, PropertyProps } from '../../../../../../../app
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { ServiceEntityReference, ServiceProps } from '../../../../../../../app/domain/contexts/community/service/service';
-import { ServiceTicketV1, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { ServiceTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
 import { MemoryBaseAdapter } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
@@ -14,6 +14,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { ServiceTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
 import { ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
+import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 class MemoryServiceTicketRevisionRequestChanges implements ServiceTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;
   requestUpdatedStatus: boolean;
@@ -116,7 +117,7 @@ class MemoryServiceTicketV1 extends MemoryBaseAdapter implements ServiceTicketV1
 }
 
 export class MemoryServiceTicketV1Repository<PropType extends ServiceTicketV1Props, DomainType extends ServiceTicketV1<PropType>>
-  extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType>
+  extends MemoryRepositoryBase<DomainExecutionContext, PropType, ServiceTicketV1Visa, DomainType>
   implements ServiceTicketV1Repository<PropType>
 {
   async getNewInstance(

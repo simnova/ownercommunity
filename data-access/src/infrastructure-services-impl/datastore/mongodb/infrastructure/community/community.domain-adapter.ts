@@ -5,8 +5,15 @@ import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { EndUserEntityReference, EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
+import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
 
-export class CommunityConverter extends MongoTypeConverter<DomainExecutionContext, Community, CommunityDomainAdapter, CommunityDO<CommunityDomainAdapter>> {
+export class CommunityConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  Community, 
+  CommunityDomainAdapter, 
+  CommunityVisa,
+  CommunityDO<CommunityDomainAdapter>
+> {
   constructor() {
     super(CommunityDomainAdapter, CommunityDO);
   }

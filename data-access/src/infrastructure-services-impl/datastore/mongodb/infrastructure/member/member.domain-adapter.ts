@@ -12,8 +12,15 @@ import { MemberProfileProps } from '../../../../../app/domain/contexts/community
 import { MemberCustomViewProps } from '../../../../../app/domain/contexts/community/member/member-custom-view';
 import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
+import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
 
-export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
+export class MemberConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  Member, 
+  MemberDomainAdapter, 
+  CommunityVisa,
+  MemberDO<MemberDomainAdapter>
+> {
   constructor() {
     super(MemberDomainAdapter, MemberDO);
   }

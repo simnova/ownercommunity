@@ -6,8 +6,15 @@ import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedw
 import { EndUserIdentityDetailsProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-identity-details';
 import { EndUserPersonalInformationProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-personal-information';
 import { EndUserContactInformationEntityReference } from '../../../../../../app/domain/contexts/users/end-user/end-user-contact-information';
+import { EndUserVisa } from '../../../../../../app/domain/contexts/users/end-user/end-user.visa';
 
-export class EndUserConverter extends MongoTypeConverter<DomainExecutionContext, EndUser, EndUserDomainAdapter, EndUserDO<EndUserDomainAdapter>> {
+export class EndUserConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  EndUser, 
+  EndUserDomainAdapter,
+  EndUserVisa, 
+  EndUserDO<EndUserDomainAdapter>
+> {
   constructor() {
     super(EndUserDomainAdapter, EndUserDO);
   }

@@ -5,8 +5,15 @@ import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-se
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { StaffRoleDomainAdapter } from '../../roles/staff-role/staff-role.domain-adapter';
 import { StaffRoleEntityReference } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role';
+import { StaffUserVisa } from '../../../../../../app/domain/contexts/users/staff-user/staff-user.visa';
 
-export class StaffUserConverter extends MongoTypeConverter<DomainExecutionContext, StaffUser, StaffUserDomainAdapter, StaffUserDO<StaffUserDomainAdapter>> {
+export class StaffUserConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  StaffUser, 
+  StaffUserDomainAdapter, 
+  StaffUserVisa,
+  StaffUserDO<StaffUserDomainAdapter>
+> {
   constructor() {
     super(StaffUserDomainAdapter, StaffUserDO);
   }

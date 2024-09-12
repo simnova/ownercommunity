@@ -13,9 +13,16 @@ import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domai
 import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-permissions';
 import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-ticket-permissions';
 import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-violation-ticket-permissions';
+import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
 
 
-export class EndUserRoleConverter extends MongoTypeConverter<DomainExecutionContext, EndUserRole, EndUserRoleDomainAdapter, EndUserRoleDO<EndUserRoleDomainAdapter>> {
+export class EndUserRoleConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  EndUserRole, 
+  EndUserRoleDomainAdapter, 
+  CommunityVisa,
+  EndUserRoleDO<EndUserRoleDomainAdapter>
+> {
   constructor() {
     super(EndUserRoleDomainAdapter, EndUserRoleDO);
   }

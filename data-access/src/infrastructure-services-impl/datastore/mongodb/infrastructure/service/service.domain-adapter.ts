@@ -6,8 +6,15 @@ import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork
 import { CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
+import { ServiceVisa } from '../../../../../app/domain/contexts/community/service/service.visa';
 
-export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {
+export class ServiceConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  Service, 
+  ServiceDomainAdapter,
+  ServiceVisa, 
+  ServiceDO<ServiceDomainAdapter>
+> {
   constructor() {
     super(ServiceDomainAdapter, ServiceDO);
   }

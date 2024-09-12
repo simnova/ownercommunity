@@ -3,9 +3,10 @@ import { StaffRole as StaffRoleDO, StaffRoleProps } from '../../../../../../app/
 import { StaffRole } from '../../../models/roles/staff-role';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
 
 export class MongoStaffRoleRepository<PropType extends StaffRoleProps>
-  extends MongoRepositoryBase<DomainExecutionContext, StaffRole, PropType, StaffRoleDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, StaffRole, PropType, CommunityVisa, StaffRoleDO<PropType>>
   implements StaffRoleRepository<PropType>
 {
   async getById(id: string): Promise<StaffRoleDO<PropType>> {

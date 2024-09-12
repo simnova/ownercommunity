@@ -1,6 +1,6 @@
 import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
 import { AdhocTransaction, Approval, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
-import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
@@ -27,15 +27,17 @@ import { RevenueRecognitionProps } from '../../../../../../../app/domain/context
 import { GlTransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition-gl-transaction';
 import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-adhoc-transactions-finance-reference';
 import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
+import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
   ViolationTicketV1DomainAdapter,
-  ViolationTicketDO<ViolationTicketV1DomainAdapter>
+  ViolationTicketV1Visa,
+  ViolationTicketV1DO<ViolationTicketV1DomainAdapter>
 > {
   constructor() {
-    super(ViolationTicketV1DomainAdapter, ViolationTicketDO);
+    super(ViolationTicketV1DomainAdapter, ViolationTicketV1DO);
   }
 }
 

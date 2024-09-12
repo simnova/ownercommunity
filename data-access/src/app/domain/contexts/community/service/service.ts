@@ -21,12 +21,10 @@ export interface ServiceEntityReference extends Readonly<Omit<ServiceProps, 'com
   readonly community: CommunityEntityReference;
 }
 
-export class Service<props extends ServiceProps> extends AggregateRoot<props> implements ServiceEntityReference {
+export class Service<props extends ServiceProps> extends AggregateRoot<props, DomainExecutionContext, ServiceVisa> implements ServiceEntityReference {
   private isNew: boolean = false;
-  private readonly visa: ServiceVisa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forService(this);
+    super(props,context,(context) => context.domainVisa.forService(this));
   }
 
   public static getNewInstance<props extends ServiceProps>(

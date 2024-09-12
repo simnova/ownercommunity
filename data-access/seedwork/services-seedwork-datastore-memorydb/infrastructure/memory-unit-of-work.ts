@@ -6,13 +6,15 @@ import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-ex
 import { PersistanceUnitOfWork } from "../../domain-seedwork/unit-of-work";
 import { MemoryRepositoryBase } from "./memory-repository";
 import { MemoryStore } from "./memory-store";
+import { Visa } from "../../passport-seedwork/visa";
 
 export class MemoryUnitOfWork<
   ContextType extends BaseDomainExecutionContext,
   PropType extends DomainEntityProps, 
-  DomainType extends AggregateRoot<PropType>,
-  RepoType extends MemoryRepositoryBase<ContextType, PropType, DomainType>
-  > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
+  VisaType extends Visa,
+  DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
+  RepoType extends MemoryRepositoryBase<ContextType, PropType, VisaType, DomainType>
+  > extends PersistanceUnitOfWork<ContextType,PropType, VisaType, DomainType,RepoType> {
   
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
     let repoEvents: DomainEvent[] = [];

@@ -33,12 +33,10 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'commu
   readonly customViews: ReadonlyArray<MemberCustomViewEntityReference>;
 }
 
-export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference {
+export class Member<props extends MemberProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements MemberEntityReference {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forMember(this);
+    super(props,context,(context) => context.domainVisa.forMember(this));
   }
 
   get id() {

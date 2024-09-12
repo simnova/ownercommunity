@@ -23,12 +23,10 @@ export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 
   readonly createdBy: EndUserEntityReference;
 }
 
-export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference {
-  private readonly visa: CommunityVisa;
+export class Community<props extends CommunityProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements CommunityEntityReference {
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forCommunity(this);
+    super(props,context,(context) => context.domainVisa.forCommunity(this));
   }
 
   get id() {

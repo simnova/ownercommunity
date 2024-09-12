@@ -79,12 +79,10 @@ export interface ServiceTicketV1EntityReference
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
-export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
+export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
-  private readonly visa: ServiceTicketV1Visa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forServiceTicketV1(this);
+    super(props,context,(context) => context.domainVisa.forServiceTicketV1(this));
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(

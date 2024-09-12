@@ -24,12 +24,10 @@ export interface EndUserRoleEntityReference extends Readonly<Omit<EndUserRolePro
   readonly permissions: EndUserRolePermissionsEntityReference;
 }
 
-export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<props> implements EndUserRoleEntityReference {
+export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements EndUserRoleEntityReference {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forEndUserRole(this);
+    super(props,context,(context) => context.domainVisa.forEndUserRole(this));
   }
 
   get roleName() {

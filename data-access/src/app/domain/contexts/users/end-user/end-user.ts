@@ -24,12 +24,10 @@ export interface EndUserEntityReference extends Readonly<Omit<EndUserProps, 'per
   readonly personalInformation: EndUserPersonalInformationEntityReference;
 }
 
-export class EndUser<props extends EndUserProps> extends AggregateRoot<props> implements EndUserEntityReference  {
+export class EndUser<props extends EndUserProps> extends AggregateRoot<props, DomainExecutionContext, EndUserVisa> implements EndUserEntityReference  {
   private isNew: boolean = false;
-  private readonly visa: EndUserVisa;
   constructor(props: props, private readonly context: DomainExecutionContext) { 
-    super(props); 
-    this.visa = context.domainVisa.forEndUser(this);
+    super(props,context,(context) => context.domainVisa.forEndUser(this));
   }
 
   get id(): string {return this.props.id;}

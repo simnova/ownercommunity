@@ -43,12 +43,10 @@ export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'c
   readonly listingDetail: PropertyListingDetailEntityReference;
 }
 
-export class Property<props extends PropertyProps> extends AggregateRoot<props> implements PropertyEntityReference {
-  private readonly visa: PropertyVisa;
+export class Property<props extends PropertyProps> extends AggregateRoot<props, DomainExecutionContext, PropertyVisa> implements PropertyEntityReference {
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forProperty(this);
+    super(props,context,(context) => context.domainVisa.forProperty(this));
   }
 
   public static getNewInstance<props extends PropertyProps>(

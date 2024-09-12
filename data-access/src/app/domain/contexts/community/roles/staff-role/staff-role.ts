@@ -20,12 +20,10 @@ export interface StaffRoleEntityReference extends Readonly<Omit<StaffRoleProps, 
   readonly permissions: StaffRolePermissionsEntityReference;
 }
 
-export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props> implements StaffRoleEntityReference {
+export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements StaffRoleEntityReference {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forStaffRole(this);
+    super(props,context,(context) => context.domainVisa.forStaffRole(this));
   }
 
   get roleName() {

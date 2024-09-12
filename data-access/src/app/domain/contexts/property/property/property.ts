@@ -1,7 +1,7 @@
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../../community/community/community';
 import { Member, MemberEntityReference, MemberProps } from '../../community/member/member';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './property.value-objects';
 import { PropertyListingDetail, PropertyListingDetailProps, PropertyListingDetailEntityReference } from './property-listing-detail';
 import { PropertyLocation, PropertyLocationEntityReference, PropertyLocationProps } from './property-location';
@@ -46,7 +46,7 @@ export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'c
 export class Property<props extends PropertyProps> extends AggregateRoot<props, DomainExecutionContext, PropertyVisa> implements PropertyEntityReference {
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props,context,(context) => context.domainVisa.forProperty(this));
+    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forProperty(this), {}, {});
   }
 
   public static getNewInstance<props extends PropertyProps>(

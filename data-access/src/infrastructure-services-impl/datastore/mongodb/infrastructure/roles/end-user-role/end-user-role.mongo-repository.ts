@@ -4,9 +4,10 @@ import { EndUserRole } from '../../../models/roles/end-user-role';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
+import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
 
 export class MongoEndUserRoleRepository<PropType extends EndUserRoleProps>
-  extends MongoRepositoryBase<DomainExecutionContext, EndUserRole, PropType, EndUserRoleDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, EndUserRole, PropType, CommunityVisa, EndUserRoleDO<PropType>>
   implements EndUserRoleRepository<PropType>
 {
   async getById(id: string): Promise<EndUserRoleDO<PropType>> {

@@ -1,4 +1,5 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
+import { CommunityVisa } from "../../../domain/contexts/community/community.visa";
 import { StaffRole } from "../../../domain/contexts/community/roles/staff-role/staff-role";
 import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
 import { StaffRoleData } from "../../../external-dependencies/datastore";
@@ -17,7 +18,7 @@ type DomainType = StaffRole<PropType>;
 type RepoType = StaffRoleRepository<PropType>;
 
 export class StaffRoleDomainApiImpl
-  extends DomainDataSource<AppContext, StaffRoleData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, StaffRoleData, PropType, CommunityVisa, DomainType, RepoType>
   implements StaffRoleDomainApi {
 
   async roleAdd(input: StaffRoleAddInput): Promise<StaffRoleData> {

@@ -6,7 +6,7 @@ import {
   ServiceTicketRevisionRequest,
   ServiceTicketRevisionRequestChanges,
 } from '../../../../models/cases/service-ticket';
-import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1 as ServiceTicketV1DO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
@@ -27,15 +27,17 @@ import {
   ServiceTicketV1RevisionRequestProps,
 } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
+import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ServiceTicket,
   ServiceTicketV1DomainAdapter,
-  ServiceTicketDO<ServiceTicketV1DomainAdapter>
+  ServiceTicketV1Visa,
+  ServiceTicketV1DO<ServiceTicketV1DomainAdapter>
 > {
   constructor() {
-    super(ServiceTicketV1DomainAdapter, ServiceTicketDO);
+    super(ServiceTicketV1DomainAdapter, ServiceTicketV1DO);
   }
 }
 

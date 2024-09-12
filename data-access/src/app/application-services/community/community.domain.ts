@@ -1,4 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
+import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 import { Community } from "../../domain/contexts/community/community/community";
 import { ReadOnlyContext } from "../../domain/domain-execution-context";
 import { CommunityData } from "../../external-dependencies/datastore";
@@ -16,7 +17,7 @@ type DomainType = Community<PropType>;
 type RepoType = CommunityRepository<PropType>;
 
 export class CommunityDomainApiImpl
-  extends DomainDataSource<AppContext, CommunityData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, CommunityData, PropType, CommunityVisa, DomainType, RepoType>
   implements CommunityDomainApi {
 
   async communityCreate(input: CommunityCreateInput): Promise<CommunityData> {

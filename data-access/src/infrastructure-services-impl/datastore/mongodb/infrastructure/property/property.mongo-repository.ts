@@ -4,9 +4,10 @@ import { Property } from '../../models/property';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
+import { PropertyVisa } from '../../../../../app/domain/contexts/property/property/property.visa';
 
 export class MongoPropertyRepository<PropType extends PropertyProps>
-  extends MongoRepositoryBase<DomainExecutionContext, Property, PropType, PropertyDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, Property, PropType, PropertyVisa, PropertyDO<PropType>>
   implements PropertyRepository<PropType>
 {
   async getNewInstance(propertyName: string, community: CommunityEntityReference): Promise<PropertyDO<PropType>> {

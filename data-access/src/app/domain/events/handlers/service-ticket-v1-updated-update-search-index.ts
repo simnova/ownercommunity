@@ -3,7 +3,7 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { SystemExecutionContext } from '../../domain-execution-context';
 import { ServiceTicketV1UpdatedEvent } from '../types/service-ticket-v1-updated';
 import retry from 'async-retry';
-import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket-v1';
 import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
 import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';

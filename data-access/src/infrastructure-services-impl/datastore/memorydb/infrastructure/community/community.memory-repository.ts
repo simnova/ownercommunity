@@ -4,6 +4,7 @@ import { DomainExecutionContext } from "../../../../../app/domain/domain-executi
 import { Community, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
 import { CommunityRepository } from "../../../../../app/domain/contexts/community/community/community.repository";
 import { EndUserProps, EndUserEntityReference } from "../../../../../app/domain/contexts/users/end-user/end-user";
+import { CommunityVisa } from "../../../../../app/domain/contexts/community/community.visa";
 
 export class MemoryCommunity extends MemoryBaseAdapter implements CommunityProps {
   name: string;
@@ -20,9 +21,9 @@ export class MemoryCommunity extends MemoryBaseAdapter implements CommunityProps
 } 
 
 export class MemoryCommunityRepository<
-  PropType extends CommunityProps, 
+  PropType extends CommunityProps,
   DomainType extends Community<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType> 
     implements CommunityRepository<PropType> 
   {
   async getNewInstance(name: string, user: EndUserEntityReference): Promise<Community<PropType>> {

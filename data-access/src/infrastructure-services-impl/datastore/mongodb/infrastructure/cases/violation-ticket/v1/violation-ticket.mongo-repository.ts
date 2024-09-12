@@ -6,9 +6,10 @@ import { MemberEntityReference } from '../../../../../../../app/domain/contexts/
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 
 export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1Props>
-  extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketV1Visa, ViolationTicketDO<PropType>>
   implements ViolationTicketV1Repository<PropType>
 {
   async getNewInstance(

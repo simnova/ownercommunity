@@ -9,8 +9,15 @@ import { StaffRolePropertyPermissionsProps } from '../../../../../../app/domain/
 import { StaffRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-service-permissions';
 import { StaffRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-service-ticket-permissions';
 import { StaffRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-violation-ticket-permissions';
+import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
 
-export class StaffRoleConverter extends MongoTypeConverter<DomainExecutionContext, StaffRole, StaffRoleDomainAdapter, StaffRoleDO<StaffRoleDomainAdapter>> {
+export class StaffRoleConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  StaffRole, 
+  StaffRoleDomainAdapter, 
+  CommunityVisa,
+  StaffRoleDO<StaffRoleDomainAdapter>
+> {
   constructor() {
     super(StaffRoleDomainAdapter, StaffRoleDO);
   }

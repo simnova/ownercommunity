@@ -26,7 +26,7 @@ import { PropertyProps } from '../../../src/app/domain/contexts/property/propert
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { ServiceTicketV1Repository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
-import { ServiceTicketV1Props } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1Props } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { CybersourceImpl } from '../../../src/infrastructure-services-impl/payment/cybersource/impl';
 
 export interface InteractWithTheDomainAsUnregisteredUser {

@@ -13,8 +13,15 @@ import { PropertyListingDetailBedroomDetailProps } from '../../../../../app/doma
 import { PropertyListingDetailAdditionalAmenityProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail-additional-amenity';
 import { PropertyLocationAddressProps } from '../../../../../app/domain/contexts/property/property/property-location-address';
 import { PropertyLocationPositionProps } from '../../../../../app/domain/contexts/property/property/property-location-position';
+import { PropertyVisa } from '../../../../../app/domain/contexts/property/property/property.visa';
 
-export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext, Property, PropertyDomainAdapter, PropertyDO<PropertyDomainAdapter>> {
+export class PropertyConverter extends MongoTypeConverter<
+  DomainExecutionContext, 
+  Property, 
+  PropertyDomainAdapter, 
+  PropertyVisa,
+  PropertyDO<PropertyDomainAdapter>
+> {
   constructor() {
     super(PropertyDomainAdapter, PropertyDO);
   }

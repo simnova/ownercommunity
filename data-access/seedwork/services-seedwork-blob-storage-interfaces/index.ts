@@ -40,6 +40,7 @@ export interface BlobStorageBase {
   createTextBlob(blobName: string, containerName: string, text: string, contentType?: string): Promise<void>;
   createContainer(containerName: string, allowPublicAccess?: boolean): Promise<void>;
   listBlobs(containerName: string, path?: string): Promise<FileInfo[]>;
+  findBlobsByTags(searchCriteria: string): Promise<FileInfo[]>;
   generateReadSasToken(blobName: string, containerName: string, minutesUntilExpiration: number): Promise<string>;
   generateSharedKey(blobName: string, fileSizeBytes: number, requestDate: string, mimeType: string, containerName: string): string;
   generateSharedKeyWithOptions(blobName: string, containerName: string, requestDate: string, requestSettings: BlobRequestSettings): string;

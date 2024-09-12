@@ -29,6 +29,7 @@ param deleteAfterNDaysList array
 
 @description('Enable Blob Service for the storage account?')
 param enableBlobService bool
+
 @description('Array of Container objects.')
 param containers array
 @description('Array of allowed origins for CORS.')
@@ -41,6 +42,9 @@ param corsAllowedHeaders array
 param corsExposedHeaders array
 @description('Number of seconds to cache the preflight response for CORS.')
 param corsMaxAgeInSeconds int
+
+@description('Enable blob versioning')
+param isVersioningEnabled bool
 
 @description('Enable Queue Service for the storage account?')
 param enableQueueService bool
@@ -90,6 +94,7 @@ module blobService './blob-service.bicep' = if(enableBlobService) {
     corsAllowedHeaders: corsAllowedHeaders
     corsExposedHeaders: corsExposedHeaders
     corsMaxAgeInSeconds: corsMaxAgeInSeconds
+    isVersioningEnabled: isVersioningEnabled
   }
 }
 

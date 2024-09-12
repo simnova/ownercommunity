@@ -2,10 +2,10 @@
 
 overwrite: true
 schema:
-  - './src/routes/http/graphql/schema/core/graphql-tools-scalars.ts'
-  - './src/routes/http/graphql/schema/**/**.graphql'
+  - './src/functions/http/graphql/schema/core/graphql-tools-scalars.ts'
+  - './src/functions/http/graphql/schema/**/**.graphql'
 generates:
-  ./src/routes/http/graphql/schema/builder/generated.ts:
+  ./src/functions/http/graphql/schema/builder/generated.ts:
     config:
       contextType: '../../init/graphql-context-builder#GraphqlContext'
       useIndexSignature: true
@@ -66,7 +66,7 @@ generates:
     plugins:
       - 'typescript'
       - 'typescript-resolvers'
-  ./src/routes/http/graphql/schema/builder/graphql.schema.json:
+  ./src/functions/http/graphql/schema/builder/graphql.schema.json:
     plugins:
       - 'introspection'
   ../ui-community/src/generated.tsx:

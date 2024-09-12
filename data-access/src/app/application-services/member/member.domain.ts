@@ -1,4 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
+import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 import { Member } from "../../domain/contexts/community/member/member";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { MemberData } from "../../external-dependencies/datastore";
@@ -20,7 +21,7 @@ type PropType = MemberDomainAdapter;
 type DomainType = Member<PropType>;
 type RepoType = MemberRepository<PropType>;
 
-export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData, PropType, DomainType, RepoType> implements MemberDomainApi {
+export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData, PropType, CommunityVisa, DomainType, RepoType> implements MemberDomainApi {
   async memberCreate(input: MemberCreateInput): Promise<MemberData> {
     console.log(`memberCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

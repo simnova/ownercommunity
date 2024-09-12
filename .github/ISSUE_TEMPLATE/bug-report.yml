@@ -1,0 +1,71 @@
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["issue:bug"]
+projects: ["simnova/ownercommunity"]
+body:
+  - type: dropdown
+    id: system-areas
+    attributes:
+      label: System Area
+      description: What system areas are you seeing the problem in?
+      multiple: true
+      options:
+        - admin site
+        - member site
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: environments
+    attributes:
+      label: Environments
+      description: What environments are you seeing the problem in?
+      multiple: true
+      options:
+        - QA
+        - UAT
+        - TRN
+        - PRD
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Issue Description
+      placeholder: Tell us what you see! Please provide a clear and concise description of the issue
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      placeholder: Tell us what did you expect to happen!
+    validations:
+      required: true
+  - type: textarea
+    id: recreate-instructions
+    attributes:
+      label: Steps to Reproduce
+      placeholder: Describe the steps to recreate the issue!
+    validations:
+      required: true
+  - type: textarea
+    id: test-data
+    attributes:
+      label: Test Data (Do not include sensitive information)
+      description: Provide sample data to reproduce the issue. Ensure all data is anonymized.
+      placeholder: Tell us about the test data set!  EXAMPLE_USER_ID,  EXAMPLE_CASE_ID
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.

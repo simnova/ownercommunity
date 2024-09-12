@@ -18,7 +18,7 @@ import { PropertyVisa, PropertyVisaImpl, PropertyPermissionsSpec } from './conte
 import { ServiceEntityReference } from './contexts/community/service/service';
 import { ServiceVisa, ServiceVisaImpl, ServicePermissionsSpec } from './contexts/community/service/service.visa';
 
-import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket-v1';
 import { ServiceTicketV1Visa, ServiceTicketV1VisaImpl, ServiceTicketPermissionsSpec } from './contexts/cases/service-ticket/v1/service-ticket.visa';
 
 import { EndUserEntityReference } from './contexts/users/end-user/end-user';

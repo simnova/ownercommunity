@@ -4,9 +4,10 @@ import { Member } from '../../models/member';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
+import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
 
 export class MongoMemberRepository<PropType extends MemberProps>
-  extends MongoRepositoryBase<DomainExecutionContext, Member, PropType, MemberDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, Member, PropType, CommunityVisa, MemberDO<PropType>>
   implements MemberRepository<PropType>
 {
   async getNewInstance(name: string, community: CommunityEntityReference): Promise<MemberDO<PropType>> {

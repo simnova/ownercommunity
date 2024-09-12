@@ -2,6 +2,7 @@ import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-w
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { StaffUser, StaffUserProps } from './staff-user';
 import { StaffUserRepository } from './staff-user.repository';
+import { StaffUserVisa } from './staff-user.visa';
 
-export interface StaffUserUnitOfWork extends UnitOfWork<DomainExecutionContext, StaffUserProps, StaffUser<StaffUserProps>, StaffUserRepository<StaffUserProps>> {
+export interface StaffUserUnitOfWork extends UnitOfWork<DomainExecutionContext, StaffUserProps, StaffUserVisa, StaffUser<StaffUserProps>, StaffUserRepository<StaffUserProps>> {
 }

@@ -5,7 +5,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../communit
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
 import { MemberAccount, MemberAccountEntityReference, MemberAccountProps } from './member-account';
 import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
 import { MemberProfile, MemberProfileEntityReference, MemberProfileProps } from './member-profile';
 import { CommunityVisa } from "../community.visa";
 import { MemberCustomView, MemberCustomViewEntityReference, MemberCustomViewProps } from './member-custom-view';
@@ -33,12 +33,10 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'commu
   readonly customViews: ReadonlyArray<MemberCustomViewEntityReference>;
 }
 
-export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference {
+export class Member<props extends MemberProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements MemberEntityReference {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
   constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forMember(this);
+    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forMember(this), {}, {});
   }
 
   get id() {

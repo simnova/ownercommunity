@@ -3,7 +3,7 @@ import { Visa } from '../../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../../../community/member/member';
 import { StaffRoleServiceTicketPermissionsSpec } from '../../../community/roles/staff-role/staff-role-service-ticket-permissions';
 import { EndUserRoleServiceTicketPermissionsSpec } from '../../../community/roles/end-user-role/end-user-role-service-ticket-permissions';
-import { ServiceTicketV1EntityReference } from './service-ticket';
+import { ServiceTicketV1EntityReference } from './service-ticket-v1';
 
 export interface ServiceTicketPermissionsSpec extends StaffRoleServiceTicketPermissionsSpec, EndUserRoleServiceTicketPermissionsSpec {}
 

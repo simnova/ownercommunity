@@ -1,5 +1,6 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { StaffUser } from "../../../domain/contexts/users/staff-user/staff-user";
+import { StaffUserVisa } from "../../../domain/contexts/users/staff-user/staff-user.visa";
 import { StaffUserData } from "../../../external-dependencies/datastore";
 import { StaffUserDomainAdapter, StaffUserConverter, StaffUserRepository } from "../../../external-dependencies/domain";
 import { StaffUserUpdateInput } from "../../../external-dependencies/graphql-api";
@@ -14,7 +15,7 @@ type DomainType = StaffUser<PropType>;
 type RepoType = StaffUserRepository<PropType>;
 
 export class StaffUserDomainApiImpl
-  extends DomainDataSource<AppContext, StaffUserData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, StaffUserData, PropType, StaffUserVisa, DomainType, RepoType>
   implements StaffUserDomainApi {
 
   async updateUser(user: StaffUserUpdateInput): Promise<StaffUserData> {

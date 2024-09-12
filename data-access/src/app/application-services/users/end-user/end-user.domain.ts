@@ -1,5 +1,6 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { EndUser } from "../../../domain/contexts/users/end-user/end-user";
+import { EndUserVisa } from "../../../domain/contexts/users/end-user/end-user.visa";
 import { EndUserData } from "../../../external-dependencies/datastore";
 import { EndUserDomainAdapter, EndUserConverter, EndUserRepository } from "../../../external-dependencies/domain";
 import { UserUpdateInput } from "../../../external-dependencies/graphql-api";
@@ -14,7 +15,7 @@ type DomainType = EndUser<PropType>;
 type RepoType = EndUserRepository<PropType>;
 
 export class EndUserDomainApiImpl
-  extends DomainDataSource<AppContext, EndUserData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, EndUserData, PropType, EndUserVisa, DomainType, RepoType>
   implements EndUserDomainApi {
 
   async updateUser(user: UserUpdateInput): Promise<EndUserData> {

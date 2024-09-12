@@ -1,6 +1,6 @@
 ---
-sidebar_position: 9
-sidebar_label: 0009 React Router Loadeer
+sidebar_position: 10
+sidebar_label: 0010 React Router Loadeer
 description: "This MADR discusses the pros and cos of the react router loader functionality."
 # These are optional elements. Feel free to remove any of them.
 status: rejected

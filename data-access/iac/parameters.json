@@ -102,6 +102,7 @@
                             "deleteAfterNDaysList": []
                         },
                         "enableBlobService": true,
+                        "isVersioningEnabled": true,
                         "containers": [
                             {
                                 "name": "public",
@@ -127,7 +128,7 @@
                             "allowedHeaders": [
                                 "*"
                             ],
-                            "exposedHeaders": [""],
+                            "exposedHeaders": ["x-ms-version-id"],
                             "maxAgeInSeconds": 0
                         },
                         "tags": {
@@ -240,6 +241,7 @@
                             "deleteAfterNDaysList": []
                         },
                         "enableBlobService": true,
+                        "isVersioningEnabled": true,
                         "containers": [
                             {
                                 "name": "public",
@@ -263,7 +265,7 @@
                             "allowedHeaders": [
                                 "*"
                             ],
-                            "exposedHeaders": [""],
+                            "exposedHeaders": ["x-ms-version-id"],
                             "maxAgeInSeconds": 0
                         },
                         "tags": {

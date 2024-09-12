@@ -5,11 +5,13 @@ import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-ex
 import { EventBus } from "../../domain-seedwork/event-bus";
 import { DomainEvent } from "../../domain-seedwork/domain-event";
 import { MemoryStore } from "./memory-store";
+import { Visa } from "../../passport-seedwork/visa";
 
 export class MemoryRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
   PropType extends DomainEntityProps,
-  DomainType extends AggregateRoot<PropType>,
+  VisaType extends Visa,
+  DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
   > implements Repository<DomainType> {
 
   private itemsInTransaction: DomainType[] = [];
@@ -70,8 +72,9 @@ export class MemoryRepositoryBase<
   static create<
     ContextType extends BaseDomainExecutionContext,
     PropType extends DomainEntityProps,
-    DomainType extends AggregateRoot<PropType>,
-    RepoType extends MemoryRepositoryBase<ContextType, PropType, DomainType>
+    VisaType extends Visa,
+    DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
+    RepoType extends MemoryRepositoryBase<ContextType, PropType, VisaType, DomainType>
   >(
     eventBus: EventBus,
     domainClass: new (args: PropType, context: ContextType) => DomainType,

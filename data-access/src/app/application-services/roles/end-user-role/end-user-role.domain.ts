@@ -1,4 +1,5 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
+import { CommunityVisa } from "../../../domain/contexts/community/community.visa";
 import { EndUserRole } from "../../../domain/contexts/community/roles/end-user-role/end-user-role";
 import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
 import { EndUserRoleData } from "../../../external-dependencies/datastore";
@@ -17,7 +18,7 @@ type DomainType = EndUserRole<PropType>;
 type RepoType = EndUserRoleRepository<PropType>;
 
 export class EndUserRoleDomainApiImpl
-  extends DomainDataSource<AppContext, EndUserRoleData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, EndUserRoleData, PropType, CommunityVisa, DomainType, RepoType>
   implements EndUserRoleDomainApi {
 
   async roleAdd(input: RoleAddInput): Promise<EndUserRoleData> {

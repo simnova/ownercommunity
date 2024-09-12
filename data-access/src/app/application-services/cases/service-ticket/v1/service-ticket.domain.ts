@@ -2,7 +2,7 @@ import { DomainDataSource } from '../../../../data-sources/domain-data-source';
 import { Member } from '../../../../domain/contexts/community/member/member';
 import { ReadOnlyDomainVisa } from '../../../../domain/domain.visa';
 import { Service } from '../../../../domain/contexts/community/service/service';
-import { ServiceTicketV1 } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1 } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { SentBy, Message, Embedding } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects';
 import { MemberData, ServiceTicketData } from '../../../../external-dependencies/datastore';
 
@@ -26,6 +26,7 @@ import {
   ServiceTicketUpdateInput,
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
+import { ServiceTicketV1Visa } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 
 export interface ServiceTicketV1DomainApi {
   serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
@@ -41,7 +42,7 @@ type PropType = ServiceTicketV1DomainAdapter;
 type DomainType = ServiceTicketV1<PropType>;
 type RepoType = ServiceTicketV1Repository<PropType>;
 
-export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, ServiceTicketData, PropType, DomainType, RepoType> implements ServiceTicketV1DomainApi {
+export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, ServiceTicketData, PropType, ServiceTicketV1Visa, DomainType, RepoType> implements ServiceTicketV1DomainApi {
   async serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData> {
     console.log(`serviceTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

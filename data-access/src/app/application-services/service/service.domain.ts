@@ -5,6 +5,7 @@ import { ServiceData } from "../../external-dependencies/datastore";
 import { ServiceDomainAdapter, CommunityConverter, ServiceConverter, ServiceRepository } from "../../external-dependencies/domain";
 import { ServiceCreateInput, ServiceUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
+import { ServiceVisa } from "../../domain/contexts/community/service/service.visa";
 
 export interface ServiceDomainApi {
   serviceCreate(input: ServiceCreateInput) : Promise<ServiceData>;
@@ -16,7 +17,7 @@ type DomainType = Service<PropType>;
 type RepoType = ServiceRepository<PropType>;
 
 export class ServiceDomainApiImpl
-  extends DomainDataSource<AppContext, ServiceData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, ServiceData, PropType, ServiceVisa, DomainType, RepoType>
   implements ServiceDomainApi {
 
   async serviceCreate(input: ServiceCreateInput): Promise<ServiceData> {

@@ -1,4 +1,4 @@
-import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket-v1';
 import { Repository } from '../../../../../../../seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../../community/community/community';
 import { PropertyEntityReference } from '../../../property/property/property';

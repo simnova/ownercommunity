@@ -101,6 +101,8 @@ stages:
         cliProjectKey: $(SONARCLOUD_PROJECT_KEY)
         cliProjectName: $(SONARCLOUD_PROJECT_NAME)
         cliSources: './$(PROJECT_NAME)/src'
+        extraProperties: |
+          sonar.exclusions=**/src/generated.tsx
 
     
         # Publish chromatic

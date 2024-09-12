@@ -6,11 +6,19 @@ import { DomainEntityProps } from '../../../seedwork/domain-seedwork/domain-enti
 import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../domain/domain-execution-context';
 import { AppContext } from '../init/app-context-builder';
+import { Visa } from '../../../seedwork/passport-seedwork/visa';
 
-export class DomainDataSource<Context extends AppContext,MongoType extends Document,PropType extends DomainEntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {
-  private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>;
+export class DomainDataSource<
+  Context extends AppContext,
+  MongoType extends Document,
+  PropType extends DomainEntityProps,
+  VisaType extends Visa,
+  DomainType extends AggregateRoot<PropType, DomainExecutionContext, VisaType>, 
+  RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType, PropType, VisaType, DomainType>
+> extends DataSource<Context> {
+  private unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, RepoType>;
   
-  constructor(options: { unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType> } & DataSourceConfig<Context>) {
+  constructor(options: { unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, RepoType> } & DataSourceConfig<Context>) {
     super(options);
     this.unitOfWork = options.unitOfWork;
   }

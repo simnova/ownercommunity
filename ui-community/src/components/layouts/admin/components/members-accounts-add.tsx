@@ -1,16 +1,29 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import React from 'react';
 
 import { MemberAccountAddInput } from '../../../../generated';
 
 export interface MembersAccountsAddProps {
   data: MemberAccountAddInput;
-  onSave: (member: MemberAccountAddInput) => void;
+  onSave: (member: MemberAccountAddInput) => Promise<void>;
 }
 
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
   const [form] = Form.useForm<MemberAccountAddInput>();
   const [formLoading,setFormLoading] = React.useState<boolean>(false);
+
+  const handleFinish = async (values: MemberAccountAddInput) => {
+    setFormLoading(true);
+    try {
+      await props.onSave(values);
+    }
+    catch (e) {
+      console.error(e);
+      message.error('Failed to add Member Account.',);
+    } finally {
+      setFormLoading(false);
+    }
+  }
 
   return (
     <div>
@@ -18,11 +31,7 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
         layout="vertical"
         form={form}
         initialValues={props.data}
-        onFinish={(values) => {
-          setFormLoading(true);
-          props.onSave(values);
-          setFormLoading(false);
-        }}
+        onFinish={handleFinish}
         >
         <Form.Item
           name={["account", "firstName"]}
@@ -36,7 +45,6 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
         <Form.Item
           name={["account", "lastName"]}
           label="Last Name"
-
         >
           <Input placeholder='Last Name' maxLength={200}  />
         </Form.Item>
@@ -45,7 +53,6 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
           label="User ID"
           rules={[
             { required: true, message: 'User ID is required.' },
-            
           ]}
         >
           <Input placeholder='User ID Name' maxLength={200}  />

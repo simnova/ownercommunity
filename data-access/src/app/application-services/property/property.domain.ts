@@ -5,6 +5,7 @@ import { PropertyData } from "../../external-dependencies/datastore";
 import { PropertyDomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, PropertyRepository } from "../../external-dependencies/domain";
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyDeleteInput, PropertyRemoveOwnerInput, PropertyUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
+import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 
 export interface PropertyDomainApi {
   propertyAdd(input: PropertyAddInput): Promise<PropertyData>;
@@ -20,7 +21,7 @@ type DomainType = Property<PropType>;
 type RepoType = PropertyRepository<PropType>;
 
 export class PropertyDomainApiImpl
-  extends DomainDataSource<AppContext, PropertyData, PropType, DomainType, RepoType>
+  extends DomainDataSource<AppContext, PropertyData, PropType, CommunityVisa, DomainType, RepoType>
   implements PropertyDomainApi {
   async propertyAdd(input: PropertyAddInput): Promise<PropertyData> {
     console.log(`propertyAdd`, this.context.verifiedUser);

@@ -83,12 +83,10 @@ export interface ViolationTicketV1EntityReference
   readonly financeDetails: ViolationTicketV1FinanceDetailEntityReference;
 }
 
-export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
+export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ViolationTicketV1Visa> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
-  private readonly visa: ViolationTicketV1Visa;
   constructor(props: props, private context: DomainExecutionContext) {
-    super(props);
-    this.visa = context.domainVisa.forViolationTicketV1(this);
+    super(props,context,(context) => context.domainVisa.forViolationTicketV1(this));
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(

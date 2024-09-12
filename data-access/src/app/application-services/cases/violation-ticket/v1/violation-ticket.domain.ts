@@ -19,6 +19,7 @@ import {
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
 import { CybersourcePaymentTransactionResponse } from '../../../member/member.payment';
+import { ViolationTicketV1Visa } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 
 export interface ViolationTicketV1DomainApi {
   violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
@@ -35,7 +36,7 @@ type PropType = ViolationTicketV1DomainAdapter;
 type DomainType = ViolationTicketV1<PropType>;
 type RepoType = ViolationTicketV1Repository<PropType>;
 
-export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext, ViolationTicketData, PropType, DomainType, RepoType> implements ViolationTicketV1DomainApi {
+export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext, ViolationTicketData, PropType, ViolationTicketV1Visa, DomainType, RepoType> implements ViolationTicketV1DomainApi {
   async violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData> {
     console.log(`violationTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

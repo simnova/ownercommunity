@@ -34,7 +34,7 @@ export  class AggregateRoot<
     });
   }
 
-  public get _context(): ContextType {
+  public get context(): ContextType {
     return this._executionContext;
   }
   public get visa(): VisaType {
@@ -64,8 +64,12 @@ export  class AggregateRoot<
   public processSyncDomainEvents() {
     this._executionContext = this._systemExecutionContext;
     do{
-      let syncDomainEventsToProcess: DomainEvent[] = this.getSyncDomainEvents();
+      // Create a copy of the array to preserve the original domain events
+      const syncDomainEventsToProcess: DomainEvent[] = [...this.getSyncDomainEvents()];
+
+      // Clear the internal list of domain events
       this.clearSyncDomainEvents();
+
       syncDomainEventsToProcess.forEach((event: DomainEvent) => this.dispatchSyncDomainEvent(event));
       // for await (let event of item.getDomainEvents()) {
       //   console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);
@@ -79,7 +83,7 @@ export  class AggregateRoot<
     if (this._syncDomainEventMap.has(eventClassName)) {
       // const handlers: any[] = this.handlersMap[eventClassName];
       for (let handler of this._syncDomainEventMap.get(eventClassName)!) {
-        handler(event);
+        handler.bind(this)(event);
       }
     }
   }

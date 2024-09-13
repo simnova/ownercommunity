@@ -26,8 +26,8 @@ export interface EndUserEntityReference extends Readonly<Omit<EndUserProps, 'per
 
 export class EndUser<props extends EndUserProps> extends AggregateRoot<props, DomainExecutionContext, EndUserVisa> implements EndUserEntityReference  {
   private isNew: boolean = false;
-  constructor(props: props, private readonly context: DomainExecutionContext) { 
-    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forEndUser(this), {}, {});
+  constructor(props: props, _context: DomainExecutionContext) { 
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forEndUser(this), {}, {});
   }
 
   get id(): string {return this.props.id;}

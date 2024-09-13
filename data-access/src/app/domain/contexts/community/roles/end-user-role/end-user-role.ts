@@ -26,8 +26,8 @@ export interface EndUserRoleEntityReference extends Readonly<Omit<EndUserRolePro
 
 export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements EndUserRoleEntityReference {
   private isNew: boolean = false;
-  constructor(props: props, private context: DomainExecutionContext) {
-    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forEndUserRole(this), {}, {});
+  constructor(props: props, _context: DomainExecutionContext) {
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forEndUserRole(this), {}, {});
   }
 
   get roleName() {

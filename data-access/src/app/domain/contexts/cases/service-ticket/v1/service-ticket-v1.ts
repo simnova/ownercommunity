@@ -17,6 +17,7 @@ import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ti
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
 import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceTicketV1MessageProps } from './service-ticket-v1-message';
 import { ServiceTicketV1RevisionRequest, ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from './service-ticket-v1-revision-request';
+import { ServiceTicketV1SyncDomainEventClass, ServiceTicketV1SyncDomainEventHandlers } from './sync-domain-events';
 
 export interface ServiceTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -81,8 +82,8 @@ export interface ServiceTicketV1EntityReference
 
 export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
-  constructor(props: props, private context: DomainExecutionContext) {
-    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {}, {});
+  constructor(props: props, _context: DomainExecutionContext) {
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers, ServiceTicketV1SyncDomainEventClass);
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(
@@ -104,10 +105,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Requestor = requestor;
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
-    let newActivity = serviceTicket.requestNewActivityDetail();
-    newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
-    newActivity.ActivityDescription = 'Created';
-    newActivity.ActivityBy = requestor;
+    serviceTicket.addSyncDomainEvent(ServiceTicketV1SyncDomainEventClass.ServiceTicketV1CreatedSyncDomainEvent, {requestor: requestor });
     serviceTicket.isNew = false;
     return serviceTicket;
   }
@@ -343,7 +341,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     this.addIntegrationEvent(ServiceTicketV1DeletedEvent, { id: this.props.id });
   }
 
-  private requestNewActivityDetail(): ActivityDetail {
+  public requestNewActivityDetail(): ActivityDetail {
     let activityDetail = this.props.activityLog.getNewItem();
     return new ActivityDetail(activityDetail, this.context, this.visa);
   }

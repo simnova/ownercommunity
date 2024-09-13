@@ -35,8 +35,8 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'commu
 
 export class Member<props extends MemberProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements MemberEntityReference {
   private isNew: boolean = false;
-  constructor(props: props, private readonly context: DomainExecutionContext) {
-    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forMember(this), {}, {});
+  constructor(props: props, _context: DomainExecutionContext) {
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forMember(this), {}, {});
   }
 
   get id() {

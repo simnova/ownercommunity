@@ -109,8 +109,7 @@ export class BlobActions {
   public createTextBlob = async (blobName: string, container: string, text: string, contentType:string='text/plain') => {
     const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
-    const blobResponse = await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType }, immutabilityPolicy: {expiriesOn: new Date("2030-09-12"), policyMode: 'Locked' }});
-    console.log('Blob response: ' + blobResponse);
+    await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType } });
   };
 
   public createTextBlobIfNotExistsAndConfirm = async (blobName: string, container: string, text: string, callback: (blobText: string) => boolean, contentType:string='text/plain', tags?: Record<string, string>) => {

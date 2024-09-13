@@ -40,6 +40,18 @@ export class AzBlobStorage implements BlobStorageBase {
   }
 
   /**
+   * Creates a text blob if it does not exist and process callback function after file upload succeeds
+  * @param blobName The name of the blob to create
+   * @param containerName The name of the container to create the blob in
+   * @param text The text to store in the blob
+   * @param callback The callback function which validates the file contents of the blob after upload
+   * @param contentType (optional) The content type of the blob (default: text/plain)
+   * @param tags (optional) The index tags to add to the blob
+   */
+  public createTextBlobIfNotExistsAndConfirm(blobName: string, containerName: string, text: string, callback: (blobText: string) => boolean, contentType:string='text/plain', tags?: Record<string, string>):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).createTextBlobIfNotExistsAndConfirm(blobName,containerName,text,callback,contentType,tags);
+  }
+  /**
    * Creates a container in the blob storage account
    * @param containerName The name of the container to create
    * @param allowPublicAccess If true, the container will be created with public access (default: true)

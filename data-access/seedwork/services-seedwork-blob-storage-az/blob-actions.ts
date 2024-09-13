@@ -8,6 +8,7 @@ import {
   StorageSharedKeyCredential,
   PublicAccessType,
   BlobDownloadResponseParsed,
+  RestError,
 } from '@azure/storage-blob';
 import internal from 'stream';
 import { FileInfo } from '../services-seedwork-blob-storage-interfaces';
@@ -71,7 +72,7 @@ export class BlobActions {
       includeTags: true,
       
     };
-    if(prefix) options.prefix = prefix;
+    if(prefix) { options.prefix = prefix; }
 
     let blobList: FileInfo[] = [];
     for await (const blob of containerClient.listBlobsFlat(options)) {
@@ -108,8 +109,44 @@ export class BlobActions {
   public createTextBlob = async (blobName: string, container: string, text: string, contentType:string='text/plain') => {
     const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
-    await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType } });
+    const blobResponse = await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType }, immutabilityPolicy: {expiriesOn: new Date("2030-09-12"), policyMode: 'Locked' }});
+    console.log('Blob response: ' + blobResponse);
   };
+
+  public createTextBlobIfNotExistsAndConfirm = async (blobName: string, container: string, text: string, callback: (blobText: string) => boolean, contentType:string='text/plain', tags?: Record<string, string>) => {
+    const doesBlobExistCheckTimestamp = new Date();
+    const doesBlobExist = await this.checkBlobExists(blobName, container);
+    if(doesBlobExist === false) {
+      const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+      const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+      try {
+        await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType }, tags, conditions: { ifUnmodifiedSince: doesBlobExistCheckTimestamp} });
+      } catch (error) {
+        // [TODO} need to determine the status code of the error that is thrown when the blob already exists so we can log it and discard it
+        if (error instanceof RestError) {
+          console.log('Error creating blob: ' + error.message);
+        } else {
+          throw error;
+        }
+      }
+      fetch(blobUrl).then(response => response.text()).then(text => {
+        if (callback(text)) {
+          console.log('Blob created successfully and the file contents are valid');
+        } else {
+          console.log('Blob created successfully but the file contents are invalid');
+          // [TODO] should at least throw an error at this point to be handled in the calling function
+        }
+      });
+    } else {
+      console.log('Blob already exists');
+    }
+  };
+
+  public checkBlobExists = async (blobName: string, container: string): Promise<boolean> => {
+    const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    return blobClient.exists();
+  }
 
   public createContainer = async (container: string, allowPublicAccess: boolean) => {
     const blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net/`, this.sharedKeyCredential);

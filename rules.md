@@ -1,0 +1,20 @@
+- At the end of your response include a comment with "following rules" and a list of the rules you followed.
+- Use the following rules for React components:
+  - The component should be named \<ComponentName>.
+  - The component should be a functional component.
+  - Container components should be used for fetching data
+    - They should be named \<ComponentName>Container and the file name should be \<component-name>.container.tsx
+    - Container components should leverage Apollo Client as the primary method for fetching data.
+  - Always leverage components from Ant Design where possible.
+  - Always specify type arguments, including useState, useForm, TableColumnsType, etc.
+  - Type arguments should refer to data only by the fragment name or GraphQL input type name.
+  - An interface or type should be defined for the component's props, named \<ComponentName>Props.
+  - Any use of the AntDesign Table should leverage TableColumnsType 
+  - Any use of the AntDesign Form should leverage useForm hook 
+- Use the following rules for GraphQL in the UI project:
+  - GraphQL files should accompany Container components.
+  - The file should be named: \<component-name>.container.graphql
+  - query and mutation naming convention should follow pattern: \<AreaName>\<ContainerName>\<QueryName|MutationName>
+  - queries and mutations should leverage fragments for returned fields.
+  - fragments should be named: \<AreaName>\<ContainerName>\<GraphQLTypeName>Fields
+  - mutation fragments should be named: \<AreaName>\<ContainerName>\<GraphQLTypeName>MutationResultFields

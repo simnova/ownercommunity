@@ -20,9 +20,14 @@
 		},
 		{
 			"path": "b2c"
-		}
+		},
 	],
 	"settings": {
-		"debug.internalConsoleOptions": "neverOpen"
+		"debug.internalConsoleOptions": "neverOpen",
+		"github.copilot.chat.experimental.codeGeneration.instructions": [
+			{
+				"file": "rules.md"
+			},
+		]
 	}
 }

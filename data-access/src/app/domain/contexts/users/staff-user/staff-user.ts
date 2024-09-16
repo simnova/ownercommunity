@@ -30,7 +30,7 @@ export interface StaffUserEntityReference extends Readonly<Omit<StaffUserProps, 
 export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props, DomainExecutionContext, StaffUserVisa> implements StaffUserEntityReference  {
   private isNew: boolean = false;
   constructor(props: props, _context:DomainExecutionContext) { 
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forStaffUser(this), {}, {});
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forStaffUser(this), {});
    }
 
   get id(): string {return this.props.id;}

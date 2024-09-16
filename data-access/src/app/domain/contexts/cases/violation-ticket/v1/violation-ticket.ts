@@ -85,8 +85,9 @@ export interface ViolationTicketV1EntityReference
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ViolationTicketV1Visa> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
+
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(),(context) => context.domainVisa.forViolationTicketV1(this), {}, {});
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(

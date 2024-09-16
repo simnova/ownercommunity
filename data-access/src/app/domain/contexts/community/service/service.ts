@@ -23,8 +23,9 @@ export interface ServiceEntityReference extends Readonly<Omit<ServiceProps, 'com
 
 export class Service<props extends ServiceProps> extends AggregateRoot<props, DomainExecutionContext, ServiceVisa> implements ServiceEntityReference {
   private isNew: boolean = false;
+  
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forService(this), {}, {});
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forService(this), {});
   }
 
   public static getNewInstance<props extends ServiceProps>(

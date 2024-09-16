@@ -17,7 +17,9 @@ import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ti
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
 import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceTicketV1MessageProps } from './service-ticket-v1-message';
 import { ServiceTicketV1RevisionRequest, ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from './service-ticket-v1-revision-request';
-import { ServiceTicketV1SyncDomainEventClass, ServiceTicketV1SyncDomainEventHandlers } from './sync-domain-events';
+import { ServiceTicketV1SyncDomainEventFactory, ServiceTicketV1SyncDomainEventFactoryImpl } from './sync-domain-events/service-ticket-v1.sync-domain-event-factory';
+import { ServiceTicketV1SyncDomainEventHandlers } from './sync-domain-events/service-ticket-v1.sync-domain-event-handlers';
+
 
 export interface ServiceTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -82,8 +84,16 @@ export interface ServiceTicketV1EntityReference
 
 export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
+  private readonly _syncDomainEventFactory: ServiceTicketV1SyncDomainEventFactory;
+
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers, ServiceTicketV1SyncDomainEventClass);
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
+    this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this.syncDomainEventBus);  
+    // this.initializeSyncDomainEventBus(this._syncDomainEventBus);
+  }
+
+  public get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory {
+    return this._syncDomainEventFactory;
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(
@@ -105,7 +115,8 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Requestor = requestor;
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
-    serviceTicket.addSyncDomainEvent(ServiceTicketV1SyncDomainEventClass.ServiceTicketV1CreatedSyncDomainEvent, {requestor: requestor });
+    // serviceTicket.addSyncDomainEventFor.(serviceTicket.syncDomainEventClass., {requestor: requestor });
+    serviceTicket.syncDomainEventFactory.addServiceTicketV1CreatedEvent({ requestor });
     serviceTicket.isNew = false;
     return serviceTicket;
   }
@@ -213,7 +224,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     ) {
       throw new Error('Unauthorized1');
     }
-    this.props.setPropertyRef(property);
+    this.props.setPropertyRef(property);this.Description
   }
 
   private set Requestor(requestor: MemberEntityReference) {

@@ -46,7 +46,7 @@ export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'c
 export class Property<props extends PropertyProps> extends AggregateRoot<props, DomainExecutionContext, PropertyVisa> implements PropertyEntityReference {
   private isNew: boolean = false;
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forProperty(this), {}, {});
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forProperty(this), {});
   }
 
   public static getNewInstance<props extends PropertyProps>(

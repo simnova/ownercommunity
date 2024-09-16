@@ -26,7 +26,7 @@ export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 
 export class Community<props extends CommunityProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements CommunityEntityReference {
   private isNew: boolean = false;
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forCommunity(this), {}, {});
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forCommunity(this), {});
   }
 
   get id() {

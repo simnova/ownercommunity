@@ -89,7 +89,6 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
   constructor(props: props, _context: DomainExecutionContext) {
     super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
     this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this.syncDomainEventBus);  
-    // this.initializeSyncDomainEventBus(this._syncDomainEventBus);
   }
 
   public get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory {
@@ -115,7 +114,6 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Requestor = requestor;
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
-    // serviceTicket.addSyncDomainEventFor.(serviceTicket.syncDomainEventClass., {requestor: requestor });
     serviceTicket.syncDomainEventFactory.addServiceTicketV1CreatedEvent({ requestor });
     serviceTicket.isNew = false;
     return serviceTicket;

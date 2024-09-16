@@ -33,7 +33,6 @@ export abstract class MongoRepositoryBase<
     item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
-    // item.processSyncDomainEventBus.bind(item)();
     item.processSyncDomainEventBus();
     // item.processSyncDomainEvents.bind(item)();
     // for await (let event of item.getDomainEvents()) {

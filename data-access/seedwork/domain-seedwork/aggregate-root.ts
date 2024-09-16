@@ -55,9 +55,15 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   protected get syncDomainEventBus(): SyncDomainEventBus {
     return this._syncDomainEventBus;
   }  
-  public processSyncDomainEventBus() {
+  public processSyncDomainEventBus(maxIterations: number = 100) {
     this._executionContext = this._systemExecutionContext;
+    let iterations = 0;
     while (this._syncDomainEventBus.events.length > 0){
+      if (iterations >= maxIterations) {
+        console.warn("Max iterations reached while processing sync domain events.");
+        break;
+      }
+      iterations++;
       console.log("Processing sync domain events...");
       // Create a copy of the array to preserve the original domain events
       const syncDomainEventsToProcess: SyncDomainEventType<any>[] = [...this._syncDomainEventBus.events];
@@ -69,7 +75,7 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
     } ;
   }
   private dispatchSyncDomainEvent(event: SyncDomainEventType<any>): void {
-    const payload = event.payload;
+    const {payload} = event;
     const eventClassName = event.constructor.name;
     const eventHandler = this._syncDomainEventHandlers[eventClassName];
     if (eventHandler) {

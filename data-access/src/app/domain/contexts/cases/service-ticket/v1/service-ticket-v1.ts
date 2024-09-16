@@ -92,7 +92,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
   constructor(props: props, _context: DomainExecutionContext) {
     super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
-    this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this.syncDomainEventBus);  
+    this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this);  
   }
 
   public get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory {

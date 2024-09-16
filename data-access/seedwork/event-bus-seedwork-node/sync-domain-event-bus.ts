@@ -16,7 +16,7 @@ export abstract class SyncDomainEventImpl<EventPayloadType extends SyncDomainEve
     }
 }
 
-
+/*
 //// Sync Domain Event Bus
 export interface SyncDomainEventBus {
 
@@ -48,3 +48,4 @@ export class SyncDomainEventBusImpl implements SyncDomainEventBus {
         this._events.splice(0, this._events.length);
     }
 }
+*/

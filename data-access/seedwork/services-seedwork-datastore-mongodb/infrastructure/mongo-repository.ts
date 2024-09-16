@@ -33,7 +33,7 @@ export abstract class MongoRepositoryBase<
     item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
-    item.processSyncDomainEventBus();
+    item.processSyncDomainEvents();
     // item.processSyncDomainEvents.bind(item)();
     // for await (let event of item.getDomainEvents()) {
     //   console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);

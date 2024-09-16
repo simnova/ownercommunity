@@ -1,4 +1,4 @@
-import { SyncDomainEventBus, SyncDomainEventBusImpl, SyncDomainEventType } from '../event-bus-seedwork-node/sync-domain-event-bus';
+import { SyncDomainEventPayloadBaseType, SyncDomainEventType } from '../event-bus-seedwork-node/sync-domain-event-bus';
 import { Visa } from '../passport-seedwork/visa';
 import { BaseDomainExecutionContext } from './base-domain-execution-context';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
@@ -9,10 +9,14 @@ export interface RootEventRegistry <ContextType extends BaseDomainExecutionConte
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   get context(): ContextType;
   get visa(): Visa;
+  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(
+    event: new () => T, 
+    payload: EventPayloadType
+  ) : void;
 }
 
 export interface RootEventRegistryForRepo {
-  processSyncDomainEventBus(): void;
+  processSyncDomainEvents(): void;
 }
 
 export  class AggregateRoot<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> 
@@ -20,7 +24,8 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   implements RootEventRegistry<ContextType>, RootEventRegistryForRepo
 {
   private _executionContext: ContextType;
-  private readonly _syncDomainEventBus: SyncDomainEventBus;
+  // private readonly _syncDomainEventBus: SyncDomainEventBus;
+  private _syncDomainEvents: SyncDomainEventType<any>[] = [];
 
   constructor(
     props: PropType, 
@@ -31,7 +36,7 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   ) {
     super(props);
     this._executionContext = this._domainExecutionContext;
-    this._syncDomainEventBus = new SyncDomainEventBusImpl();
+    // this._syncDomainEventBus = new SyncDomainEventBusImpl();
   }
 
   // for context
@@ -51,6 +56,36 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
     this._isDeleted = value;
   }
 
+  // for sync domain event
+  public addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(
+    event: new () => T, 
+    payload: EventPayloadType
+  ) : void {
+      let eventToAdd = new event();
+      eventToAdd.payload = payload;
+      this._syncDomainEvents.push(eventToAdd);
+  }
+
+  public processSyncDomainEvents(maxIterations: number = 100) {
+    this._executionContext = this._systemExecutionContext;
+    let iterations = 0;
+    while (this._syncDomainEvents.length > 0){
+      if (iterations >= maxIterations) {
+        console.warn("Max iterations reached while processing sync domain events.");
+        break;
+      }
+      iterations++;
+      console.log("Processing sync domain events...");
+      // Create a copy of the array to preserve the original domain events
+      const syncDomainEventsToProcess: SyncDomainEventType<any>[] = [...this._syncDomainEvents];
+
+      // Clear the internal list of domain events
+      this._syncDomainEvents = [];
+
+      syncDomainEventsToProcess.forEach((event) => this.dispatchSyncDomainEvent(event));
+    } ;
+  }
+  /*
   // for sync domain event bus
   protected get syncDomainEventBus(): SyncDomainEventBus {
     return this._syncDomainEventBus;
@@ -74,6 +109,7 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
       syncDomainEventsToProcess.forEach((event) => this.dispatchSyncDomainEvent(event));
     } ;
   }
+  */
   private dispatchSyncDomainEvent(event: SyncDomainEventType<any>): void {
     const {payload} = event;
     const eventClassName = event.constructor.name;

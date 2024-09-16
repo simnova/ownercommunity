@@ -4,27 +4,25 @@ import { BaseDomainExecutionContext } from './base-domain-execution-context';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
-export interface RootEventRegistry <ContextType extends BaseDomainExecutionContext>{
+// interface to be used in Application Service tier
+export interface AggregateRootApplicationService <ContextType extends BaseDomainExecutionContext>{
   addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   get context(): ContextType;
   get visa(): Visa;
-  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(
-    event: new () => T, 
-    payload: EventPayloadType
-  ) : void;
+  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void;
 }
 
-export interface RootEventRegistryForRepo {
+// interface to be used in Infrastructure Service tier
+export interface AggregateRootInfrastructureService {
   processSyncDomainEvents(): void;
 }
 
 export  class AggregateRoot<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> 
   extends DomainEntity<PropType> 
-  implements RootEventRegistry<ContextType>, RootEventRegistryForRepo
+  implements AggregateRootApplicationService<ContextType>, AggregateRootInfrastructureService
 {
   private _executionContext: ContextType;
-  // private readonly _syncDomainEventBus: SyncDomainEventBus;
   private _syncDomainEvents: SyncDomainEventType<any>[] = [];
 
   constructor(
@@ -36,7 +34,6 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   ) {
     super(props);
     this._executionContext = this._domainExecutionContext;
-    // this._syncDomainEventBus = new SyncDomainEventBusImpl();
   }
 
   // for context
@@ -57,15 +54,11 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   }
 
   // for sync domain event
-  public addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(
-    event: new () => T, 
-    payload: EventPayloadType
-  ) : void {
+  public addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void {
       let eventToAdd = new event();
       eventToAdd.payload = payload;
       this._syncDomainEvents.push(eventToAdd);
   }
-
   public processSyncDomainEvents(maxIterations: number = 100) {
     this._executionContext = this._systemExecutionContext;
     let iterations = 0;
@@ -76,46 +69,17 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
       }
       iterations++;
       console.log("Processing sync domain events...");
-      // Create a copy of the array to preserve the original domain events
-      const syncDomainEventsToProcess: SyncDomainEventType<any>[] = [...this._syncDomainEvents];
 
-      // Clear the internal list of domain events
-      this._syncDomainEvents = [];
-
-      syncDomainEventsToProcess.forEach((event) => this.dispatchSyncDomainEvent(event));
-    } ;
-  }
-  /*
-  // for sync domain event bus
-  protected get syncDomainEventBus(): SyncDomainEventBus {
-    return this._syncDomainEventBus;
-  }  
-  public processSyncDomainEventBus(maxIterations: number = 100) {
-    this._executionContext = this._systemExecutionContext;
-    let iterations = 0;
-    while (this._syncDomainEventBus.events.length > 0){
-      if (iterations >= maxIterations) {
-        console.warn("Max iterations reached while processing sync domain events.");
-        break;
+      const event = this._syncDomainEvents.shift();
+      if (event) {
+        this.dispatchSyncDomainEvent(event);
       }
-      iterations++;
-      console.log("Processing sync domain events...");
-      // Create a copy of the array to preserve the original domain events
-      const syncDomainEventsToProcess: SyncDomainEventType<any>[] = [...this._syncDomainEventBus.events];
-
-      // Clear the internal list of domain events
-      this._syncDomainEventBus.clearEvents();
-
-      syncDomainEventsToProcess.forEach((event) => this.dispatchSyncDomainEvent(event));
     } ;
   }
-  */
   private dispatchSyncDomainEvent(event: SyncDomainEventType<any>): void {
-    const {payload} = event;
-    const eventClassName = event.constructor.name;
-    const eventHandler = this._syncDomainEventHandlers[eventClassName];
+    const eventHandler = this._syncDomainEventHandlers[event.constructor.name];
     if (eventHandler) {
-      eventHandler.bind(this)(payload);
+      eventHandler.call(this, event.payload);
     }
   }
 

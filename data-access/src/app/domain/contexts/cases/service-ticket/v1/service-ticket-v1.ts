@@ -3,7 +3,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../../../co
 import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
-import { AggregateRoot, RootEventRegistry } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot, AggregateRootApplicationService } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
@@ -82,7 +82,7 @@ export interface ServiceTicketV1EntityReference
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
-export interface ServiceTicketV1RootRegistry extends RootEventRegistry<DomainExecutionContext> {
+export interface ServiceTicketV1RootRegistry extends AggregateRootApplicationService<DomainExecutionContext> {
   get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory
 }
 

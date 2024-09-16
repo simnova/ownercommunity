@@ -4,16 +4,20 @@ import { BaseDomainExecutionContext } from './base-domain-execution-context';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
-export interface RootEventRegistry<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> {
+export interface RootEventRegistry <ContextType extends BaseDomainExecutionContext>{
   addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
+  get context(): ContextType;
   get visa(): Visa;
-  processSyncDomainEventBus(root: AggregateRoot<PropType, ContextType, VisaType>): void;
+}
+
+export interface RootEventRegistryForRepo {
+  processSyncDomainEventBus(): void;
 }
 
 export  class AggregateRoot<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> 
   extends DomainEntity<PropType> 
-  implements RootEventRegistry<PropType, ContextType, VisaType> 
+  implements RootEventRegistry<ContextType>, RootEventRegistryForRepo
 {
   private _executionContext: ContextType;
   private readonly _syncDomainEventBus: SyncDomainEventBus;
@@ -54,6 +58,7 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   public processSyncDomainEventBus() {
     this._executionContext = this._systemExecutionContext;
     while (this._syncDomainEventBus.events.length > 0){
+      console.log("Processing sync domain events...");
       // Create a copy of the array to preserve the original domain events
       const syncDomainEventsToProcess: SyncDomainEventType<any>[] = [...this._syncDomainEventBus.events];
 

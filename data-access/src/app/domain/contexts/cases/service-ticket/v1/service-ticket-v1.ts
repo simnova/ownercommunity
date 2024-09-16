@@ -3,7 +3,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../../../co
 import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
-import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot, RootEventRegistry } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
@@ -82,7 +82,11 @@ export interface ServiceTicketV1EntityReference
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
-export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
+export interface ServiceTicketV1RootRegistry extends RootEventRegistry<DomainExecutionContext> {
+  get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory
+}
+
+export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference, ServiceTicketV1RootRegistry {
   private isNew: boolean = false;
   private readonly _syncDomainEventFactory: ServiceTicketV1SyncDomainEventFactory;
 
@@ -150,7 +154,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     return this.props.priority;
   }
   get activityLog(): ReadonlyArray<ActivityDetailEntityReference> {
-    return this.props.activityLog.items.map((a) => new ActivityDetail(a, this.context, this.visa));
+    return this.props.activityLog.items.map((a) => new ActivityDetail(a, this));
   }
   get messages(): ReadonlyArray<ServiceTicketV1Message> {
     return this.props.messages.items.map((m) => new ServiceTicketV1Message(m, this.context, this.visa));
@@ -352,7 +356,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
   public requestNewActivityDetail(): ActivityDetail {
     let activityDetail = this.props.activityLog.getNewItem();
-    return new ActivityDetail(activityDetail, this.context, this.visa);
+    return new ActivityDetail(activityDetail, this);
   }
 
   private requestNewMessage(): ServiceTicketV1Message {

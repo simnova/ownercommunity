@@ -3,7 +3,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../../../co
 import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
-import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { AggregateRoot, AggregateRootTypeForApplicationService } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
@@ -17,6 +17,9 @@ import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ti
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
 import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceTicketV1MessageProps } from './service-ticket-v1-message';
 import { ServiceTicketV1RevisionRequest, ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from './service-ticket-v1-revision-request';
+import { ServiceTicketV1SyncDomainEventFactory, ServiceTicketV1SyncDomainEventFactoryImpl } from './sync-domain-events/service-ticket-v1.sync-domain-event-factory';
+import { ServiceTicketV1SyncDomainEventHandlers } from './sync-domain-events/service-ticket-v1.sync-domain-event-handlers';
+
 
 export interface ServiceTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -79,10 +82,21 @@ export interface ServiceTicketV1EntityReference
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
-export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference {
+export interface ServiceTicketV1RootRegistry extends AggregateRootTypeForApplicationService<DomainExecutionContext> {
+  get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory
+}
+
+export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ServiceTicketV1Visa> implements ServiceTicketV1EntityReference, ServiceTicketV1RootRegistry {
   private isNew: boolean = false;
-  constructor(props: props, private context: DomainExecutionContext) {
-    super(props, context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {}, {});
+  private readonly _syncDomainEventFactory: ServiceTicketV1SyncDomainEventFactory;
+
+  constructor(props: props, _context: DomainExecutionContext) {
+    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
+    this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this);  
+  }
+
+  public get syncDomainEventFactory(): ServiceTicketV1SyncDomainEventFactory {
+    return this._syncDomainEventFactory;
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(
@@ -104,10 +118,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Requestor = requestor;
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
-    let newActivity = serviceTicket.requestNewActivityDetail();
-    newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
-    newActivity.ActivityDescription = 'Created';
-    newActivity.ActivityBy = requestor;
+    serviceTicket.syncDomainEventFactory.addServiceTicketV1CreatedEvent({ requestor });
     serviceTicket.isNew = false;
     return serviceTicket;
   }
@@ -143,7 +154,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     return this.props.priority;
   }
   get activityLog(): ReadonlyArray<ActivityDetailEntityReference> {
-    return this.props.activityLog.items.map((a) => new ActivityDetail(a, this.context, this.visa));
+    return this.props.activityLog.items.map((a) => new ActivityDetail(a, this));
   }
   get messages(): ReadonlyArray<ServiceTicketV1Message> {
     return this.props.messages.items.map((m) => new ServiceTicketV1Message(m, this.context, this.visa));
@@ -215,7 +226,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     ) {
       throw new Error('Unauthorized1');
     }
-    this.props.setPropertyRef(property);
+    this.props.setPropertyRef(property);this.Description
   }
 
   private set Requestor(requestor: MemberEntityReference) {
@@ -343,9 +354,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     this.addIntegrationEvent(ServiceTicketV1DeletedEvent, { id: this.props.id });
   }
 
-  private requestNewActivityDetail(): ActivityDetail {
+  public requestNewActivityDetail(): ActivityDetail {
     let activityDetail = this.props.activityLog.getNewItem();
-    return new ActivityDetail(activityDetail, this.context, this.visa);
+    return new ActivityDetail(activityDetail, this);
   }
 
   private requestNewMessage(): ServiceTicketV1Message {

@@ -33,11 +33,7 @@ export abstract class MongoRepositoryBase<
     item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
-    for await (let event of item.getDomainEvents()) {
-      console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);
-      await this.eventBus.dispatch(event as any, event['payload']);
-    }
-    item.clearDomainEvents();
+    item.processSyncDomainEvents();
     this.itemsInTransaction.push(item);
     try {
       if (item.isDeleted === true) {
@@ -53,6 +49,8 @@ export abstract class MongoRepositoryBase<
       throw error;
     }
   }
+
+  
 
   async getIntegrationEvents(): Promise<DomainEvent[]> {
     const integrationEventsGroup = this.itemsInTransaction.map((item) => {

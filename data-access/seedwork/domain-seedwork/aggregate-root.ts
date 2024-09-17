@@ -1,46 +1,54 @@
+import { SyncDomainEventPayloadBaseType, SyncDomainEventType } from '../event-bus-seedwork-node/sync-domain-event-bus';
 import { Visa } from '../passport-seedwork/visa';
 import { BaseDomainExecutionContext } from './base-domain-execution-context';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
-export interface RootEventRegistry {
+// creating separate interfaces to be used in different contexts
+export interface AggregateRootTypeForApplicationService <ContextType extends BaseDomainExecutionContext>{
   addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
+  get context(): ContextType;
   get visa(): Visa;
-  get syncDomainEventClass(): any;
 }
 
-export  class AggregateRoot<
-  PropType extends DomainEntityProps,
-  ContextType extends BaseDomainExecutionContext,
-  VisaType extends Visa
-> extends DomainEntity<PropType> implements RootEventRegistry {
+export interface AggregateRootTypeForSyncDomainEvent {
+  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void;
+}
+export interface AggregateRootTypeForInfrastructureService {
+  processSyncDomainEvents(): void;
+}
+
+export  class AggregateRoot<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> 
+  extends DomainEntity<PropType> 
+  implements AggregateRootTypeForApplicationService<ContextType>, AggregateRootTypeForInfrastructureService, AggregateRootTypeForSyncDomainEvent
+{
   private _executionContext: ContextType;
-  private readonly _syncDomainEventMap: Map<string, Array<(event: any) => void>> = new Map<string, Array<(event: any) => void>>();
+  private _syncDomainEvents: SyncDomainEventType<any>[] = [];
 
   constructor(
     props: PropType, 
     private readonly _domainExecutionContext: ContextType,
     private readonly _systemExecutionContext: ContextType,
     private readonly _visaFunc: (executionContext: ContextType) => VisaType,
-    private readonly _syncDomainEventHandlers: {[key: string]: ((event: any) => void)[]},
-    private readonly _syncDomainEventClass: any
+    private readonly _syncDomainEventHandlers: any,
   ) {
     super(props);
     this._executionContext = this._domainExecutionContext;
-    Object.entries(this._syncDomainEventHandlers).forEach(([key, value]) => {
-      value.forEach(f => f.bind(this));
-      this._syncDomainEventMap.set(key, value);
-    });
   }
 
-  public get _context(): ContextType {
+  // for context
+  public get context(): ContextType {
     return this._executionContext;
+  }
+  public get systemExecutionContext(): ContextType {
+    return this._systemExecutionContext;
   }
   public get visa(): VisaType {
     return this._visaFunc(this._executionContext);
   }
 
+  // for delete
   private _isDeleted: boolean = false;
   public get isDeleted(): boolean {
     return this._isDeleted;
@@ -49,44 +57,40 @@ export  class AggregateRoot<
     this._isDeleted = value;
   }
 
-  private _syncDomainEvents: DomainEvent[] = [];
-  public addSyncDomainEvent<EventPayloadType, T extends CustomDomainEvent<EventPayloadType>> (syncDomainEvent: new (aggregateId: string) => T, payload: T['payload']): void {
-    let syncDomainEventToAdd = new syncDomainEvent(this.props.id);
-    syncDomainEventToAdd.payload = payload;
-    this._syncDomainEvents.push(syncDomainEventToAdd);
+  // for sync domain event
+  public addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void {
+      let eventToAdd = new event();
+      eventToAdd.payload = payload;
+      this._syncDomainEvents.push(eventToAdd);
   }
-  public clearSyncDomainEvents (): void {
-    this._syncDomainEvents.splice(0, this._syncDomainEvents.length);
+  public get syncDomainEvents(): SyncDomainEventType<any>[] {
+      return this._syncDomainEvents;
   }
-  public getSyncDomainEvents(): DomainEvent[] {
-    return this._syncDomainEvents;
+  public get syncDomainEventHandlers(): any {
+      return this._syncDomainEventHandlers;
   }
-  public processSyncDomainEvents() {
-    this._executionContext = this._systemExecutionContext;
-    do{
-      let syncDomainEventsToProcess: DomainEvent[] = this.getSyncDomainEvents();
-      this.clearSyncDomainEvents();
-      syncDomainEventsToProcess.forEach((event: DomainEvent) => this.dispatchSyncDomainEvent(event));
-      // for await (let event of item.getDomainEvents()) {
-      //   console.log(`Repo dispatching DomainEvent : ${JSON.stringify(event)}`);
-      //   await this.domainEventBus.dispatch(event as any, event['payload']);
-      // }
-    } while (this.getSyncDomainEvents().length > 0);
-  }
-  private dispatchSyncDomainEvent<T extends DomainEvent> (event: T): void {
-    const eventClassName: string = event.constructor.name;
-
-    if (this._syncDomainEventMap.has(eventClassName)) {
-      // const handlers: any[] = this.handlersMap[eventClassName];
-      for (let handler of this._syncDomainEventMap.get(eventClassName)!) {
-        handler(event);
+  public processSyncDomainEvents(maxIterations: number = 100) {
+    this._executionContext = this.systemExecutionContext;
+    let iterations = 0;
+    while (this.syncDomainEvents.length > 0){
+      if (iterations >= maxIterations) {
+        console.warn("Max iterations reached while processing sync domain events.");
+        break;
       }
-    }
-  }
-  public get syncDomainEventClass(): any {
-      return this._syncDomainEventClass;
+      iterations++;
+      console.log("Processing sync domain events...");
+
+      const event = this.syncDomainEvents.shift();
+      if (event) {
+        const eventHandler = this.syncDomainEventHandlers[event.constructor.name];
+        if (eventHandler) {
+          eventHandler.call(this, event.payload);
+        }
+      }
+    } ;
   }
 
+  // for domain events
   private domainEvents: DomainEvent[] = [];
   public addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']) {
     let eventToAdd = new event(this.props.id);
@@ -100,6 +104,7 @@ export  class AggregateRoot<
     return this.domainEvents;
   }
 
+  // for integration events
   private integrationEvents: DomainEvent[] = [];
   public addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']) {
     let eventToAdd = new event(this.props.id);
@@ -113,6 +118,7 @@ export  class AggregateRoot<
     return this.integrationEvents;
   }
 
+  // for save
   public onSave(isModified: boolean): void {
     //override this method to do something on save
   }

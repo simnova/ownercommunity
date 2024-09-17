@@ -69,7 +69,7 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   public get syncDomainEventHandlers(): any {
       return this._syncDomainEventHandlers;
   }
-  public processSyncDomainEvents(this: AggregateRoot<PropType, ContextType, VisaType>, maxIterations: number = 100) {
+  public processSyncDomainEvents(maxIterations: number = 100) {
     this._executionContext = this.systemExecutionContext;
     let iterations = 0;
     while (this.syncDomainEvents.length > 0){

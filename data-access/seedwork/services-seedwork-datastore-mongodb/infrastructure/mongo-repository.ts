@@ -33,7 +33,7 @@ export abstract class MongoRepositoryBase<
     item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
-    item.processSyncDomainEvents.bind(item)();
+    item.processSyncDomainEvents();
     this.itemsInTransaction.push(item);
     try {
       if (item.isDeleted === true) {

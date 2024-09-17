@@ -11,5 +11,6 @@ type DomainType = ServiceTicketV1<ServiceTicketV1Props>;
 
 export function serviceTicketV1ActivityLogCreatedSyncDomainEventHandler (this: DomainType, payload: ServiceTicketV1ActivityLogCreatedSyncDomainEventPayload): void {
     // Implement event processing logic here
+    // remove it after testing
     console.log("serviceTicketV1ActivityLogCreatedSyncDomainEvent processed");
 }

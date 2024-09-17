@@ -4,23 +4,24 @@ import { BaseDomainExecutionContext } from './base-domain-execution-context';
 import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
-// interface to be used in Application Service tier
-export interface AggregateRootApplicationService <ContextType extends BaseDomainExecutionContext>{
+// creating separate interfaces to be used in different contexts
+export interface AggregateRootTypeForApplicationService <ContextType extends BaseDomainExecutionContext>{
   addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
   get context(): ContextType;
   get visa(): Visa;
-  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void;
 }
 
-// interface to be used in Infrastructure Service tier
-export interface AggregateRootInfrastructureService {
+export interface AggregateRootTypeForSyncDomainEvent {
+  addSyncDomainEvent<EventPayloadType extends SyncDomainEventPayloadBaseType, T extends SyncDomainEventType<EventPayloadType>>(event: new () => T, payload: EventPayloadType) : void;
+}
+export interface AggregateRootTypeForInfrastructureService {
   processSyncDomainEvents(): void;
 }
 
 export  class AggregateRoot<PropType extends DomainEntityProps, ContextType extends BaseDomainExecutionContext, VisaType extends Visa> 
   extends DomainEntity<PropType> 
-  implements AggregateRootApplicationService<ContextType>, AggregateRootInfrastructureService
+  implements AggregateRootTypeForApplicationService<ContextType>, AggregateRootTypeForInfrastructureService, AggregateRootTypeForSyncDomainEvent
 {
   private _executionContext: ContextType;
   private _syncDomainEvents: SyncDomainEventType<any>[] = [];
@@ -39,6 +40,9 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
   // for context
   public get context(): ContextType {
     return this._executionContext;
+  }
+  public get systemExecutionContext(): ContextType {
+    return this._systemExecutionContext;
   }
   public get visa(): VisaType {
     return this._visaFunc(this._executionContext);
@@ -59,10 +63,16 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
       eventToAdd.payload = payload;
       this._syncDomainEvents.push(eventToAdd);
   }
-  public processSyncDomainEvents(maxIterations: number = 100) {
-    this._executionContext = this._systemExecutionContext;
+  public get syncDomainEvents(): SyncDomainEventType<any>[] {
+      return this._syncDomainEvents;
+  }
+  public get syncDomainEventHandlers(): any {
+      return this._syncDomainEventHandlers;
+  }
+  public processSyncDomainEvents(this: AggregateRoot<PropType, ContextType, VisaType>, maxIterations: number = 100) {
+    this._executionContext = this.systemExecutionContext;
     let iterations = 0;
-    while (this._syncDomainEvents.length > 0){
+    while (this.syncDomainEvents.length > 0){
       if (iterations >= maxIterations) {
         console.warn("Max iterations reached while processing sync domain events.");
         break;
@@ -70,17 +80,14 @@ export  class AggregateRoot<PropType extends DomainEntityProps, ContextType exte
       iterations++;
       console.log("Processing sync domain events...");
 
-      const event = this._syncDomainEvents.shift();
+      const event = this.syncDomainEvents.shift();
       if (event) {
-        this.dispatchSyncDomainEvent(event);
+        const eventHandler = this.syncDomainEventHandlers[event.constructor.name];
+        if (eventHandler) {
+          eventHandler.call(this, event.payload);
+        }
       }
     } ;
-  }
-  private dispatchSyncDomainEvent(event: SyncDomainEventType<any>): void {
-    const eventHandler = this._syncDomainEventHandlers[event.constructor.name];
-    if (eventHandler) {
-      eventHandler.call(this, event.payload);
-    }
   }
 
   // for domain events

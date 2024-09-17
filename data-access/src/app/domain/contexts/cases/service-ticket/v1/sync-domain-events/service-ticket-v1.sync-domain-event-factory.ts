@@ -1,4 +1,4 @@
-import { ServiceTicketV1, ServiceTicketV1Props } from "../service-ticket-v1";
+import { AggregateRootTypeForSyncDomainEvent } from "../../../../../../../../seedwork/domain-seedwork/aggregate-root";
 import { ServiceTicketV1ActivityLogCreatedSyncDomainEvent } from "./types/service-ticket-v1-activity-log-created.sync-domain-event";
 import { ServiceTicketV1CreatedSyncDomainEvent, ServiceTicketV1CreatedSyncDomainEventPayload } from "./types/service-ticket-v1-created.sync-domain-event";
 
@@ -10,7 +10,7 @@ export interface ServiceTicketV1SyncDomainEventFactory {
 
 export class ServiceTicketV1SyncDomainEventFactoryImpl implements ServiceTicketV1SyncDomainEventFactory {
 
-    constructor (private readonly root: ServiceTicketV1<ServiceTicketV1Props>) {}
+    constructor (private readonly root: AggregateRootTypeForSyncDomainEvent) {}
 
     public addServiceTicketV1CreatedEvent(props: ServiceTicketV1CreatedSyncDomainEventPayload): void {
         this.root.addSyncDomainEvent(ServiceTicketV1CreatedSyncDomainEvent, props);

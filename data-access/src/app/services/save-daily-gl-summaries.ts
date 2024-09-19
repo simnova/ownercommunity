@@ -1,4 +1,11 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 import { BlobStorageBase } from "../../../seedwork/services-seedwork-blob-storage-interfaces";
+import { DailyGlSummarySettings } from "./process-daily-gl-summaries";
 
 export interface BlobSettings {
   blobStorage: BlobStorageBase;
@@ -17,7 +24,7 @@ export interface BlobSettings {
  * @param blobBasePath The base path for the blob name, ex: 'daily-gl-summaries'
  */
 export const SaveDailyGlSummaries = async <TransactionType, PostingSummaryType>(
-  glTransactionDate: Date,
+  glTransactionDate: string,
   glTransactionData: TransactionType[],
   glPostingSummaryData: PostingSummaryType,
   { blobStorage, blobContainerName, blobBasePath }: BlobSettings
@@ -38,56 +45,67 @@ export const SaveDailyGlSummaries = async <TransactionType, PostingSummaryType>(
     }
 
     // Daily GL Transaction Summary
-    const blobNameForGlTransactionSummary = `${blobBasePath}/${convertTimestampIntoBlobName(glTransactionDate)}${BlobNameSuffix.TransactionSummary}`;
+    const blobNameForGlTransactionSummary = `${blobBasePath}/${glTransactionDate}${BlobNameSuffix.TransactionSummary}`;
     const glTransactionTags: Record<string, string> = {
-      glTransactionDate: glTransactionDate.toISOString(),
+      glTransactionDate: glTransactionDate,
       type: BlobTagForType.TransactionSummary,
     };
 
     // ensure the file exists in blob storage and has the correct number of transactions
-    const callbackToVerifyBlobUploadForTransactions = (blobText: string):boolean => {
+    const callbackOnUploadTransactionSummarySuccess = (blobText: string):boolean => {
       const fileContent = JSON.parse(blobText) as TransactionType[];
       if (fileContent.length !== glTransactionData.length) {
-        console.error(`Error: ${blobNameForGlTransactionSummary} has ${fileContent.length} transactions, expected ${glTransactionData.length}`);
+        console.error(`[ProcessDailyGlSummaries] | [SaveDailyGlSummaries] | ${glTransactionDate} | Error: ${blobNameForGlTransactionSummary} has ${fileContent.length} transactions, expected ${glTransactionData.length}`);
         return false
       }
       return true;
     };
 
     // create blob for gl transaction summary
-    await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlTransactionSummary, blobContainerName, JSON.stringify(glTransactionData), callbackToVerifyBlobUploadForTransactions, 'application/json', glTransactionTags);
+    console.log(`[ProcessDailyGlSummaries] | [SaveDailyGlSummaries] | ${glTransactionDate} | Saving ${glTransactionDate}${BlobNameSuffix.TransactionSummary} to blob storage`);
+    await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlTransactionSummary, blobContainerName, JSON.stringify(glTransactionData), 'application/json', glTransactionTags, callbackOnUploadTransactionSummarySuccess);
 
     // Daily GL Posting Summary
-    const blobNameForGlPostingSummary = `${blobBasePath}/${convertTimestampIntoBlobName(glTransactionDate)}${BlobNameSuffix.PostingSummary}`;
+    const blobNameForGlPostingSummary = `${blobBasePath}/${glTransactionDate}${BlobNameSuffix.PostingSummary}`;
     const glPostingSummaryTags: Record<string, string> = {
-      glTransactionDate: glTransactionDate.toISOString(),
+      glTransactionDate: glTransactionDate,
       type: BlobTagForType.PostingSummary,
       status: glPostingSummaryData['glSummary'].length > 0 ? BlobTagForStatus.New : BlobTagForStatus.NoTxn, 
     };
 
     // ensure the file exists in blob storage and has the correct number of transactions
-    const callbackToVerifyBlobUploadForPostingSummary = (blobText: string):boolean => {
-      const fileContent = JSON.parse(blobText) as PostingSummaryType[];
+    const callbackOnUploadPostingSummarySuccess = (blobText: string):boolean => {
+      const fileContent = JSON.parse(blobText) as PostingSummaryType;
       // [TODO] need to validate this a different way
       if (fileContent['glSummary'].length !== glPostingSummaryData['glSummary'].length) {
-        console.error(`Error: ${blobNameForGlTransactionSummary} has ${fileContent.length} transactions, expected ${glTransactionData.length}`);
+        console.error(`[ProcessDailyGlSummaries] | [SaveDailyGlSummaries] | ${glTransactionDate} | Error: ${blobNameForGlTransactionSummary} has ${fileContent['glSummary'].length} transactions, expected ${glTransactionData.length}`);
         return false
       }
+
+      // [TODO] send message to storage queue to alert Mule
+
       return true;
     };
 
     // create blob for gl posting summary
-    await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlPostingSummary, blobContainerName, JSON.stringify(glPostingSummaryData), callbackToVerifyBlobUploadForPostingSummary, 'application/json', glPostingSummaryTags);
+    console.log(`[ProcessDailyGlSummaries] | [SaveDailyGlSummaries] | ${glTransactionDate} | Saving ${glTransactionDate}${BlobNameSuffix.PostingSummary} to blob storage`);
+    await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlPostingSummary, blobContainerName, JSON.stringify(glPostingSummaryData), 'application/json', glPostingSummaryTags, callbackOnUploadPostingSummarySuccess);
 };
 
 export const convertTimestampIntoBlobName = (timestamp: Date): string => {
   return timestamp.toISOString().replace(/[-T:.Z]/g,'')
 }
 
-export const determineLastProcessedDate = async ({ blobStorage, blobContainerName, blobBasePath }: BlobSettings): Promise<Date> => {
+export const determineStartDate = async ({ blobStorage, blobContainerName, blobBasePath }: BlobSettings): Promise<DailyGlSummarySettings> => {
   try {
-    const blobDates = (await blobStorage.listBlobs(blobContainerName, blobBasePath))?.map((blob) => new Date(blob?.tags?.glTransactionDate)) ?? [];
-    return sortDateArray(blobDates, -1)?.[0] ?? new Date();
+    const blobDates = (await blobStorage.listBlobs(blobContainerName, blobBasePath)) ?? [];
+    // should return current date minus one if no entries in blob, else last processed date plus one
+    // [TODO] convert timestamps to start of day
+    const startTimestamp = convertToStartOfDayEST(calculateStartDate(blobDates.map((blob) => blob.tags.glTransactionDate)));
+    const glTransactionDate = convertDateToSimpleDate(startTimestamp);
+    const endTimestamp = convertToStartOfDayEST(new Date());
+    return { glTransactionDate, startTimestamp, endTimestamp };
+    
   } catch (error) {
     console.error(`Error determining last processed date: ${error.message}`);
     return null;
@@ -99,10 +117,23 @@ export const sortDateArray = (arr: Date[], sortOrder: 1|-1) => {
   });
 };
 
+export const calculateStartDate = (blobDates: string[]): Date => {
+  const blobDateArray = blobDates.map((blobDate) => dayjs(blobDate).toDate());
+  const lastProcessedDate = sortDateArray(blobDateArray, -1)?.[0];
+  if (!lastProcessedDate) {
+    return new Date(Date.now() - 86400000); // Current date minus one day
+  }
+  return new Date(lastProcessedDate.setDate(lastProcessedDate.getDate() + 1)); // Last processed date plus one day
+}
+
 function getTime(date?: Date): number {
   return date != null ? date.getTime() : 0;
 }
 
-export const getNumberOfDays = (startDate: Date, endDate: Date): number => {
-  return Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+export const convertDateToSimpleDate = (date: Date): string => {
+  return dayjs(date).format('YYYY-MM-DD');
 }
+
+export const convertToStartOfDayEST = (date: Date): Date => {
+  return date ? dayjs.tz(date, 'America/New_York').startOf('day').toDate() : null;
+};

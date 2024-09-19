@@ -1,8 +1,7 @@
 import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext } from '../../../../domain-execution-context';
-import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './activity-detail.value-objects';
+import { ServiceTicketV1RootRegistry } from './service-ticket-v1';
 
 export interface ActivityDetailPropValues extends DomainEntityProps {
   activityType: string;
@@ -18,7 +17,7 @@ export interface ActivityDetailEntityReference extends Readonly<Omit<ActivityDet
 }
 
 export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements ActivityDetailEntityReference {
-  constructor(props: ActivityDetailProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketV1Visa) {
+  constructor(props: ActivityDetailProps, private root: ServiceTicketV1RootRegistry) {
     super(props);
   }
 
@@ -29,13 +28,17 @@ export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements
     return this.props.activityDescription;
   }
   get activityBy(): MemberEntityReference {
-    return new Member(this.props.activityBy, this.context);
+    return new Member(this.props.activityBy, this.root.context);
   }
 
   // using set from TS 5.1
 
   set ActivityType(activityTypeCode: string) {
     this.props.activityType = new ValueObjects.ActivityTypeCode(activityTypeCode).valueOf();
+    // for testing sync domain events in nested entities
+    if(activityTypeCode === ValueObjects.ActivityTypeCodes.Created) {
+      this.root.syncDomainEventFactory.addServiceTicketV1ActivityLogCreatedEvent();
+    }
   }
   set ActivityDescription(activityDescription: string) {
     this.props.activityDescription = new ValueObjects.Description(activityDescription).valueOf();

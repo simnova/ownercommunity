@@ -112,7 +112,7 @@ export class BlobActions {
     await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType } });
   };
 
-  public createTextBlobIfNotExistsAndConfirm = async (blobName: string, container: string, text: string, callback: (blobText: string) => boolean, contentType:string='text/plain', tags?: Record<string, string>) => {
+  public createTextBlobIfNotExistsAndConfirm = async (blobName: string, container: string, text: string, contentType:string='text/plain', tags?: Record<string, string>, callbackOnSuccess?: (blobText: string) => boolean) => {
     const doesBlobExistCheckTimestamp = new Date();
     const doesBlobExist = await this.checkBlobExists(blobName, container);
     if(doesBlobExist === false) {
@@ -127,15 +127,24 @@ export class BlobActions {
         } else {
           throw error;
         }
-      }
-      fetch(blobUrl).then(response => response.text()).then(text => {
-        if (callback(text)) {
-          console.log('Blob created successfully and the file contents are valid');
-        } else {
-          console.log('Blob created successfully but the file contents are invalid');
-          // [TODO] should at least throw an error at this point to be handled in the calling function
+      } finally {
+          const authenticatedBlobUrl = await this.generateReadSasToken(blobName, container, 1);
+          try {
+            fetch(authenticatedBlobUrl).then((response) => response.text()).then((text) => {
+              if (!callbackOnSuccess) {
+                console.log('Blob created successfully');
+              }
+              else if (callbackOnSuccess(text)) {
+                console.log('Blob created successfully and the file contents are valid');
+              } else {
+                console.log('Blob created successfully but the file contents are invalid');
+                // [TODO] should at least throw an error at this point to be handled in the calling function
+              }
+            });
+          } catch (error) {
+            console.log('Error fetching blob: ' + error);
+          }
         }
-      });
     } else {
       console.log('Blob already exists');
     }

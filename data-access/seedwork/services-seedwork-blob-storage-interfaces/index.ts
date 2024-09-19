@@ -38,7 +38,7 @@ export type BlobMetadataField = {
 export interface BlobStorageBase {
   deleteBlob(blobName: string, containerName: string): Promise<void>;
   createTextBlob(blobName: string, containerName: string, text: string, contentType?: string): Promise<void>;
-  createTextBlobIfNotExistsAndConfirm(blobName: string, containerName: string, text: string, callback: (blobText: string) => boolean, contentType?: string, tags?: Record<string, string>): Promise<void>;
+  createTextBlobIfNotExistsAndConfirm(blobName: string, containerName: string, text: string, contentType?: string, tags?: Record<string, string>, callbackOnSuccess?: (blobText: string) => boolean): Promise<void>;
   createContainer(containerName: string, allowPublicAccess?: boolean): Promise<void>;
   listBlobs(containerName: string, path?: string): Promise<FileInfo[]>;
   findBlobsByTags(searchCriteria: string): Promise<FileInfo[]>;

@@ -48,8 +48,8 @@ export class AzBlobStorage implements BlobStorageBase {
    * @param contentType (optional) The content type of the blob (default: text/plain)
    * @param tags (optional) The index tags to add to the blob
    */
-  public createTextBlobIfNotExistsAndConfirm(blobName: string, containerName: string, text: string, callback: (blobText: string) => boolean, contentType:string='text/plain', tags?: Record<string, string>):Promise<void>{
-    return (new BlobActions(this.accountName,this.accountKey)).createTextBlobIfNotExistsAndConfirm(blobName,containerName,text,callback,contentType,tags);
+  public createTextBlobIfNotExistsAndConfirm(blobName: string, containerName: string, text: string, contentType:string='text/plain', tags?: Record<string, string>, callbackOnSuccess?: (blobText: string) => boolean):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).createTextBlobIfNotExistsAndConfirm(blobName,containerName,text,contentType,tags,callbackOnSuccess);
   }
   /**
    * Creates a container in the blob storage account

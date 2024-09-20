@@ -191,7 +191,8 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
     }
   }
   public setActivityByRef(activityBy: MemberEntityReference) {
-    this.props.set('activityBy', activityBy['props']['doc']);
+    // this.props.set('activityBy', activityBy['props']['doc']);
+    this.props.set('activityBy', this.infrastructureContext.auditContext.funcToGetMemberRef());
   }
 }
 

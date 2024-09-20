@@ -2,9 +2,10 @@ import { Base } from '../interfaces/base';
 import { DomainEntityProps } from '../../domain-seedwork/domain-entity';
 import { PropArray } from '../../domain-seedwork/prop-array';
 import mongoose from 'mongoose';
+import { InfrastructureContextBase } from '../../infrastructure-seedwork/infrastructure-context-base';
 
-export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{
-  constructor(public readonly doc: T) { }
+export abstract class MongooseDomainAdapter<T extends Base, InfrastructureContextType extends InfrastructureContextBase> implements MongooseDomainAdapterType<T>{
+  constructor(public readonly doc: T, public readonly infrastructureContext: InfrastructureContextType) { }
   get id() {return this.doc.id;}
   get createdAt() {return this.doc.createdAt;}
   get updatedAt() {return this.doc.updatedAt;}
@@ -15,8 +16,8 @@ export interface MongooseDomainAdapterType<T extends Base> extends DomainEntityP
   readonly doc: T;
 }
 
-export class MongoosePropArray<propType extends DomainEntityProps, docType extends mongoose.Document> implements PropArray<propType> {
-  constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType)=>propType) {}
+export class MongoosePropArray<propType extends DomainEntityProps, docType extends mongoose.Document, InfrastructureContextType extends InfrastructureContextBase> implements PropArray<propType> {
+  constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType, infrastructureContext: InfrastructureContextType)=>propType, private readonly infrastructureContext: InfrastructureContextType) {}
   addItem(item: propType): propType {
     const itemId = this.docArray.push(item['doc']);
     return this.docArray[itemId] as any as propType;
@@ -34,10 +35,10 @@ export class MongoosePropArray<propType extends DomainEntityProps, docType exten
     }
     const item = this.docArray.create({_id: new mongoose.Types.ObjectId()});
     this.docArray.push(item);
-    return new this.adapter(item);
+    return new this.adapter(item, this.infrastructureContext);
   }
   get items(): ReadonlyArray<propType> {
-    return this.docArray.map((doc) => new this.adapter(doc));
+    return this.docArray.map((doc) => new this.adapter(doc, this.infrastructureContext));
   }
 }
 

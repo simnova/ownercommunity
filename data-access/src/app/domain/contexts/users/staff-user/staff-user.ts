@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './staff-user.value-objects';
 import { StaffRole, StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';
 import { StaffUserVisa } from './staff-user.visa';
@@ -30,7 +30,7 @@ export interface StaffUserEntityReference extends Readonly<Omit<StaffUserProps, 
 export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props, DomainExecutionContext, StaffUserVisa> implements StaffUserEntityReference  {
   private isNew: boolean = false;
   constructor(props: props, _context:DomainExecutionContext) { 
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forStaffUser(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forStaffUser(this), {});
    }
 
   get id(): string {return this.props.id;}

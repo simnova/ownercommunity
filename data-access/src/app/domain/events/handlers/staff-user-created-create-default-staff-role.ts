@@ -1,9 +1,10 @@
 import { StaffUserCreatedEvent } from '../types/staff-user-created';
-import { SystemExecutionContext } from '../../domain-execution-context';
+import { SystemDomainExecutionContext } from '../../domain-execution-context';
 import { StaffRole } from '../../contexts/community/roles/staff-role/staff-role';
 import { StaffRoleUnitOfWork } from '../../contexts/community/roles/staff-role/staff-role.uow';
 import { StaffUserUnitOfWork } from '../../contexts/users/staff-user/staff-user.uow';
 import { EventBusInstance } from '../event-bus';
+import { SystemInfrastructureContext } from '../../../init/infrastructure-context';
 
 
 export default (
@@ -14,7 +15,7 @@ export default (
   console.log(`StaffUserCreatedEvent -> Default Staff Role Handler - Called with Payload: ${JSON.stringify(payload)}`);
 
   let role: StaffRole<any>;
-  await roleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await roleUnitOfWork.withTransaction(SystemDomainExecutionContext(), SystemInfrastructureContext(), async (repo) => {
     role = await repo.getByRoleName('admin');
     if (!role) {
       role = await repo.getNewInstance('admin');
@@ -30,7 +31,7 @@ export default (
     }
   });
 
-  await staffUserUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await staffUserUnitOfWork.withTransaction(SystemDomainExecutionContext(), SystemInfrastructureContext(), async (repo) => {
       const user = await repo.getByExternalId(payload.externalId);
       user.Role=(role);
       await repo.save(user);

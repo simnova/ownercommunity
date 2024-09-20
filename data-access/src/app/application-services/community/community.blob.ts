@@ -18,9 +18,9 @@ export class CommunityBlobApiImpl
 {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
     let result: FileInfo[] = [];
-    await this.withStorage(async (passport, blobStorage) => {
+    await this.withStorage(async (passport, blobStorage, auditContext) => {
       let community = await this.context.applicationServices.community.dataApi.getCommunityById(communityId);
-      let communityDO = new CommunityConverter().toDomain(community, { domainVisa: passport.domainVisa });
+      let communityDO = new CommunityConverter().toDomain(community, {auditContext}, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
         return;
       }
@@ -62,12 +62,12 @@ export class CommunityBlobApiImpl
 
   public async communityPublicFileRemove(communityId: string, fileName: string): Promise<void> {
     const blobName = `public-files/${fileName}`;
-    await this.withStorage(async (passport, blobStorage) => {
+    await this.withStorage(async (passport, blobStorage, auditContext) => {
       let community = await this.context.applicationServices.community.dataApi.getCommunityById(communityId);
       if (!community) {
         return;
       }
-      let communityDO = new CommunityConverter().toDomain(community, { domainVisa: passport.domainVisa });
+      let communityDO = new CommunityConverter().toDomain(community, {auditContext}, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
         return;
       }
@@ -93,13 +93,13 @@ export class CommunityBlobApiImpl
     fileName?: string
   ) {
     let headerResult: CommunityBlobContentAuthHeaderResult;
-    await this.withStorage(async (passport, blobStorage) => {
+    await this.withStorage(async (passport, blobStorage, auditContext) => {
       let community = await this.context.applicationServices.community.dataApi.getCommunityById(communityId);
       if (!community) {
         headerResult = { status: { success: false, errorMessage: `Community not found: ${communityId}` } } as CommunityBlobContentAuthHeaderResult;
         return;
       }
-      let communityDO = new CommunityConverter().toDomain(community, { domainVisa: passport.domainVisa });
+      let communityDO = new CommunityConverter().toDomain(community, {auditContext}, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
         headerResult = {
           status: { success: false, errorMessage: `User does not have permission to create content for community: ${communityId}` },

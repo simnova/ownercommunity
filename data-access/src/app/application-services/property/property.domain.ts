@@ -6,6 +6,8 @@ import { PropertyDomainAdapter, CommunityConverter, PropertyConverter, MemberCon
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyDeleteInput, PropertyRemoveOwnerInput, PropertyUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 import { CommunityVisa } from "../../domain/contexts/community/community.visa";
+import { ReadOnlyInfrastructureContext } from "../../init/infrastructure-context";
+import { ReadOnlyDomainExecutionContext } from "../../domain/domain-execution-context";
 
 export interface PropertyDomainApi {
   propertyAdd(input: PropertyAddInput): Promise<PropertyData>;
@@ -31,7 +33,7 @@ export class PropertyDomainApiImpl
 
     let propertyToReturn: PropertyData;
     let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
-    let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let communityDo = new CommunityConverter().toDomain(community, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     await this.withTransaction(async (repo) => {
       let newProperty = await repo.getNewInstance(input.propertyName, communityDo);
@@ -46,7 +48,7 @@ export class PropertyDomainApiImpl
     let memberDo;
     if (input.owner !== undefined) {
       let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.owner?.id);
-      memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+      memberDo = new MemberConverter().toDomain(mongoMember, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     }
     
     await this.withTransaction(async (repo) => {
@@ -156,7 +158,7 @@ export class PropertyDomainApiImpl
   async propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
     let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.ownerId);
-    let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let memberDo = new MemberConverter().toDomain(mongoMember, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.Owner = (memberDo);

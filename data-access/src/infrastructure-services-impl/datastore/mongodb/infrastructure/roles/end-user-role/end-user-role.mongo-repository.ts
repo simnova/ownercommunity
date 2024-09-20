@@ -5,18 +5,19 @@ import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seed
 import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
 import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
+import { InfrastructureContext } from '../../../../../../app/init/infrastructure-context';
 
 export class MongoEndUserRoleRepository<PropType extends EndUserRoleProps>
-  extends MongoRepositoryBase<DomainExecutionContext, EndUserRole, PropType, CommunityVisa, EndUserRoleDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, EndUserRole, PropType, CommunityVisa, EndUserRoleDO<PropType>, InfrastructureContext>
   implements EndUserRoleRepository<PropType>
 {
   async getById(id: string): Promise<EndUserRoleDO<PropType>> {
     const mongoRole = await this.model.findById(id).populate('community').exec();
-    return this.typeConverter.toDomain(mongoRole, this.context);
+    return this.typeConverter.toDomain(mongoRole, this.infrastructureContext, this.domainExecutionContext);
   }
 
   async getNewInstance(name: string, community: CommunityEntityReference): Promise<EndUserRoleDO<PropType>> {
-    const adapter = this.typeConverter.toAdapter(new this.model());
-    return EndUserRoleDO.getNewInstance(adapter, name, false, community, this.context);
+    const adapter = this.typeConverter.toAdapter(new this.model(), this.infrastructureContext);
+    return EndUserRoleDO.getNewInstance(adapter, name, false, community, this.domainExecutionContext);
   }
 }

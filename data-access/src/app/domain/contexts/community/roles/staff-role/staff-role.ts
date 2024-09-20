@@ -1,6 +1,6 @@
 import { AggregateRoot } from "../../../../../../../seedwork/domain-seedwork/aggregate-root";
 import { DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
-import { DomainExecutionContext, SystemExecutionContext } from "../../../../domain-execution-context";
+import { DomainExecutionContext, SystemDomainExecutionContext } from "../../../../domain-execution-context";
 import { RoleDeletedReassignEvent } from "../../../../events/types/role-deleted-reassign";
 import { CommunityVisa } from "../../community.visa";
 import { StaffRolePermissionsProps, StaffRolePermissionsEntityReference, StaffRolePermissions } from "./staff-role-permissions";
@@ -23,7 +23,7 @@ export interface StaffRoleEntityReference extends Readonly<Omit<StaffRoleProps, 
 export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements StaffRoleEntityReference {
   private isNew: boolean = false;
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forStaffRole(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forStaffRole(this), {});
   }
 
   get roleName() {

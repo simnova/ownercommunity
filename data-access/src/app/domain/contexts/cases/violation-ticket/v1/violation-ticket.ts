@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../../../prope
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './violation-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './violation-ticket.value-objects';
@@ -87,7 +87,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   private isNew: boolean = false;
 
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(

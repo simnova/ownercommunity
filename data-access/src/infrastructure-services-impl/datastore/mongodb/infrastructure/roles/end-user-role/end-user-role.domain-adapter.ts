@@ -14,6 +14,7 @@ import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain
 import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-ticket-permissions';
 import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-violation-ticket-permissions';
 import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
+import { InfrastructureContext } from '../../../../../../app/init/infrastructure-context';
 
 
 export class EndUserRoleConverter extends MongoTypeConverter<
@@ -21,14 +22,15 @@ export class EndUserRoleConverter extends MongoTypeConverter<
   EndUserRole, 
   EndUserRoleDomainAdapter, 
   CommunityVisa,
-  EndUserRoleDO<EndUserRoleDomainAdapter>
+  EndUserRoleDO<EndUserRoleDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(EndUserRoleDomainAdapter, EndUserRoleDO);
   }
 }
 
-export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole> implements EndUserRoleProps {
+export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole, InfrastructureContext> implements EndUserRoleProps {
   get roleName() {
     return this.doc.roleName;
   }
@@ -41,7 +43,7 @@ export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole>
       console.warn('Community not populated - may want to look at repository populate', this.doc.community);
     }
     if (this.doc.community) {
-      return new CommunityDomainAdapter(this.doc.community);
+      return new CommunityDomainAdapter(this.doc.community, this.infrastructureContext);
     }
   }
   setCommunityRef(community: CommunityProps) {
@@ -59,36 +61,36 @@ export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole>
     if (!this.doc.permissions) {
       this.doc.set('permissions', {});
     }
-    return new EndUserRolePermissionsAdapter(this.doc.permissions);
+    return new EndUserRolePermissionsAdapter(this.doc.permissions, this.infrastructureContext);
   }
 }
 
 class EndUserRolePermissionsAdapter implements EndUserRolePermissionsProps {
-  constructor(public readonly props: EndUserRolePermissions) {}
+  constructor(public readonly props: EndUserRolePermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get communityPermissions() {
-    return new EndUserRoleCommunityPermissionsAdapter(this.props.communityPermissions);
+    return new EndUserRoleCommunityPermissionsAdapter(this.props.communityPermissions, this.infrastructureContext);
   }
 
   public get propertyPermissions() {
-    return new EndUserRolePropertyPermissionsAdapter(this.props.propertyPermissions);
+    return new EndUserRolePropertyPermissionsAdapter(this.props.propertyPermissions, this.infrastructureContext);
   }
 
   public get servicePermissions() {
-    return new EndUserRoleServicePermissionsAdapter(this.props.servicePermissions);
+    return new EndUserRoleServicePermissionsAdapter(this.props.servicePermissions, this.infrastructureContext);
   }
 
   public get serviceTicketPermissions() {
-    return new EndUserRoleServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
+    return new EndUserRoleServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions, this.infrastructureContext);
   }
 
   public get violationTicketPermissions() {
-    return new EndUserRoleAdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
+    return new EndUserRoleAdminTicketPermissionsAdapter(this.props.violationTicketPermissions, this.infrastructureContext);
   }
 }
 
 class EndUserRoleCommunityPermissionsAdapter implements EndUserRoleCommunityPermissionsProps {
-  constructor(public readonly props: EndUserRoleCommunityPermissions) {}
+  constructor(public readonly props: EndUserRoleCommunityPermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get canManageRolesAndPermissions() {
     return this.props.canManageRolesAndPermissions;
@@ -141,7 +143,7 @@ class EndUserRoleCommunityPermissionsAdapter implements EndUserRoleCommunityPerm
 }
 
 class EndUserRolePropertyPermissionsAdapter implements EndUserRolePropertyPermissionsProps {
-  constructor(public readonly props: EndUserRolePropertyPermissions) {}
+  constructor(public readonly props: EndUserRolePropertyPermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get canManageProperties() {
     return this.props.canManageProperties;
@@ -166,7 +168,7 @@ class EndUserRolePropertyPermissionsAdapter implements EndUserRolePropertyPermis
 }
 
 class EndUserRoleServicePermissionsAdapter implements EndUserRoleServicePermissionsProps {
-  constructor(public readonly props: EndUserRoleServicePermissions) {}
+  constructor(public readonly props: EndUserRoleServicePermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get canManageServices() {
     return this.props.canManageServices;
@@ -181,7 +183,7 @@ class EndUserRoleServicePermissionsAdapter implements EndUserRoleServicePermissi
 }
 
 class EndUserRoleServiceTicketPermissionsAdapter implements EndUserRoleServiceTicketPermissionsProps {
-  constructor(public readonly props: EndUserRoleServiceTicketPermissions) {}
+  constructor(public readonly props: EndUserRoleServiceTicketPermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get canCreateTickets() {
     return this.props.canCreateTickets;
@@ -223,7 +225,7 @@ class EndUserRoleServiceTicketPermissionsAdapter implements EndUserRoleServiceTi
 }
 
 class EndUserRoleAdminTicketPermissionsAdapter implements EndUserRoleViolationTicketPermissionsProps {
-  constructor(public readonly props: EndUserRoleViolationTicketPermissions) {}
+  constructor(public readonly props: EndUserRoleViolationTicketPermissions, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get canCreateTickets() {
     return this.props.canCreateTickets;

@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../../../prope
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot, AggregateRootTypeForApplicationService } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
@@ -91,7 +91,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
   private readonly _syncDomainEventFactory: ServiceTicketV1SyncDomainEventFactory;
 
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ServiceTicketV1SyncDomainEventHandlers);
     this._syncDomainEventFactory = new ServiceTicketV1SyncDomainEventFactoryImpl(this);  
   }
 

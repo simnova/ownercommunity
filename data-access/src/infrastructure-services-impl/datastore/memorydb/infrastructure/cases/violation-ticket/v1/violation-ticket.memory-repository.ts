@@ -18,6 +18,7 @@ import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1Revis
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
 import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
+import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
 
 class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;
@@ -134,7 +135,7 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
 }
 
 export class MemoryViolationTicketV1Repository<PropType extends ViolationTicketV1Props, DomainType extends ViolationTicketV1<PropType>>
-  extends MemoryRepositoryBase<DomainExecutionContext, PropType, ViolationTicketV1Visa, DomainType>
+  extends MemoryRepositoryBase<DomainExecutionContext, PropType, ViolationTicketV1Visa, DomainType, InfrastructureContext>
   implements ViolationTicketV1Repository<PropType>
 {
   async getNewInstance(

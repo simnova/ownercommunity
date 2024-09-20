@@ -1,7 +1,7 @@
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './service.value-objects';
 import { ServiceVisa } from './service.visa';
 
@@ -25,7 +25,7 @@ export class Service<props extends ServiceProps> extends AggregateRoot<props, Do
   private isNew: boolean = false;
   
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forService(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forService(this), {});
   }
 
   public static getNewInstance<props extends ServiceProps>(

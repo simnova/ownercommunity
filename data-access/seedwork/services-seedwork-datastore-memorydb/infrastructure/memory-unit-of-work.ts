@@ -7,18 +7,20 @@ import { PersistanceUnitOfWork } from "../../domain-seedwork/unit-of-work";
 import { MemoryRepositoryBase } from "./memory-repository";
 import { MemoryStore } from "./memory-store";
 import { Visa } from "../../passport-seedwork/visa";
+import { InfrastructureContextBase } from "../../infrastructure-seedwork/infrastructure-context-base";
 
 export class MemoryUnitOfWork<
-  ContextType extends BaseDomainExecutionContext,
+  DomainExecutionContextType extends BaseDomainExecutionContext,
   PropType extends DomainEntityProps, 
   VisaType extends Visa,
-  DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
-  RepoType extends MemoryRepositoryBase<ContextType, PropType, VisaType, DomainType>
-  > extends PersistanceUnitOfWork<ContextType,PropType, VisaType, DomainType,RepoType> {
+  DomainType extends AggregateRoot<PropType, DomainExecutionContextType, VisaType>,
+  InfrastructureContextType extends InfrastructureContextBase,
+  RepoType extends MemoryRepositoryBase<DomainExecutionContextType, PropType, VisaType, DomainType, InfrastructureContextType>
+  > extends PersistanceUnitOfWork<DomainExecutionContextType,PropType, VisaType, DomainType,RepoType,InfrastructureContextType> {
   
-  async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
+  async withTransaction(domainExecutionContext:DomainExecutionContextType, infrastructureContext: InfrastructureContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
     let repoEvents: DomainEvent[] = [];
-    let repo = MemoryRepositoryBase.create(this.bus, this.domainClass, context, this.memoryStore, this.repoClass);
+    let repo = MemoryRepositoryBase.create(this.bus, this.domainClass, domainExecutionContext, infrastructureContext, this.memoryStore, this.repoClass);
     try {
       await func(repo);
     }catch(e){
@@ -34,9 +36,14 @@ export class MemoryUnitOfWork<
   constructor(
     private bus : EventBus, 
     private integrationEventBus: EventBus,
-    private domainClass : new (args: PropType, context: ContextType) => DomainType,
+    private domainClass : new (args: PropType, context: DomainExecutionContextType) => DomainType,
     private memoryStore: MemoryStore<PropType>,
-    private repoClass : new(bus: EventBus, domainClass: new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
+    private repoClass : new(
+      bus: EventBus, 
+      domainClass: new (args: PropType, context: DomainExecutionContextType) => DomainType, 
+      domainExecutionContext: DomainExecutionContextType, 
+      infrastructureContext: InfrastructureContextType, 
+      databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
   ){
     super();
   }

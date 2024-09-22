@@ -2,7 +2,7 @@ import { CommunityEntityReference, CommunityProps } from '../../../../../../../a
 import { MemberEntityReference, MemberProps } from '../../../../../../../app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
 import { PropertyEntityReference, PropertyProps } from '../../../../../../../app/domain/contexts/property/property/property';
-import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/activity-detail';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { ServiceEntityReference, ServiceProps } from '../../../../../../../app/domain/contexts/community/service/service';
 import { MemoryBaseAdapter } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';

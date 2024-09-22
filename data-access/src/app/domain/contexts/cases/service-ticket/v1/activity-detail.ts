@@ -2,12 +2,14 @@ import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/d
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './activity-detail.value-objects';
 import { ServiceTicketV1RootRegistry } from './service-ticket-v1';
+import { Audit } from '../../../../decorators';
+import { AuditContextFactoryType, FuncToGetMemberRefFromAuditContextFactory } from '../../../../../init/audit-context';
 
 export interface ActivityDetailPropValues extends DomainEntityProps {
   activityType: string;
   activityDescription: string;
   readonly activityBy: MemberProps;
-  setActivityByRef: (activityBy: MemberEntityReference) => void;
+  setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory);
 }
 
 export interface ActivityDetailProps extends ActivityDetailPropValues {}
@@ -44,7 +46,8 @@ export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements
     this.props.activityDescription = new ValueObjects.Description(activityDescription).valueOf();
   }
 
-  set ActivityBy(activityBy: MemberEntityReference) {
-    this.props.setActivityByRef(activityBy);
+  @Audit
+  setActivityBy(AuditContextFactory?: AuditContextFactoryType) {
+    this.props.setActivityByRef(AuditContextFactory.getMemberRef);
   }
 }

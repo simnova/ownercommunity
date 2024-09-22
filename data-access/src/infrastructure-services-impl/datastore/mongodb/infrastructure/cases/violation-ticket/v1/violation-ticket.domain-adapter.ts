@@ -1,4 +1,4 @@
-import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
+import { ActivityDetail, Photo } from '../../../../models/cases/violation-ticket';
 import { AdhocTransaction, Approval, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
@@ -10,7 +10,7 @@ import { PropertyDomainAdapter } from '../../../property/property.domain-adapter
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
-import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/activity-detail';
 import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';

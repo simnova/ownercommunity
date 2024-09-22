@@ -402,7 +402,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Updated;
     activityDetail.ActivityDescription = description;
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
     if (
@@ -423,7 +423,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityDescription = description;
     activityDetail.ActivityType = this.statusMappings.get(newStatus.valueOf());
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
 
   public override onSave(isModified: boolean): void {

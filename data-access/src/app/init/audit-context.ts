@@ -4,10 +4,11 @@ import { EndUserEntityReference } from "../domain/contexts/users/end-user/end-us
 import { StaffUserEntityReference } from "../domain/contexts/users/staff-user/staff-user";
 
 
+// ======== Audit Context >>>>>>>
 export interface AuditContext extends AuditContextBase {
-  funcToGetMemberRef?: () => MemberEntityReference
-  funcToGetEndUserRef?: () => EndUserEntityReference
-  funcToGetStaffUserRef?: () => StaffUserEntityReference
+  memberRef?: MemberEntityReference;
+  endUserRef?: EndUserEntityReference;
+  staffUserRef?: StaffUserEntityReference;
 }
 
 export class AuditContextImpl extends AuditContextBaseImpl implements AuditContext {
@@ -22,19 +23,24 @@ export class AuditContextImpl extends AuditContextBaseImpl implements AuditConte
     }
   } 
 
-  get funcToGetMemberRef (): () => MemberEntityReference {
-    return () => this.memberEntityReference;
+  get memberRef ():  MemberEntityReference {
+    return this.memberEntityReference;
   }
 
-  get funcToGetEndUserRef (): () => EndUserEntityReference {
-    return () => this.endUserEntityReference;
+  get endUserRef (): EndUserEntityReference {
+    return this.endUserEntityReference;
   }
 
-  get funcToGetStaffUserRef (): () => StaffUserEntityReference {
-    return () => this.staffUserEntityReference;
+  get staffUserRef (): StaffUserEntityReference {
+    return this.staffUserEntityReference;
   }
 }
+// <<<<<<<< Audit Context ========
 
+
+
+
+// ======== ReadOnly Audit Context >>>>>>>
 export class ReadOnlyAuditContext extends AuditContextBaseImpl implements AuditContext {
   private constructor(){
     super();
@@ -44,7 +50,14 @@ export class ReadOnlyAuditContext extends AuditContextBaseImpl implements AuditC
     return new ReadOnlyAuditContext();
   }
 }
+// <<<<<<<< ReadOnly Audit Context ========
 
+
+
+
+
+
+// ======== System Audit Context >>>>>>>
 export class SystemAuditContext extends AuditContextBaseImpl implements AuditContext {
   private constructor(){
     super();
@@ -54,3 +67,25 @@ export class SystemAuditContext extends AuditContextBaseImpl implements AuditCon
     return new SystemAuditContext();
   }
 }
+// <<<<<<<< System Audit Context ========
+
+
+
+
+//  ======== Audit Context Factory >>>>>>>
+export type FuncToGetMemberRefFromAuditContextFactory = (auditContext: AuditContext) => MemberEntityReference
+export type FuncToGetEndUserRefFromAuditContextFactory = (auditContext: AuditContext) => EndUserEntityReference
+export type FuncToGetStaffUserRefFromAuditContextFactory = (auditContext: AuditContext) => StaffUserEntityReference
+
+export type AuditContextFactoryType = undefined | { //undefined - because the calling code will not pass in a factory; it will be added by the Audit decorator
+  getMemberRef: FuncToGetMemberRefFromAuditContextFactory
+  getEndUserRef: FuncToGetEndUserRefFromAuditContextFactory
+  getStaffUserRef: FuncToGetStaffUserRefFromAuditContextFactory
+}
+
+export const AuditContextFactory: AuditContextFactoryType = {
+  getMemberRef: (auditContext: AuditContext) => auditContext.memberRef || undefined,
+  getEndUserRef: (auditContext: AuditContext) => auditContext.endUserRef || undefined,
+  getStaffUserRef: (auditContext: AuditContext) => auditContext.staffUserRef || undefined,
+}
+// <<<<<<<< Audit Context Factory ========

@@ -19,6 +19,6 @@ export function serviceTicketV1CreatedSyncDomainEventHandler (this: DomainType, 
     let activityDetail = this.props.activityLog.getNewItem();
     let newActivity = new ActivityDetail(activityDetail, this);
     newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
-    newActivity.ActivityDescription = 'Created from Sync Domain Event Class 8';
-    newActivity.ActivityBy = payload.requestor;
+    newActivity.ActivityDescription = 'Created from Sync Domain Event Class 11';
+    newActivity.setActivityBy();
 }

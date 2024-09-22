@@ -29,6 +29,7 @@ import {
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
 import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
+import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -190,9 +191,8 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
       return this.props.activityBy ? new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext) : undefined;
     }
   }
-  public setActivityByRef(activityBy: MemberEntityReference) {
-    // this.props.set('activityBy', activityBy['props']['doc']);
-    this.props.set('activityBy', this.infrastructureContext.auditContext.funcToGetMemberRef());
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
   }
 }
 

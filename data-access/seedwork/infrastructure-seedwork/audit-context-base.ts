@@ -3,7 +3,11 @@ export interface AuditContextBase {
 }
 
 export abstract class AuditContextBaseImpl implements AuditContextBase {
+    private _timestamp: Date;
+    constructor() {
+        this._timestamp = new Date();
+    }
     get timestamp(): Date {
-        return new Date();
+        return this._timestamp;
     }
 }

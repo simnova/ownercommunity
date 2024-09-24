@@ -1,0 +1,43 @@
+# This is a CODEOWNERS file.
+
+# Assign ownership of /data-access/seedwork to gidich and mgupta83
+/data-access/seedwork @gidich @mgupta83
+
+# Assign ownership of /data-access to gidich
+/data-access @gidich
+
+# Assign ownership of /ui-community to mgupta83
+/ui-community @mgupta83
+
+# Assign ownership of /az-bicep to gidich
+/az-bicep @gidich
+
+# Assign ownership of /iac-global to mgupta83
+/iac-global @mgupta83
+
+# Assign ownership of /ui-community/src/components to mgupta83
+/ui-community/src/components @mgupta83
+
+# Assign ownership of /ui-community/src/components/editor to gidich
+/ui-community/src/components/editor @gidich
+
+# Assign ownership of /ui-community/src/components/editor/components to gidich
+/ui-community/src/components/editor/components @gidich
+
+# Assign ownership of /ui-community/src/components/layouts to mgupta83
+/ui-community/src/components/layouts @mgupta83
+
+# Assign ownership of /ui-community/src/components/layouts/accounts to mgupta83
+/ui-community/src/components/layouts/accounts @mgupta83
+
+# Assign ownership of /ui-community/src/components/layouts/admin to mgupta83
+/ui-community/src/components/layouts/admin @mgupta83
+
+# Assign ownership of /ui-community/src/components/layouts/members to mgupta83
+/ui-community/src/components/layouts/members @mgupta83
+
+# Assign ownership of /ui-community/src/components/layouts/root to mgupta83
+/ui-community/src/components/layouts/root @mgupta83
+
+# Assign ownership of /ui-community/src/components/layouts/staff to mgupta83
+/ui-community/src/components/layouts/staff @mgupta83

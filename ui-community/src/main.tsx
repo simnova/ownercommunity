@@ -10,8 +10,7 @@ import App from './App';
 import './index.less';
 
 import { ConfigProvider } from 'antd';
-import FeatureFlagProvider, { useFeatureFlags } from './components/shared/feature-flag-react-lite';
-import MaintenanceMessageProvider from './components/shared/maintenance-message';
+import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 
 import { CachePurgeProvider } from './contexts/components/CachePurgeContext';
@@ -19,8 +18,6 @@ import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
   const { currentTokens } = useContext(ThemeContext);
-
- 
 
   return (
     <ConfigProvider
@@ -32,13 +29,13 @@ function ConfigProviderWrapper() {
         }
       }}
     >
-        <ThemeProvider>
-          <HelmetProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </HelmetProvider>
-        </ThemeProvider>
+      <ThemeProvider>
+        <HelmetProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </HelmetProvider>
+      </ThemeProvider>
     </ConfigProvider>
   );
 }

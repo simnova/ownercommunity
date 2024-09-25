@@ -29,7 +29,7 @@ import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/
 import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
-import { AuditContextFactory } from '../../../../../../../app/init/audit-context';
+import { AuditContextFactory, FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,

@@ -9,7 +9,7 @@ export class BlobDataSource<Context extends AppContext> extends DataSource<Conte
   public async withStorage(func: (passport: Passport, blobStorage: BlobStorageDomain, auditContext: AuditContext) => Promise<void>): Promise<void> {
     let passport = this.context.passport;
     let blobStorage = this.context.infrastructureServices.blobStorage;
-    let auditContext = this.context.auditContext;
+    let {auditContext} = this.context;
     await func(passport, blobStorage, auditContext);
   }
 }

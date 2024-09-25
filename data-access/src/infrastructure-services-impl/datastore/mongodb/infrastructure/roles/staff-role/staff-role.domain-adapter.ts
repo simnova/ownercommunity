@@ -10,20 +10,22 @@ import { StaffRoleServicePermissionsProps } from '../../../../../../app/domain/c
 import { StaffRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-service-ticket-permissions';
 import { StaffRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-violation-ticket-permissions';
 import { CommunityVisa } from '../../../../../../app/domain/contexts/community/community.visa';
+import { InfrastructureContext } from '../../../../../../app/init/infrastructure-context';
 
 export class StaffRoleConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   StaffRole, 
   StaffRoleDomainAdapter, 
   CommunityVisa,
-  StaffRoleDO<StaffRoleDomainAdapter>
+  StaffRoleDO<StaffRoleDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(StaffRoleDomainAdapter, StaffRoleDO);
   }
 }
 
-export class StaffRoleDomainAdapter extends MongooseDomainAdapter<StaffRole> implements StaffRoleProps {
+export class StaffRoleDomainAdapter extends MongooseDomainAdapter<StaffRole, InfrastructureContext> implements StaffRoleProps {
   get roleName() {
     return this.doc.roleName;
   }
@@ -42,39 +44,39 @@ export class StaffRoleDomainAdapter extends MongooseDomainAdapter<StaffRole> imp
     if (!this.doc.permissions) {
       this.doc.set('permissions', {});
     }
-    return new StaffRolePermissionsAdapter(this.doc.permissions);
+    return new StaffRolePermissionsAdapter(this.doc.permissions, this.infrastructureContext);
   }
 }
 
 class StaffRolePermissionsAdapter implements StaffRolePermissionsProps {
-  constructor(public readonly props: StaffRolePermissions) {}
+  constructor(public readonly props: StaffRolePermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
 
   public get communityPermissions() {
-    return new StaffRoleCommunityPermissionsAdapter(this.props.communityPermissions);
+    return new StaffRoleCommunityPermissionsAdapter(this.props.communityPermissions, this.infrastructureContext);
   }
 
   public get propertyPermissions() {
-    return new StaffRolePropertyPermissionsAdapter(this.props.propertyPermissions);
+    return new StaffRolePropertyPermissionsAdapter(this.props.propertyPermissions, this.infrastructureContext);
   }
 
   public get servicePermissions() {
-    return new StaffRoleServicePermissionsAdapter(this.props.servicePermissions);
+    return new StaffRoleServicePermissionsAdapter(this.props.servicePermissions, this.infrastructureContext);
   }
 
   public get serviceTicketPermissions() {
-    return new StaffRoleServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
+    return new StaffRoleServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions, this.infrastructureContext);
   }
 
   public get violationTicketPermissions() {
-    return new StaffRoleAdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
+    return new StaffRoleAdminTicketPermissionsAdapter(this.props.violationTicketPermissions, this.infrastructureContext);
   }
 }
 
 class StaffRoleCommunityPermissionsAdapter implements StaffRoleCommunityPermissionsProps {
-  constructor(public readonly props: StaffRoleCommunityPermissions) {}
+  constructor(public readonly props: StaffRoleCommunityPermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
@@ -116,28 +118,28 @@ class StaffRoleCommunityPermissionsAdapter implements StaffRoleCommunityPermissi
 }
 
 class StaffRolePropertyPermissionsAdapter implements StaffRolePropertyPermissionsProps {
-  constructor(public readonly props: StaffRolePropertyPermissions) {}
+  constructor(public readonly props: StaffRolePropertyPermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
 }
 
 class StaffRoleServicePermissionsAdapter implements StaffRoleServicePermissionsProps {
-  constructor(public readonly props: StaffRoleServicePermissions) {}
+  constructor(public readonly props: StaffRoleServicePermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
 }
 
 class StaffRoleServiceTicketPermissionsAdapter implements StaffRoleServiceTicketPermissionsProps {
-  constructor(public readonly props: StaffRoleServiceTicketPermissions) {}
+  constructor(public readonly props: StaffRoleServiceTicketPermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
 }
 
 class StaffRoleAdminTicketPermissionsAdapter implements StaffRoleViolationTicketPermissionsProps {
-  constructor(public readonly props: StaffRoleViolationTicketPermissions) {}
+  constructor(public readonly props: StaffRoleViolationTicketPermissions, private readonly infrastructureContext: InfrastructureContext) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }

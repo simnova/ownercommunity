@@ -1,11 +1,13 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 import { Member } from "../../domain/contexts/community/member/member";
+import { ReadOnlyDomainExecutionContext } from "../../domain/domain-execution-context";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { MemberData } from "../../external-dependencies/datastore";
 import { MemberDomainAdapter, CommunityConverter, MemberConverter, EndUserRoleConverter, EndUserConverter, MemberRepository } from "../../external-dependencies/domain";
 import { MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
+import { ReadOnlyInfrastructureContext } from "../../init/infrastructure-context";
 
 export interface MemberDomainApi {
   memberCreate(input: MemberCreateInput) : Promise<MemberData>;
@@ -30,7 +32,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
 
     let memberToReturn: MemberData;
     let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
-    let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let communityDo = new CommunityConverter().toDomain(community, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     await this.withTransaction(async (repo) => {
       let newMember = await repo.getNewInstance(input.memberName, communityDo);
@@ -44,7 +46,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     let roleDo;
     if (input.role !== undefined) {
       let mongoRole = await this.context.applicationServices.roles.endUserRole.dataApi.getRoleById(input.role);
-      roleDo = new EndUserRoleConverter().toDomain(mongoRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+      roleDo = new EndUserRoleConverter().toDomain(mongoRole, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     }
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
@@ -91,10 +93,10 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     let memberToReturn: MemberData;
 
     let mongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserById(input.account.user);
-    let userDo = new EndUserConverter().toDomain(mongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let userDo = new EndUserConverter().toDomain(mongoUser, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     let currentMongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let currentUserDo = new EndUserConverter().toDomain(currentMongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let currentUserDo = new EndUserConverter().toDomain(currentMongoUser, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);

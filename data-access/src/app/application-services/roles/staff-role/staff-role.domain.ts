@@ -1,11 +1,13 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { CommunityVisa } from "../../../domain/contexts/community/community.visa";
 import { StaffRole } from "../../../domain/contexts/community/roles/staff-role/staff-role";
+import { ReadOnlyDomainExecutionContext } from "../../../domain/domain-execution-context";
 import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
 import { StaffRoleData } from "../../../external-dependencies/datastore";
 import { StaffRoleDomainAdapter, StaffRoleConverter, StaffRoleRepository } from "../../../external-dependencies/domain";
 import { StaffRoleAddInput, StaffRoleDeleteAndReassignInput, StaffRoleUpdateInput } from "../../../external-dependencies/graphql-api";
 import { AppContext } from "../../../init/app-context-builder";
+import { ReadOnlyInfrastructureContext } from "../../../init/infrastructure-context";
 
 export interface StaffRoleDomainApi {
   roleAdd(input: StaffRoleAddInput) : Promise<StaffRoleData>;
@@ -86,7 +88,7 @@ export class StaffRoleDomainApiImpl
     }
 
     let mongoNewRole = await this.context.applicationServices.roles.staffRole.dataApi.getRoleById(input.roleToReassignTo);
-    let newRoleDo = new StaffRoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let newRoleDo = new StaffRoleConverter().toDomain(mongoNewRole, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     let roleToReturn: StaffRoleData;
     await this.withTransaction(async (repo) => {
       let staffRoleDo = await repo.getById(input.roleToDelete);

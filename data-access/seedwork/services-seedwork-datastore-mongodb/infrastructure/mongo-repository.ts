@@ -7,26 +7,29 @@ import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-ex
 import { Repository } from '../../domain-seedwork/repository';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
 import { Visa } from '../../passport-seedwork/visa';
+import { InfrastructureContextBase } from '../../infrastructure-seedwork/infrastructure-context-base';
 
 export abstract class MongoRepositoryBase<
-  ContextType extends BaseDomainExecutionContext,
+  DomainExecutionContextType extends BaseDomainExecutionContext,
   MongoType extends Document,
   PropType extends DomainEntityProps,
   VisaType extends Visa,
-  DomainType extends AggregateRoot<PropType, ContextType, VisaType>
+  DomainType extends AggregateRoot<PropType, DomainExecutionContextType, VisaType>,
+  InfrastructureContextType extends InfrastructureContextBase
 > implements Repository<DomainType>
 {
   protected itemsInTransaction: DomainType[] = [];
   constructor(
     protected eventBus: EventBus,
     protected model: Model<MongoType>,
-    public typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
+    public typeConverter: TypeConverter<MongoType, DomainType, PropType, DomainExecutionContextType, InfrastructureContextType>,
     protected session: ClientSession,
-    protected context: ContextType
+    protected domainExecutionContext: DomainExecutionContextType,
+    protected infrastructureContext: InfrastructureContextType,
   ) {}
 
   async get(id: string): Promise<DomainType> {
-    return this.typeConverter.toDomain(await this.model.findById(id).exec(), this.context);
+    return this.typeConverter.toDomain(await this.model.findById(id).exec(), this.infrastructureContext, this.domainExecutionContext);
   }
 
   async save(item: DomainType): Promise<DomainType> {
@@ -42,7 +45,7 @@ export abstract class MongoRepositoryBase<
       } else {
         console.log('saving item id', item.id);
         const mongoObj = this.typeConverter.toPersistence(item);
-        return this.typeConverter.toDomain(await mongoObj.save({ session: this.session }), this.context);
+        return this.typeConverter.toDomain(await mongoObj.save({ session: this.session }), this.infrastructureContext, this.domainExecutionContext);
       }
     } catch (error) {
       console.log(`Error saving item : ${error}`);
@@ -62,26 +65,29 @@ export abstract class MongoRepositoryBase<
   }
 
   static create<
-    ContextType extends BaseDomainExecutionContext,
+    DomainExecutionContextType extends BaseDomainExecutionContext,
     MongoType extends Document,
     PropType extends DomainEntityProps,
     VisaType extends Visa,
-    DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
-    RepoType extends MongoRepositoryBase<ContextType, MongoType, PropType, VisaType, DomainType>
+    DomainType extends AggregateRoot<PropType, DomainExecutionContextType, VisaType>,
+    InfrastructureContextType extends InfrastructureContextBase,
+    RepoType extends MongoRepositoryBase<DomainExecutionContextType, MongoType, PropType, VisaType, DomainType, InfrastructureContextType>,
   >(
     bus: EventBus,
     model: Model<MongoType>,
-    typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
+    typeConverter: TypeConverter<MongoType, DomainType, PropType, DomainExecutionContextType, InfrastructureContextType>,
     session: ClientSession,
-    context: ContextType,
+    domainExecutionContext: DomainExecutionContextType,
+    infrastructureContext: InfrastructureContextType,
     repoClass: new (
       bus: EventBus,
       model: Model<MongoType>,
-      typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>,
+      typeConverter: TypeConverter<MongoType, DomainType, PropType, DomainExecutionContextType, InfrastructureContextType>,
       session: ClientSession,
-      context: ContextType
+      domainExecutionContext: DomainExecutionContextType,
+      infrastructureContext: InfrastructureContextType,
     ) => RepoType
   ): RepoType {
-    return new repoClass(bus, model, typeConverter, session, context);
+    return new repoClass(bus, model, typeConverter, session, domainExecutionContext, infrastructureContext);
   }
 }

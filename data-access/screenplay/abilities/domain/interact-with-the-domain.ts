@@ -14,7 +14,7 @@ import { DomainExecutionContext } from '../../../src/app/domain/domain-execution
 // import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import { DomainImplBDD } from './io/test/domain-impl-bdd';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/domain-execution-context';
+import { ReadOnlyDomainExecutionContext, SystemDomainExecutionContext } from '../../../src/app/domain/domain-execution-context';
 import { DomainVisaImpl } from '../../../src/app/domain/domain.visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
@@ -28,6 +28,7 @@ import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl
 import { ServiceTicketV1Repository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
 import { ServiceTicketV1Props } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { CybersourceImpl } from '../../../src/infrastructure-services-impl/payment/cybersource/impl';
+import { InfrastructureContext, ReadOnlyInfrastructureContext } from '../../../src/app/init/infrastructure-context';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
@@ -101,9 +102,9 @@ export class InteractWithTheDomain
     this.DomainImplBDDInstance.shutdown();
   }
 
-  private static using(context: DomainExecutionContext) {
+  private static using(context: DomainExecutionContext, infrastructureContext: InfrastructureContext) {
     // this.init();
-    return new InteractWithTheDomain(context);
+    return new InteractWithTheDomain(context, infrastructureContext);
   }
 
   private async getCommunityByName(communityName: string): Promise<CommunityEntityReference> {
@@ -119,7 +120,7 @@ export class InteractWithTheDomain
     await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
       member = db?.getAll()?.find((c) => c.community.name === communityName && c.accounts.items.find((a) => a.user.externalId === userExternalId));
     });
-    return new Member(member, ReadOnlyContext());
+    return new Member(member, ReadOnlyDomainExecutionContext());
   }
 
   public async asMemberOf(communityName: string): Promise<InteractWithTheDomainAsCommunityMember> {
@@ -128,12 +129,12 @@ export class InteractWithTheDomain
     const user: EndUserEntityReference = await this.getOrCreateUserForActor(actor);
     const member: MemberEntityReference = await this.getMemberByUserAndCommunity(user.externalId, community.name);
     const passport = new DomainVisaImpl(user, member, community);
-    return new InteractWithTheDomain({ domainVisa: passport });
+    return new InteractWithTheDomain({ domainVisa: passport }, this.infrastructureContext);
   }
 
   // [MG-TBD] - make it as no-context
   public static asReadOnly(): InteractWithTheDomainAsReadOnly {
-    return this.using(ReadOnlyContext());
+    return this.using(ReadOnlyDomainExecutionContext(), ReadOnlyInfrastructureContext());
   }
 
   private async getOrCreateUserForActor(actor: Actor): Promise<EndUserEntityReference> {
@@ -163,7 +164,7 @@ export class InteractWithTheDomain
   // }
 
   public static async asUser(actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
-    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyContext());
+    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyDomainExecutionContext(), ReadOnlyInfrastructureContext());
     return interactWithTheDomain;
   }
 
@@ -196,13 +197,13 @@ export class InteractWithTheDomain
   };
 
   public async registerAsUser(actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
-    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyContext());
+    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyDomainExecutionContext(), ReadOnlyInfrastructureContext());
     await interactWithTheDomain.getOrCreateUserForActor(actor);
     return interactWithTheDomain;
   }
 
   public static asActor(actor: Actor): InteractWithTheDomainAsUnregisteredUser {
-    const interactWithTheDomain = this.using(ReadOnlyContext());
+    const interactWithTheDomain = this.using(ReadOnlyDomainExecutionContext(), ReadOnlyInfrastructureContext());
     return interactWithTheDomain;
   }
   // public static withNoCommunity() {
@@ -227,7 +228,8 @@ export class InteractWithTheDomain
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
-    private readonly context: DomainExecutionContext // BaseDomainExecutionContext,
+    private readonly context: DomainExecutionContext, // BaseDomainExecutionContext,
+    private readonly infrastructureContext: InfrastructureContext,
   ) {
     super();
   }
@@ -237,7 +239,7 @@ export class InteractWithTheDomain
 
   public async createCommunity(communityName: string): Promise<CommunityProps> {
     let community: CommunityProps;
-    await InteractWithTheDomain._database.communityUnitOfWork.withTransaction(this.context, async (repo) => {
+    await InteractWithTheDomain._database.communityUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       const user: EndUserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
       const communityToBeSaved = await repo.getNewInstance(communityName, user);
       const savedCommunity = await repo.save(communityToBeSaved);
@@ -247,7 +249,7 @@ export class InteractWithTheDomain
   }
   // community
   public async actOnCommunity(func: (repo: CommunityRepository<CommunityProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.communityUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.communityUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -257,7 +259,7 @@ export class InteractWithTheDomain
 
   // user
   public async actOnUser(func: (repo: EndUserRepository<EndUserProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.endUserUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.endUserUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -267,7 +269,7 @@ export class InteractWithTheDomain
 
   // role
   public async actOnRole(func: (repo: EndUserRoleRepository<EndUserRoleProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.endUserRoleUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.endUserRoleUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -277,7 +279,7 @@ export class InteractWithTheDomain
 
   // member
   public async actOnMember(func: (repo: MemberRepository<MemberProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.memberUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.memberUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -287,7 +289,7 @@ export class InteractWithTheDomain
 
   // property
   public async actOnProperty(func: (repo: PropertyRepository<PropertyProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.propertyUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.propertyUnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -297,7 +299,7 @@ export class InteractWithTheDomain
 
   // service ticket
   public async actOnServiceTicket(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }
@@ -307,7 +309,7 @@ export class InteractWithTheDomain
 
   // service
   public async actOnService(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, this.infrastructureContext, async (repo) => {
       await func(repo);
     });
   }

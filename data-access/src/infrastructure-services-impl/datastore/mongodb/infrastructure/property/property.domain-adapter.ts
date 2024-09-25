@@ -14,23 +14,25 @@ import { PropertyListingDetailAdditionalAmenityProps } from '../../../../../app/
 import { PropertyLocationAddressProps } from '../../../../../app/domain/contexts/property/property/property-location-address';
 import { PropertyLocationPositionProps } from '../../../../../app/domain/contexts/property/property/property-location-position';
 import { PropertyVisa } from '../../../../../app/domain/contexts/property/property/property.visa';
+import { InfrastructureContext } from '../../../../../app/init/infrastructure-context';
 
 export class PropertyConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   Property, 
   PropertyDomainAdapter, 
   PropertyVisa,
-  PropertyDO<PropertyDomainAdapter>
+  PropertyDO<PropertyDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(PropertyDomainAdapter, PropertyDO);
   }
 }
 
-export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> implements PropertyProps {
+export class PropertyDomainAdapter extends MongooseDomainAdapter<Property, InfrastructureContext> implements PropertyProps {
   get community() {
     if (this.doc.community) {
-      return new CommunityDomainAdapter(this.doc.community);
+      return new CommunityDomainAdapter(this.doc.community, this.infrastructureContext);
     }
   }
   public setCommunityRef(community: CommunityEntityReference) {
@@ -48,12 +50,12 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
     if (!this.doc.location) {
       this.doc.set('location', {});
     }
-    return new LocationDomainAdapter(this.doc.location);
+    return new LocationDomainAdapter(this.doc.location, this.infrastructureContext);
   }
 
   get owner() {
     if (this.doc.owner) {
-      return new MemberDomainAdapter(this.doc.owner);
+      return new MemberDomainAdapter(this.doc.owner, this.infrastructureContext);
     }
   }
   public setOwnerRef(owner: MemberEntityReference | undefined) {
@@ -106,7 +108,7 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
     if (!this.doc.listingDetail) {
       this.doc.set('listingDetail', {});
     }
-    return new ListingDetailDomainAdapter(this.doc.listingDetail);
+    return new ListingDetailDomainAdapter(this.doc.listingDetail, this.infrastructureContext);
   }
 
   get tags() {
@@ -140,7 +142,7 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
 }
 
 export class ListingDetailDomainAdapter implements PropertyListingDetailProps {
-  constructor(public readonly props: ListingDetail) {}
+  constructor(public readonly props: ListingDetail, private readonly infrastructureContext: InfrastructureContext) {}
 
   get price() {
     return this.props.price;
@@ -185,7 +187,7 @@ export class ListingDetailDomainAdapter implements PropertyListingDetailProps {
   }
 
   get bedroomDetails() {
-    return new MongoosePropArray(this.props.bedroomDetails, BedroomDetailDomainAdapter);
+    return new MongoosePropArray(this.props.bedroomDetails, BedroomDetailDomainAdapter, this.infrastructureContext);
   }
 
   get bathrooms() {
@@ -231,7 +233,7 @@ export class ListingDetailDomainAdapter implements PropertyListingDetailProps {
   }
 
   get additionalAmenities() {
-    return new MongoosePropArray(this.props.additionalAmenities, AdditionalAmenityDomainAdapter);
+    return new MongoosePropArray(this.props.additionalAmenities, AdditionalAmenityDomainAdapter, this.infrastructureContext);
   }
 
   get images() {
@@ -327,7 +329,7 @@ export class ListingDetailDomainAdapter implements PropertyListingDetailProps {
 }
 
 export class BedroomDetailDomainAdapter implements PropertyListingDetailBedroomDetailProps {
-  constructor(public readonly props: BedroomDetail) {}
+  constructor(public readonly props: BedroomDetail, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -348,7 +350,7 @@ export class BedroomDetailDomainAdapter implements PropertyListingDetailBedroomD
 }
 
 export class AdditionalAmenityDomainAdapter implements PropertyListingDetailAdditionalAmenityProps {
-  constructor(public readonly props: AdditionalAmenity) {}
+  constructor(public readonly props: AdditionalAmenity, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -369,26 +371,26 @@ export class AdditionalAmenityDomainAdapter implements PropertyListingDetailAddi
 }
 
 export class LocationDomainAdapter implements PropertyLocationProps {
-  constructor(public readonly props: Location) {}
+  constructor(public readonly props: Location, private readonly infrastructureContext: InfrastructureContext) {}
 
   get position() {
     if (!this.props?.position) {
       this.props.set('position', {});
       return null;
     }
-    return new PositionDomainAdapter(this.props.position);
+    return new PositionDomainAdapter(this.props.position, this.infrastructureContext);
   }
   get address() {
     if (!this.props.address) {
       this.props.set('address', {});
       return null;
     }
-    return new AddressDomainAdapter(this.props.address);
+    return new AddressDomainAdapter(this.props.address, this.infrastructureContext);
   }
 }
 
 export class AddressDomainAdapter implements PropertyLocationAddressProps {
-  constructor(public readonly props: Location['address']) {}
+  constructor(public readonly props: Location['address'], private readonly infrastructureContext: InfrastructureContext) {}
 
   get streetNumber(): string {
     return this.props.streetNumber;
@@ -518,7 +520,7 @@ export class AddressDomainAdapter implements PropertyLocationAddressProps {
 }
 
 export class PositionDomainAdapter implements PropertyLocationPositionProps {
-  constructor(public readonly props: Location['position']) {}
+  constructor(public readonly props: Location['position'], private readonly infrastructureContext: InfrastructureContext) {}
 
   get type(): string {
     return this.props.type;

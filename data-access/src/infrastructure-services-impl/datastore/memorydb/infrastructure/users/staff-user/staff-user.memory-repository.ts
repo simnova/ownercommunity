@@ -6,6 +6,7 @@ import { StaffUserProps, StaffUser } from "../../../../../../app/domain/contexts
 import { StaffUserRepository } from "../../../../../../app/domain/contexts/users/staff-user/staff-user.repository";
 import { StaffUserVisa } from "../../../../../../app/domain/contexts/users/staff-user/staff-user.visa";
 import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
+import { InfrastructureContext } from "../../../../../../app/init/infrastructure-context";
 
 export class MemoryStaffUser extends MemoryBaseAdapter implements StaffUserProps{
   role: StaffRoleProps;
@@ -26,7 +27,7 @@ export class MemoryStaffUser extends MemoryBaseAdapter implements StaffUserProps
 export class MemoryStaffUserRepository<
   PropType extends StaffUserProps, 
   DomainType extends StaffUser<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, StaffUserVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, StaffUserVisa, DomainType, InfrastructureContext> 
     implements StaffUserRepository<PropType> 
   {
 

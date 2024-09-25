@@ -7,6 +7,7 @@ import { EndUserPersonalInformationProps } from "../../../../../../app/domain/co
 import { EndUserRepository } from "../../../../../../app/domain/contexts/users/end-user/end-user.repository";
 import { EndUserVisa } from "../../../../../../app/domain/contexts/users/end-user/end-user.visa";
 import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
+import { InfrastructureContext } from "../../../../../../app/init/infrastructure-context";
 
 class MemoryEndUserContactInformation implements EndUserContactInformationProps {
   id: string;
@@ -46,7 +47,7 @@ class MemoryEndUser extends MemoryBaseAdapter implements EndUserProps{
 export class MemoryEndUserRepository<
   PropType extends EndUserProps, 
   DomainType extends EndUser<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, EndUserVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, EndUserVisa, DomainType, InfrastructureContext> 
     implements EndUserRepository<PropType> 
   {
 

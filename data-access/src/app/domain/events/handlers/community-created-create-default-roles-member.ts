@@ -1,5 +1,5 @@
 import { CommunityCreatedEvent } from '../types/community-created';
-import { ReadOnlyContext, SystemExecutionContext } from '../../domain-execution-context';
+import { ReadOnlyDomainExecutionContext, SystemDomainExecutionContext } from '../../domain-execution-context';
 import { EndUserRole } from '../../contexts/community/roles/end-user-role/end-user-role';
 import { AccountStatusCodes } from '../../contexts/community/member/member-account.value-objects';
 import { Community, CommunityProps } from '../../contexts/community/community/community';
@@ -7,6 +7,7 @@ import { CommunityUnitOfWork } from '../../contexts/community/community/communit
 import { EndUserRoleUnitOfWork } from '../../contexts/community/roles/end-user-role/end-user-role.uow';
 import { MemberUnitOfWork } from '../../contexts/community/member/member.uow';
 import { EventBusInstance } from '../event-bus';
+import { SystemInfrastructureContext } from '../../../init/infrastructure-context';
 
 export default (
   communityUnitOfWork: CommunityUnitOfWork,
@@ -17,11 +18,11 @@ export default (
   console.log(`CommunityCreatedEvent -> Default Roles/Member Handler - Called with Payload: ${JSON.stringify(payload)}`);
 
   let communityDo: Community<CommunityProps>;
-  await communityUnitOfWork.withTransaction(ReadOnlyContext(), async (repo) => {
+  await communityUnitOfWork.withTransaction(ReadOnlyDomainExecutionContext(), SystemInfrastructureContext(), async (repo) => {
     communityDo = await repo.getByIdWithCreatedBy(payload.communityId);
   });
   let role: EndUserRole<any>;
-  await roleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await roleUnitOfWork.withTransaction(SystemDomainExecutionContext(), SystemInfrastructureContext(), async (repo) => {
     role = await repo.getNewInstance('admin', communityDo);
     role.IsDefault=(true);
 
@@ -52,7 +53,7 @@ export default (
                   `${communityDo.createdBy.personalInformation?.identityDetails?.lastName}` :
                   `${communityDo.createdBy.personalInformation?.identityDetails?.restOfName} ${communityDo.createdBy.personalInformation?.identityDetails?.lastName}`;
 
-  await memberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await memberUnitOfWork.withTransaction(SystemDomainExecutionContext(), SystemInfrastructureContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);
     member.Role=(role);
     const account = member.requestNewAccount();

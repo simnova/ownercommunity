@@ -7,20 +7,22 @@ import { EndUserIdentityDetailsProps } from '../../../../../../app/domain/contex
 import { EndUserPersonalInformationProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-personal-information';
 import { EndUserContactInformationEntityReference } from '../../../../../../app/domain/contexts/users/end-user/end-user-contact-information';
 import { EndUserVisa } from '../../../../../../app/domain/contexts/users/end-user/end-user.visa';
+import { InfrastructureContext } from '../../../../../../app/init/infrastructure-context';
 
 export class EndUserConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   EndUser, 
   EndUserDomainAdapter,
   EndUserVisa, 
-  EndUserDO<EndUserDomainAdapter>
+  EndUserDO<EndUserDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(EndUserDomainAdapter, EndUserDO);
   }
 }
 
-export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> implements EndUserProps {
+export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser, InfrastructureContext> implements EndUserProps {
   get externalId() {
     return this.doc.externalId;
   }
@@ -32,7 +34,7 @@ export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> impleme
     if (!this.doc.personalInformation) {
       this.doc.set('personalInformation', {});
     }
-    return new EndUserPersonalInformationDomainAdapter(this.doc.personalInformation);
+    return new EndUserPersonalInformationDomainAdapter(this.doc.personalInformation, this.infrastructureContext);
   }
 
   get email() {
@@ -65,25 +67,25 @@ export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> impleme
 }
 
 export class EndUserPersonalInformationDomainAdapter implements EndUserPersonalInformationProps {
-    constructor(public readonly props: EndUserPersonalInformation) {}
+    constructor(public readonly props: EndUserPersonalInformation, private readonly infrastructureContext: InfrastructureContext) {}
 
     get identityDetails() {
       if (!this.props.identityDetails) {
         this.props.set('identityDetails', {});
       }
-      return new EndUserIdentityDetailsDomainAdapter(this.props.identityDetails);
+      return new EndUserIdentityDetailsDomainAdapter(this.props.identityDetails, this.infrastructureContext);
     }
 
     get contactInformation() {
       if (!this.props.contactInformation) {
         this.props.set('contactInformation', {});
       }
-      return new EndUserContactInformationDomainAdapter(this.props.contactInformation);
+      return new EndUserContactInformationDomainAdapter(this.props.contactInformation, this.infrastructureContext);
     }
 }
 
 export class EndUserIdentityDetailsDomainAdapter implements EndUserIdentityDetailsProps {
-    constructor(public readonly props: EndUserIdentityDetails) {}
+    constructor(public readonly props: EndUserIdentityDetails, private readonly infrastructureContext: InfrastructureContext) {}
 
     get lastName() {
       return this.props.lastName;
@@ -108,7 +110,7 @@ export class EndUserIdentityDetailsDomainAdapter implements EndUserIdentityDetai
 }
 
 export class EndUserContactInformationDomainAdapter implements EndUserContactInformationEntityReference {
-    constructor(public readonly props: EndUserContactInformation) {}
+    constructor(public readonly props: EndUserContactInformation, private readonly infrastructureContext: InfrastructureContext) {}
 
     get email() {
         return this.props.email;

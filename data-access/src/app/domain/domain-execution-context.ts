@@ -5,14 +5,14 @@ export interface DomainExecutionContext extends BaseDomainExecutionContext {
   domainVisa: DomainVisa;
 }
 
-export const SystemExecutionContext = (): DomainExecutionContext => {
+export const SystemDomainExecutionContext = (): DomainExecutionContext => {
   const context: DomainExecutionContext = {
     domainVisa: SystemDomainVisa.GetInstance(),
   };
   return context;
 };
 
-export const ReadOnlyContext = (): DomainExecutionContext => {
+export const ReadOnlyDomainExecutionContext = (): DomainExecutionContext => {
   const context: DomainExecutionContext = {
     domainVisa: ReadOnlyDomainVisa.GetInstance(),
   };

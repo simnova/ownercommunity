@@ -9,6 +9,7 @@ import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { AuditContext, AuditContextImpl, ReadOnlyAuditContext, SystemAuditContext } from './audit-context';
 
 export enum OpenIdConfigKeyEnum {
   ACCOUNT_PORTAL = 'AccountPortal',
@@ -38,6 +39,7 @@ export interface AppContext{  // extends DomainExecutionContext {
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
+  auditContext: AuditContext;
 }
 
 export abstract class AppContextBuilder implements AppContext {
@@ -49,6 +51,7 @@ export abstract class AppContextBuilder implements AppContext {
   private _passport: Passport;
   private _applicationServices: ApplicationServices;
   private _infrastructureServices: InfrastructureServices;
+  private _auditContext: AuditContext;
 
   constructor(
     infrastructureServices: InfrastructureServices
@@ -81,6 +84,10 @@ export abstract class AppContextBuilder implements AppContext {
     return this._infrastructureServices;
   }
 
+  get auditContext(): AuditContext {
+    return this._auditContext
+  }
+
   protected async initializeAppContext(
     verifiedUser: VerifiedUser, 
     communityHeader: string,
@@ -91,14 +98,17 @@ export abstract class AppContextBuilder implements AppContext {
     this._memberHeader = memberHeader;
     await this.setDefaultPassport();
     await this.setCurrentData();
-    await this.setPassport();
-    console.log(' app context initialized ...');
+    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) { await this.buildAppContextForStaffPortal(); return; }
+    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) { await this.buildAppContextForAccountPortal(); return; }
+    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) { await this.buildAppContextForSystem(); return;}
+    // await this.setPassport();
+    // console.log(' app context initialized ...');
   }
 
   private async setDefaultPassport(): Promise<void> {
     this._passport = {
       domainVisa: ReadOnlyDomainVisa.GetInstance(),
-      datastoreVisa: ReadOnlyDatastoreVisaImpl.GetInstance()
+      datastoreVisa: ReadOnlyDatastoreVisaImpl.GetInstance(),
     }
   }
 
@@ -111,26 +121,26 @@ export abstract class AppContextBuilder implements AppContext {
     }
   }
 
-  private async setPassport(): Promise<void> {
-    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) {
+  private async buildAppContextForSystem(): Promise<void> {
+    this._passport = {
+      domainVisa: SystemDomainVisa.GetInstance(),
+      datastoreVisa: SystemDatastoreVisaImpl.GetInstance(),
+    };
+    this._auditContext = SystemAuditContext.GetInstance();
+  }
+
+  private async buildAppContextForStaffPortal(): Promise<void> {
+    let userData = await this._applicationServices.users.staffUser.dataApi.getUserByExternalId(this._verifiedUser.verifiedJWT.oid);
+    if(userData) {
       this._passport = {
-        domainVisa: SystemDomainVisa.GetInstance(),
-        datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
-      };
-      return;
-    }
-
-    if (this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
-      let userData = await this._applicationServices.users.staffUser.dataApi.getUserByExternalId(this._verifiedUser.verifiedJWT.oid);
-      if(userData) {
-        this._passport = {
-          domainVisa: new DomainVisaImpl(userData as StaffUserEntityReference, null, null),
-          datastoreVisa: new DatastoreVisaImpl(userData, null)
-        }
+        domainVisa: new DomainVisaImpl(userData as StaffUserEntityReference, null, null),
+        datastoreVisa: new DatastoreVisaImpl(userData, null),
       }
-      return;
+      this._auditContext = new AuditContextImpl(null, userData as StaffUserEntityReference, null)
     }
+  }
 
+  private async buildAppContextForAccountPortal(): Promise<void> {
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
       let userData = await this._applicationServices.users.endUser.dataApi.getUserByExternalId(userExternalId);
@@ -141,8 +151,9 @@ export abstract class AppContextBuilder implements AppContext {
         }
         this._passport = {
           domainVisa :new DomainVisaImpl(userData as EndUserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
-          datastoreVisa: new DatastoreVisaImpl(userData, memberData)
+          datastoreVisa: new DatastoreVisaImpl(userData, memberData),
         }
+        this._auditContext = new AuditContextImpl(memberData as MemberEntityReference, null, userData as EndUserEntityReference)
       }
     }
   }

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 
 import { LoggedInUserRootContainerUserCurrentQueryDocument } from '../../../../generated';
@@ -7,6 +7,7 @@ import { LocalSettingsKeys } from '../../../../constants';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useAuth } from 'react-oidc-context';
+import { HandleLogout } from '../../../shared/handle-logout';
 
 const ComponentProps = {
   autoLogin: PropTypes.bool
@@ -20,12 +21,12 @@ export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & Comp
 
 export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
   const auth = useAuth();
+  const apolloClient = useApolloClient();
 
   const { loading, error, data } = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
 
   const handleLogout = async () => {
-    await auth.removeUser();
-    await auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
+    HandleLogout(auth, apolloClient, window.location.origin);
   };
 
   const LoggedInRootContainer = () => {

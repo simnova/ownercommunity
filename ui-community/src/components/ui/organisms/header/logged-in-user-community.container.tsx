@@ -1,5 +1,8 @@
-import { useLazyQuery } from '@apollo/client';
-import { LoggedInUserCommunityContainerUserCurrentQueryDocument, LoggedInUserCommunityContainerUserCurrentQueryQuery } from '../../../../generated';
+import { useApolloClient, useLazyQuery } from '@apollo/client';
+import {
+  LoggedInUserCommunityContainerUserCurrentQueryDocument,
+  LoggedInUserCommunityContainerUserCurrentQueryQuery
+} from '../../../../generated';
 
 import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
@@ -7,6 +10,7 @@ import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-u
 import { useAuth } from 'react-oidc-context';
 import { useEffect, useState } from 'react';
 import { Skeleton } from 'antd';
+import { HandleLogout } from '../../../shared/handle-logout';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
@@ -14,21 +18,18 @@ interface HeaderPropTypes {
 
 export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   const auth = useAuth();
+  const apolloClient = useApolloClient();
   const params = useParams();
 
   const [memberQuery] = useLazyQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument);
-  const [data, setData] = useState<LoggedInUserCommunityContainerUserCurrentQueryQuery|null>(null);
+  const [data, setData] = useState<LoggedInUserCommunityContainerUserCurrentQueryQuery | null>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<any>(null);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const {
-          data: dataTemp,
-          loading: loadingTemp,
-          error: errorTemp
-        } = await memberQuery();
+        const { data: dataTemp, loading: loadingTemp, error: errorTemp } = await memberQuery();
         setData(dataTemp as LoggedInUserCommunityContainerUserCurrentQueryQuery);
         setError(loadingTemp);
         setLoading(errorTemp);
@@ -40,8 +41,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   }, [params]);
 
   const handleLogout = async () => {
-    await auth.removeUser();
-    await auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
+    HandleLogout(auth, apolloClient, window.location.origin);
   };
 
   const LoggedInCommunityContainer = () => {
@@ -70,7 +70,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
       hasData={data?.userCurrent && data.memberForCurrentUser}
       hasDataComponent={<LoggedInCommunityContainer />}
       error={error}
-      noDataComponent={<Skeleton loading/>}
+      noDataComponent={<Skeleton loading />}
     />
   );
 };

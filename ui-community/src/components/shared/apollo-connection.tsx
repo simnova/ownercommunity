@@ -11,25 +11,29 @@ const ApolloConnection: FC<any> = (props) => {
   const auth = useAuth();
   const params = useParams(); // useParams.memberId won't work here because ApolloConnection wraps the Routes, not inside a Route
 
+  const getAuthHeaders = async (headers: any) => {
+    const access_token = auth.user?.access_token;
+    console.log('auth-token', access_token);
+    const returnHeaders = { ...headers };
+    if (access_token) {
+      returnHeaders['Authorization'] = `Bearer ${access_token}`;
+    }
+    console.log('params ', params['*']?.slice(0, 24));
+    const communityId = params['*']?.slice(0, 24) ?? null;
+    if (communityId !== null && communityId !== 'accounts') {
+      returnHeaders['community'] = communityId;
+    }
+    const memberId = params['*']?.match(/(member|admin)\/([\w\d]+)/)?.[2] ?? null;
+    if (memberId !== null) {
+      returnHeaders['member'] = memberId;
+    }
+    console.log('returnHeaders', returnHeaders);
+    return { headers: returnHeaders };
+  };
+
   const withToken = setContext(async (_, { headers }) => {
     if (auth.isAuthenticated) {
-      const access_token = auth.user?.access_token;
-      console.log('auth-token', access_token);
-      const returnHeaders = { ...headers };
-      if (access_token) {
-        returnHeaders['Authorization'] = `Bearer ${access_token}`;
-      }
-      console.log('params ', params['*']?.slice(0, 24));
-      const communityId = params['*']?.slice(0, 24) ?? null;
-      if (communityId !== null && communityId !== 'accounts') {
-        returnHeaders['community'] = communityId;
-      }
-      const memberId = params['*']?.match(/(member|admin)\/([\w\d]+)/)?.[2] ?? null;
-      if (memberId !== null) {
-        returnHeaders['member'] = memberId;
-      }
-      console.log('returnHeaders', returnHeaders);
-      return { headers: returnHeaders };
+      return getAuthHeaders(headers);
     } else {
       return {
         headers: {

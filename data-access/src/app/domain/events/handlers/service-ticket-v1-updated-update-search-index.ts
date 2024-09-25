@@ -1,6 +1,6 @@
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
-import { SystemExecutionContext } from '../../domain-execution-context';
+import { SystemDomainExecutionContext } from '../../domain-execution-context';
 import { ServiceTicketV1UpdatedEvent } from '../types/service-ticket-v1-updated';
 import retry from 'async-retry';
 import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket-v1';
@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
 import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
 import { ServiceTicketV1Repository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
+import { SystemInfrastructureContext } from '../../../init/infrastructure-context';
 
 const crypto = require('crypto');
 
@@ -17,8 +18,8 @@ export default (
 ) => { EventBusInstance.register(ServiceTicketV1UpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
-    const context = SystemExecutionContext();
-    await serviceTicketV1UnitOfWork.withTransaction(context, async (repo) => {
+    const context = SystemDomainExecutionContext();
+    await serviceTicketV1UnitOfWork.withTransaction(context, SystemInfrastructureContext(), async (repo) => {
       let serviceTicket = await repo.getById(payload.id);
 
       const updatedDate = dayjs(serviceTicket.updatedAt.toISOString().split('T')[0]).toISOString();

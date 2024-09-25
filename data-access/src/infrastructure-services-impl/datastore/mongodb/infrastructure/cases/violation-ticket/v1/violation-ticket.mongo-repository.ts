@@ -7,9 +7,10 @@ import { CommunityEntityReference } from '../../../../../../../app/domain/contex
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
+import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
 
 export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1Props>
-  extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketV1Visa, ViolationTicketDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketV1Visa, ViolationTicketDO<PropType>, InfrastructureContext>
   implements ViolationTicketV1Repository<PropType>
 {
   async getNewInstance(
@@ -20,12 +21,12 @@ export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1
     requestor: MemberEntityReference,
     penaltyAmount: number
   ): Promise<ViolationTicketDO<PropType>> {
-    let adapter = this.typeConverter.toAdapter(new this.model());
-    return ViolationTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.context, penaltyAmount);
+    let adapter = this.typeConverter.toAdapter(new this.model(), this.infrastructureContext);
+    return ViolationTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.domainExecutionContext, penaltyAmount);
   }
 
   async getById(id: string): Promise<ViolationTicketDO<PropType>> {
     let member = await this.model.findById(id).populate(['community', 'property', 'requestor', 'assignedTo', 'service']).exec();
-    return this.typeConverter.toDomain(member, this.context);
+    return this.typeConverter.toDomain(member, this.infrastructureContext, this.domainExecutionContext);
   }
 }

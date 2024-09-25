@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import { SearchDocumentsResult } from '../../../../../../seedwork/services-seedwork-cognitive-search-interfaces';
 import { CognitiveSearchDataSource } from '../../../../data-sources/cognitive-search-data-source';
-import { ReadOnlyContext } from '../../../../domain/domain-execution-context';
+import { ReadOnlyDomainExecutionContext } from '../../../../domain/domain-execution-context';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../../../domain/infrastructure/cognitive-search/service-ticket-search-index-format';
 import { ServiceTicketV1UnitOfWork } from '../../../../external-dependencies/domain';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
+import { ReadOnlyInfrastructureContext } from '../../../../init/infrastructure-context';
 
 export interface ServiceTicketV1SearchApi {
   serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
@@ -158,10 +159,10 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       await searchService.createIndexIfNotExists(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     });
 
-    const context = await ReadOnlyContext();
+    const context = await ReadOnlyDomainExecutionContext();
     const ids = await this.context.applicationServices.service.dataApi.getAllIds();
 
-    await ServiceTicketV1UnitOfWork.withTransaction(context, async (repo) => {
+    await ServiceTicketV1UnitOfWork.withTransaction(context, ReadOnlyInfrastructureContext() ,async (repo) => {
       const searchDocs: Partial<ServiceTicketIndexDocument>[] = [];
 
       // loop through ids, get objects, convert to domain objects, convert to index document, update search index

@@ -28,23 +28,26 @@ import {
 } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa';
+import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
+import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ServiceTicket,
   ServiceTicketV1DomainAdapter,
   ServiceTicketV1Visa,
-  ServiceTicketV1DO<ServiceTicketV1DomainAdapter>
+  ServiceTicketV1DO<ServiceTicketV1DomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(ServiceTicketV1DomainAdapter, ServiceTicketV1DO);
   }
 }
 
-export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketV1Props {
+export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceTicket, InfrastructureContext> implements ServiceTicketV1Props {
   get community() {
     if (this.doc.community) {
-      return new CommunityDomainAdapter(this.doc.community);
+      return new CommunityDomainAdapter(this.doc.community, this.infrastructureContext);
     }
   }
   public setCommunityRef(community: CommunityEntityReference) {
@@ -53,7 +56,7 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
 
   get property() {
     if (this.doc.property) {
-      return new PropertyDomainAdapter(this.doc.property);
+      return new PropertyDomainAdapter(this.doc.property, this.infrastructureContext);
     }
   }
   public setPropertyRef(property: PropertyEntityReference) {
@@ -66,7 +69,7 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
 
   get requestor() {
     if (this.doc.requestor) {
-      return new MemberDomainAdapter(this.doc.requestor);
+      return new MemberDomainAdapter(this.doc.requestor, this.infrastructureContext);
     }
   }
   public setRequestorRef(requestor: MemberEntityReference) {
@@ -75,7 +78,7 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
 
   get assignedTo() {
     if (this.doc.assignedTo) {
-      return this.doc.assignedTo ? new MemberDomainAdapter(this.doc.assignedTo) : undefined;
+      return this.doc.assignedTo ? new MemberDomainAdapter(this.doc.assignedTo, this.infrastructureContext) : undefined;
     }
   }
   public setAssignedToRef(assignedTo: MemberEntityReference) {
@@ -83,7 +86,7 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get service() {
-    return this.doc.service ? new ServiceDomainAdapter(this.doc.service) : undefined;
+    return this.doc.service ? new ServiceDomainAdapter(this.doc.service, this.infrastructureContext) : undefined;
   }
   public setServiceRef(service: ServiceEntityReference) {
     this.doc.set('service', service ? service['props']['doc'] : null);
@@ -118,15 +121,15 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get activityLog() {
-    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
+    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter, this.infrastructureContext);
   }
 
   get messages() {
-    return new MongoosePropArray(this.doc.messages, ServiceTicketV1MessageDomainAdapter);
+    return new MongoosePropArray(this.doc.messages, ServiceTicketV1MessageDomainAdapter, this.infrastructureContext);
   }
 
   get photos() {
-    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter);
+    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter, this.infrastructureContext);
   }
 
   get hash() {
@@ -159,12 +162,12 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
     if (!this.doc.revisionRequest) {
       this.doc.set('revisionRequest', {});
     }
-    return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
+    return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest, this.infrastructureContext);
   }
 }
 
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {
-  constructor(public readonly props: ActivityDetail) {}
+  constructor(public readonly props: ActivityDetail, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -185,16 +188,16 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
 
   get activityBy() {
     if (this.props.activityBy) {
-      return this.props.activityBy ? new MemberDomainAdapter(this.props.activityBy) : undefined;
+      return this.props.activityBy ? new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext) : undefined;
     }
   }
-  public setActivityByRef(activityBy: MemberEntityReference) {
-    this.props.set('activityBy', activityBy['props']['doc']);
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
   }
 }
 
 export class PhotoDomainAdapter implements PhotoProps {
-  constructor(public readonly props: Photo) {}
+  constructor(public readonly props: Photo, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -219,7 +222,7 @@ export class PhotoDomainAdapter implements PhotoProps {
 }
 
 export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1MessageProps {
-  constructor(public readonly props: ServiceTicketMessage) {}
+  constructor(public readonly props: ServiceTicketMessage, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -233,7 +236,7 @@ export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1Messa
 
   get initiatedBy() {
     if (this.props.initiatedBy) {
-      return new MemberDomainAdapter(this.props.initiatedBy);
+      return new MemberDomainAdapter(this.props.initiatedBy, this.infrastructureContext);
     }
   }
   public setInitiatedByRef(initiatedBy: MemberEntityReference | undefined) {
@@ -270,7 +273,7 @@ export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1Messa
 }
 
 export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1RevisionRequestProps {
-  constructor(public readonly doc: ServiceTicketRevisionRequest) {}
+  constructor(public readonly doc: ServiceTicketRevisionRequest, private readonly infrastructureContext: InfrastructureContext) {}
 
   get requestedAt() {
     return this.doc.requestedAt;
@@ -282,7 +285,7 @@ export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1Revi
 
   get requestedBy() {
     if (this.doc.requestedBy) {
-      return new MemberDomainAdapter(this.doc.requestedBy);
+      return new MemberDomainAdapter(this.doc.requestedBy, this.infrastructureContext);
     }
   }
 
@@ -310,12 +313,12 @@ export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1Revi
     if (!this.doc.requestedChanges) {
       this.doc.set('requestedChanges', {});
     }
-    return new ServiceTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges);
+    return new ServiceTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges, this.infrastructureContext);
   }
 }
 
 export class ServiceTicketV1RevisionRequestedChangesDomainAdapter implements ServiceTicketV1RevisionRequestedChangesProps {
-  constructor(public readonly doc: ServiceTicketRevisionRequestChanges) {}
+  constructor(public readonly doc: ServiceTicketRevisionRequestChanges, private readonly infrastructureContext: InfrastructureContext) {}
 
   get requestUpdatedStatus() {
     return this.doc.requestUpdatedStatus;

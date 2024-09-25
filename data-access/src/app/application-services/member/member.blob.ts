@@ -14,12 +14,12 @@ export class MemberBlobApiImpl
   implements MemberBlobApi {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
     let mutationResult: MutationStatus;
-    await this.withStorage(async (passport, blobStorage) => {
+    await this.withStorage(async (passport, blobStorage, auditContext) => {
       let member = await this.context.applicationServices.member.dataApi.getMemberByIdWithCommunity(memberId);
       if (!member) {
         mutationResult = { success: false, errorMessage: `Member not found: ${memberId}` } as MutationStatus;
       }
-      let memberDo = new MemberConverter().toDomain(member, { domainVisa: passport.domainVisa });
+      let memberDo = new MemberConverter().toDomain(member, {auditContext}, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa
         .forMember(memberDo)
         .determineIf((permissions) => (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount) || permissions.canManageMembers)) {
@@ -37,13 +37,13 @@ export class MemberBlobApiImpl
     const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
 
     let headerResult: MemberAvatarImageAuthHeaderResult;
-    await this.withStorage(async (passport, blobStorage) => {
+    await this.withStorage(async (passport, blobStorage, auditContext) => {
       let member = await this.context.applicationServices.member.dataApi.getMemberByIdWithCommunity(memberId);
       if (!member) {
         headerResult = { status: { success: false, errorMessage: `Member not found: ${memberId}` } } as MemberAvatarImageAuthHeaderResult;
         return;
       }
-      let memberDo = new MemberConverter().toDomain(member, { domainVisa: passport.domainVisa });
+      let memberDo = new MemberConverter().toDomain(member, {auditContext}, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa
         .forMember(memberDo)
         .determineIf((permissions) => (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount) || permissions.canManageMembers)) {

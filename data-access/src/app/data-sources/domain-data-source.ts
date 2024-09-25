@@ -7,6 +7,7 @@ import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../domain/domain-execution-context';
 import { AppContext } from '../init/app-context-builder';
 import { Visa } from '../../../seedwork/passport-seedwork/visa';
+import { InfrastructureContext } from '../init/infrastructure-context';
 
 export class DomainDataSource<
   Context extends AppContext,
@@ -14,11 +15,11 @@ export class DomainDataSource<
   PropType extends DomainEntityProps,
   VisaType extends Visa,
   DomainType extends AggregateRoot<PropType, DomainExecutionContext, VisaType>, 
-  RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType, PropType, VisaType, DomainType>
+  RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, InfrastructureContext>
 > extends DataSource<Context> {
-  private unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, RepoType>;
+  private unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, InfrastructureContext, RepoType>;
   
-  constructor(options: { unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, RepoType> } & DataSourceConfig<Context>) {
+  constructor(options: { unitOfWork: MongoUnitOfWork<DomainExecutionContext, MongoType, PropType, VisaType, DomainType, InfrastructureContext, RepoType> } & DataSourceConfig<Context>) {
     super(options);
     this.unitOfWork = options.unitOfWork;
   }
@@ -26,11 +27,14 @@ export class DomainDataSource<
   public get context(): Context { return this._context;}
 
   public async withTransaction(func:(repo:RepoType) => Promise<void>): Promise<void> {
-    const executionContext:DomainExecutionContext = {
+    const domainExecutionContext = {
       domainVisa: this._context.passport.domainVisa
+    }
+    const infrastructureContext:InfrastructureContext = {
+      auditContext: this._context.auditContext
     }
 
     console.log('withTransaction',this.context.passport.domainVisa);
-    return this.unitOfWork.withTransaction(executionContext,(repo:RepoType) => func(repo));
+    return this.unitOfWork.withTransaction(domainExecutionContext, infrastructureContext,(repo:RepoType) => func(repo));
   }
 }

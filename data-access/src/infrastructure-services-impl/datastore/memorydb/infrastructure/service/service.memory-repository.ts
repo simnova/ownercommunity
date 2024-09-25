@@ -5,6 +5,7 @@ import { ServiceRepository } from "../../../../../app/domain/contexts/community/
 import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import { ServiceVisa } from "../../../../../app/domain/contexts/community/service/service.visa";
+import { InfrastructureContext } from "../../../../../app/init/infrastructure-context";
 
 class MemoryService extends MemoryBaseAdapter implements ServiceProps  {
 
@@ -23,7 +24,7 @@ class MemoryService extends MemoryBaseAdapter implements ServiceProps  {
 export class MemoryServiceRepository<
   PropType extends ServiceProps, 
   DomainType extends Service<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, ServiceVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, ServiceVisa, DomainType, InfrastructureContext> 
     implements ServiceRepository<PropType> 
     {
       async getNewInstance(serviceName: string, description: string, community: CommunityEntityReference): Promise<Service<PropType>> {

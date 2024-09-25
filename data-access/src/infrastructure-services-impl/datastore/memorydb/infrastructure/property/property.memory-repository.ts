@@ -13,6 +13,7 @@ import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-
 import { MemoryPropArray } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import { PropertyVisa } from "../../../../../app/domain/contexts/property/property/property.visa";
+import { InfrastructureContext } from "../../../../../app/init/infrastructure-context";
 
 class MemoryAdditionalAmenity extends MemoryBaseAdapter implements PropertyListingDetailAdditionalAmenityProps {
   category: string;
@@ -144,7 +145,7 @@ class MemoryProperty extends MemoryBaseAdapter implements PropertyProps  {
 export class MemoryPropertyRepository<
   PropType extends PropertyProps, 
   DomainType extends Property<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, PropertyVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, PropertyVisa, DomainType, InfrastructureContext> 
     implements PropertyRepository<PropType> 
     {
 

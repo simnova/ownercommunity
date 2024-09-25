@@ -6,20 +6,22 @@ import { DomainExecutionContext } from '../../../../../app/domain/domain-executi
 import { EndUserEntityReference, EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
+import { InfrastructureContext } from '../../../../../app/init/infrastructure-context';
 
 export class CommunityConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   Community, 
   CommunityDomainAdapter, 
   CommunityVisa,
-  CommunityDO<CommunityDomainAdapter>
+  CommunityDO<CommunityDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(CommunityDomainAdapter, CommunityDO);
   }
 }
 
-export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> implements CommunityProps {
+export class CommunityDomainAdapter extends MongooseDomainAdapter<Community, InfrastructureContext> implements CommunityProps {
   get name() {
     return this.doc.name;
   }
@@ -50,7 +52,7 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> imp
 
   get createdBy(): EndUserProps {
     if (this.doc.createdBy) {
-      return new EndUserDomainAdapter(this.doc.createdBy);
+      return new EndUserDomainAdapter(this.doc.createdBy, this.infrastructureContext);
     }
     return undefined;
   }

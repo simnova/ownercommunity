@@ -60,6 +60,7 @@ import { PropertyVisa } from "../../../app/domain/contexts/property/property/pro
 import { ServiceVisa } from "../../../app/domain/contexts/community/service/service.visa";
 import { ServiceTicketV1Visa } from "../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.visa";
 import { ViolationTicketV1Visa } from "../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa";
+import { InfrastructureContext } from "../../../app/init/infrastructure-context";
 // import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";
 
 // import { MemberDataStructure } from "../data-structures/member";
@@ -72,42 +73,42 @@ import { ViolationTicketV1Visa } from "../../../app/domain/contexts/cases/violat
 
 export interface IMemoryDatabase {
   // community
-  communityUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
+  communityUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, InfrastructureContext, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
   communityReadonlyMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
   // communityDatastore: MemoryCommunityDatastore;
   // user
-  endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+  endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, InfrastructureContext, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
   endUserReadonlyMemoryStore: ReadOnlyMemoryStore<EndUserProps>;
 
-  staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, InfrastructureContext, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
   staffUserReadonlyMemoryStore: ReadOnlyMemoryStore<StaffUserProps>;
   // userDatastore: MemoryUserDatastore;
   
   // end user role
-  endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
+  endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, InfrastructureContext, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
   endUserRoleReadonlyMemoryStore: ReadOnlyMemoryStore<EndUserRoleProps>;
 
   // staff role
-  staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
+  staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, InfrastructureContext, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
   staffRoleReadonlyMemoryStore: ReadOnlyMemoryStore<StaffRoleProps>;
   // roleDatastore: MemoryRoleDatastore;
   // member
-  memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, InfrastructureContext, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
   memberReadonlyMemoryStore: ReadOnlyMemoryStore<MemberProps>;
   // memberDatastore: MemoryMemberDatastore;
   // property
-  propertyUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  propertyUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, InfrastructureContext, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
   propertyReadonlyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
   // propertyDatastore: MemoryPropertyDatastore;
   // service
-  serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, InfrastructureContext, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
   serviceReadonlyMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
   // serviceDatastore: MemoryServiceDatastore;
   // service-ticket
-  serviceTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
+  serviceTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, InfrastructureContext, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
   serviceTicketV1ReadonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketV1Props>;
   // serviceTicketDatastore: MemoryServiceTicketDatastore;
-  violationTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>,MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
+  violationTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>, InfrastructureContext, MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
   violationTicketV1ReadonlyMemoryStore: ReadOnlyMemoryStore<ViolationTicketV1Props>;
 }
 
@@ -116,7 +117,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   constructor() {}
 
   // community
-  private _communityUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
+  private _communityUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, InfrastructureContext, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
   private _communityMemoryStore: MemoryStore<CommunityProps>;
   // private _communityMemoryDatastore : MemoryCommunityDatastore;
   private get communityMemoryStore(): MemoryStore<CommunityProps> {
@@ -128,7 +129,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildCommunityMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<CommunityProps>): MemoryCommunityDatastore {
   //   return new MemoryCommunityDatastore(readonlyMemoryStore);
   // }
-  public get communityUnitOfWork():  MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>{
+  public get communityUnitOfWork():  MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Community<CommunityProps>, InfrastructureContext, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>{
     if(!this._communityUnitOfWork) {
       // this._communityMemoryStore = new MemoryStore<CommunityProps>();
       this._communityUnitOfWork = buildMemoryCommunityUnitOfWork(this.communityMemoryStore);
@@ -146,7 +147,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // user
-  private _staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  private _staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, InfrastructureContext, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
   private _staffUserMemoryStore: MemoryStore<StaffUserProps>;
   // private _userMemoryDatastore: MemoryUserDatastore;
   private get staffUserMemoryStore(): MemoryStore<StaffUserProps> {
@@ -158,7 +159,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
   //   return new MemoryUserDatastore(readonlyMemoryStore);
   // }
-  public get staffUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>> {
+  public get staffUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, StaffUserVisa, StaffUser<StaffUserProps>, InfrastructureContext, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>> {
     if(!this._staffUserUnitOfWork) {
       // this._userMemoryStore = new MemoryStore<UserProps>();
       this._staffUserUnitOfWork = buildMemoryStaffUserUnitOfWork(this.staffUserMemoryStore);
@@ -170,7 +171,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
 
     // user
-    private _endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+    private _endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, InfrastructureContext, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
     private _endUserMemoryStore: MemoryStore<EndUserProps>;
     // private _userMemoryDatastore: MemoryUserDatastore;
     private get endUserMemoryStore(): MemoryStore<EndUserProps> {
@@ -182,7 +183,7 @@ export class MemoryDatabase implements IMemoryDatabase{
     // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
     //   return new MemoryUserDatastore(readonlyMemoryStore);
     // }
-    public get endUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>> {
+    public get endUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, EndUserVisa, EndUser<EndUserProps>, InfrastructureContext, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>> {
       if(!this._endUserUnitOfWork) {
         // this._userMemoryStore = new MemoryStore<UserProps>();
         this._endUserUnitOfWork = buildMemoryEndUserUnitOfWork(this.endUserMemoryStore);
@@ -200,7 +201,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
   
   // end user role
-  private _endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
+  private _endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, InfrastructureContext, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
   private _endUserRoleMemoryStore: MemoryStore<EndUserRoleProps>;
   // private _roleMemoryDatastore: MemoryRoleDatastore;
   private get endUserRoleMemoryStore(): MemoryStore<EndUserRoleProps> {
@@ -212,7 +213,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildRoleMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<RoleProps>): MemoryRoleDatastore {
   //   return new MemoryRoleDatastore(readonlyMemoryStore);
   // }
-  public get endUserRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>> {
+  public get endUserRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, EndUserRole<EndUserRoleProps>, InfrastructureContext, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>> {
     if(!this._endUserRoleUnitOfWork) {
       // this._roleMemoryStore = new MemoryStore<RoleProps>();
       this._endUserRoleUnitOfWork = buildMemoryEndUserRoleUnitOfWork(this.endUserRoleMemoryStore);
@@ -224,7 +225,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
 
     // staff role
-    private _staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
+    private _staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, InfrastructureContext, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
     private _staffRoleMemoryStore: MemoryStore<StaffRoleProps>;
     // private _roleMemoryDatastore: MemoryRoleDatastore;
     private get staffRoleMemoryStore(): MemoryStore<StaffRoleProps> {
@@ -236,7 +237,7 @@ export class MemoryDatabase implements IMemoryDatabase{
     // private buildRoleMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<RoleProps>): MemoryRoleDatastore {
     //   return new MemoryRoleDatastore(readonlyMemoryStore);
     // }
-    public get staffRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>> {
+    public get staffRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, StaffRole<StaffRoleProps>, InfrastructureContext, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>> {
       if(!this._staffRoleUnitOfWork) {
         // this._roleMemoryStore = new MemoryStore<RoleProps>();
         this._staffRoleUnitOfWork = buildMemoryStaffRoleUnitOfWork(this.staffRoleMemoryStore);
@@ -254,7 +255,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // member
-  private _memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  private _memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, InfrastructureContext, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
   private _memberMemoryStore: MemoryStore<MemberProps>;
   // private _memberMemoryDatastore: MemoryMemberDatastore;
   private get memberMemoryStore(): MemoryStore<MemberProps> {
@@ -266,7 +267,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildMemberMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<MemberProps>): MemoryMemberDatastore {
   //   return new MemoryMemberDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get memberUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>> {
+  public get memberUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, CommunityVisa, Member<MemberProps>, InfrastructureContext, MemoryMemberRepository<MemberProps, Member<MemberProps>>> {
     if(!this._memberUnitOfWork) {
       // this._memberMemoryStore = new MemoryStore<MemberProps>();
       this._memberUnitOfWork = buildMemoryMemberUnitOfWork(this.memberMemoryStore);
@@ -284,7 +285,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // property
-  private _propertyUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  private _propertyUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, InfrastructureContext, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
   private _propertyMemoryStore: MemoryStore<PropertyProps>;
   // private _propertyMemoryDatastore: MemoryPropertyDatastore;
   private get propertyMemoryStore(): MemoryStore<PropertyProps> {
@@ -296,7 +297,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildPropertyMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<PropertyProps>): MemoryPropertyDatastore {
   //   return new MemoryPropertyDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get propertyUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>> {
+  public get propertyUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, PropertyVisa, Property<PropertyProps>, InfrastructureContext, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>> {
     if(!this._propertyUnitOfWork) {
       // this._propertyMemoryStore = new MemoryStore<PropertyProps>();
       this._propertyUnitOfWork = buildMemoryPropertyUnitOfWork(this.propertyMemoryStore);
@@ -314,7 +315,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // service
-  private _serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  private _serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, InfrastructureContext, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
   private _serviceMemoryStore: MemoryStore<ServiceProps>;
   // private _serviceMemoryDatastore: MemoryServiceDatastore;
   private get serviceMemoryStore(): MemoryStore<ServiceProps> {
@@ -326,7 +327,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildServiceMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceProps>): MemoryServiceDatastore {
   //   return new MemoryServiceDatastore(readonlyMemoryStore);
   // }
-  public get serviceUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>> {
+  public get serviceUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceVisa, Service<ServiceProps>, InfrastructureContext, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>> {
     if(!this._serviceUnitOfWork) {
       // this._serviceMemoryStore = new MemoryStore<ServiceProps>();
       this._serviceUnitOfWork = buildMemoryServiceUnitOfWork(this.serviceMemoryStore);
@@ -344,7 +345,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // service-ticket
-  private _serviceTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
+  private _serviceTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, InfrastructureContext, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
   private _serviceTicketV1MemoryStore: MemoryStore<ServiceTicketV1Props>;
   // private _serviceTicketMemoryDatastore: MemoryServiceTicketDatastore;
   private get serviceTicketV1MemoryStore(): MemoryStore<ServiceTicketV1Props> {
@@ -356,7 +357,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>): MemoryServiceTicketDatastore {
   //   return new MemoryServiceTicketDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get serviceTicketV1UnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>> {
+  public get serviceTicketV1UnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ServiceTicketV1Visa, ServiceTicketV1<ServiceTicketV1Props>, InfrastructureContext, MemoryServiceTicketV1Repository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>> {
     if(!this._serviceTicketV1UnitOfWork) {
       // this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketProps>();
       this._serviceTicketV1UnitOfWork = buildMemoryServiceTicketV1UnitOfWork(this.serviceTicketV1MemoryStore);
@@ -368,7 +369,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
 
   // violation-ticket
-  private _violationTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>, MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
+  private _violationTicketV1UnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>, InfrastructureContext, MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
   private _violationTicketV1MemoryStore: MemoryStore<ViolationTicketV1Props>;
   // private _serviceTicketMemoryDatastore: MemoryServiceTicketDatastore;
   private get violationTicketV1MemoryStore(): MemoryStore<ViolationTicketV1Props> {
@@ -380,7 +381,7 @@ export class MemoryDatabase implements IMemoryDatabase{
   // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>): MemoryServiceTicketDatastore {
   //   return new MemoryServiceTicketDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get violationTicketV1UnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>, MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>> {
+  public get violationTicketV1UnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, DomainEntityProps, ViolationTicketV1Visa, ViolationTicketV1<ViolationTicketV1Props>, InfrastructureContext, MemoryViolationTicketV1Repository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>> {
     if(!this._violationTicketV1UnitOfWork) {
       this._violationTicketV1UnitOfWork = buildMemoryViolationTicketV1UnitOfWork(this.violationTicketV1MemoryStore);
     }

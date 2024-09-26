@@ -3,6 +3,8 @@ import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './activity-detail.value-objects';
+import { Audit } from '../../../../decorators';
+import { AuditContextFactoryType, FuncToGetMemberRefFromAuditContextFactory } from '../../../../../init/audit-context';
 
 export interface ActivityDetailPropValues extends DomainEntityProps {
   activityType: string;
@@ -43,5 +45,14 @@ export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements
 
   set ActivityBy(activityBy: MemberEntityReference) {
     this.props.setActivityByRef(activityBy);
+  }
+
+  setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.props.setActivityByRef(funcToGetMemberRef(this.context.auditContext));
+  }
+
+  @Audit
+  setActivityBy(AuditContextFactory?: AuditContextFactoryType) {
+    this.props.setActivityByRef(AuditContextFactory.getMemberRef);
   }
 }

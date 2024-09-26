@@ -113,7 +113,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     let newActivity = violationTicket.requestNewActivityDetail();
     newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
     newActivity.ActivityDescription = 'Created';
-    newActivity.ActivityBy = requestor;
+    newActivity.setActivityBy();
     violationTicket.financeDetails.ServiceFee = penaltyAmount;
     return violationTicket;
   }
@@ -378,7 +378,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Updated;
     activityDetail.ActivityDescription = description;
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
 
   public requestAddMessage(message: string, sentBy: string, embedding: string, initiatedBy?: MemberEntityReference): void {
@@ -419,7 +419,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityDescription = description;
     activityDetail.ActivityType = this.statusMappings.get(newStatus.valueOf());
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
 
   public override onSave(isModified: boolean): void {

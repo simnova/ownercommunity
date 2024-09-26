@@ -29,6 +29,7 @@ import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/
 import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
+import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -195,8 +196,8 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
       return new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext);
     }
   }
-  public setActivityByRef(activityBy: MemberEntityReference) {
-    this.props.set('activityBy', activityBy['props']['doc']);
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
   }
 }
 
@@ -610,4 +611,3 @@ export class ViolationTicketV1RevisionRequestedChangesDomainAdapter implements V
     this.doc.requestUpdatedPaymentTransaction = requestUpdatedPaymentTransaction;
   }
 }
-

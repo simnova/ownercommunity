@@ -19,6 +19,7 @@ import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../.
 import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
 import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
+import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;

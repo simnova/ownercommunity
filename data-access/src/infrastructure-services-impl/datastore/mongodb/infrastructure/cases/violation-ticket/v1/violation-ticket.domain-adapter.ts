@@ -169,6 +169,10 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     }
     return new FinanceDetailDomainAdapter(this.doc.financeDetails, this.infrastructureContext);
   }
+
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.doc.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
+  }
 }
 
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {
@@ -196,8 +200,8 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
       return new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext);
     }
   }
-  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
-    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
+  public setActivityByRef(activityBy: MemberEntityReference) {
+    this.props.set('activityBy', activityBy['props']['doc']);
   }
 }
 

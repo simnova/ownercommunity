@@ -10,7 +10,7 @@ export interface ActivityDetailPropValues extends DomainEntityProps {
   activityType: string;
   activityDescription: string;
   readonly activityBy: MemberProps;
-  setActivityByRef: (activityBy: MemberEntityReference) => void;
+  setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory);
 }
 
 export interface ActivityDetailProps extends ActivityDetailPropValues {}
@@ -41,14 +41,6 @@ export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements
   }
   set ActivityDescription(activityDescription: string) {
     this.props.activityDescription = new ValueObjects.Description(activityDescription).valueOf();
-  }
-
-  set ActivityBy(activityBy: MemberEntityReference) {
-    this.props.setActivityByRef(activityBy);
-  }
-
-  setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
-    this.props.setActivityByRef(funcToGetMemberRef(this.context.auditContext));
   }
 
   @Audit

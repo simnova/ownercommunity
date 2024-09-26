@@ -196,9 +196,19 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
       return new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext);
     }
   }
-  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
-    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
-  }
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {  
+    try {  
+      const memberRef = funcToGetMemberRef(this.infrastructureContext.auditContext);  
+      if (memberRef && typeof memberRef === 'object') {  
+        this.props.set('activityBy', memberRef);  
+      } else {  
+        throw new Error('Invalid member reference');  
+      }  
+    } catch (error) {  
+      console.error('Error setting activity by reference:', error);  
+      // Handle or rethrow the error as needed  
+    }  
+  } 
 }
 
 export class PhotoDomainAdapter implements PhotoProps {

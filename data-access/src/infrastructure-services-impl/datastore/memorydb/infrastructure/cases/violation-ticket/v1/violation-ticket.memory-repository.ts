@@ -54,8 +54,8 @@ class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailPr
   activityType: string;
   activityDescription: string;
   activityBy: MemberProps;
-  setActivityByRef(activityBy: MemberEntityReference): void {
-    this.activityBy = activityBy['props'] as MemberProps;
+  setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory): void {
+    // empty implementation
   }
 }
 

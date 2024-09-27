@@ -1,10 +1,12 @@
+import { DailyGlSummaryProcessor } from "../../../../seedwork/services-seedwork-process-daily-gl-summaries";
+import { determineStartDate } from "../../../../seedwork/services-seedwork-process-daily-gl-summaries/helpers";
 import { TimerContext } from "../init/timer-context-builder";
-import { ProcessDailyGLSummaries } from "../../../app/services/process-daily-gl-summaries";
+
 
 export const ProcessGLTransactions = async (context: TimerContext): Promise<void> => {
   try {
-    console.log('[TestTimerHandler] | Invocation ID ', context);
-    console.log('[TestTimerHandler] | Timer ', context);
+    console.log('[ProcessGLTransactions] | Invocation ID ', context);
+    console.log('[ProcessGLTransactions] | Timer ', context);
     // Timer function logic here
 
     const { blobStorage } = context.infrastructureServices;
@@ -15,7 +17,11 @@ export const ProcessGLTransactions = async (context: TimerContext): Promise<void
       blobBasePath: 'daily-gl-summaries'
     };
 
-    await ProcessDailyGLSummaries(blobSettings);
+    DailyGlSummaryProcessor.initialize(blobSettings);
+
+    const { startTimestamp, endTimestamp} = await determineStartDate(blobSettings);
+
+    await DailyGlSummaryProcessor.process(startTimestamp, endTimestamp);
 
     return;
   } catch (error) {

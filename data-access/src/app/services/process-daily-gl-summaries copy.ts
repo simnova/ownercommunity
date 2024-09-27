@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
 import { BlobSettings, BaseGlTransactionSummary, GlPostingSummary, GlSummary, DailyGlSummarySettings } from "./process-daily-gl-summaries-interfaces";
 import { sortDateArray } from '../../../seedwork/utils/array-utils';
-import { DateUtils } from '../../../seedwork/utils/date-utils';
-import { GlTransactionDate } from './gl-transaction-date';
-import { GlDailySummaryStorageProvider } from './daily-gl-summary-storage-provider';
+import { convertToStartOfDayEST, getUtcDateString } from '../../../seedwork/utils/date-utils';
 
 const GL_TRANSACTION_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -22,45 +20,22 @@ enum BlobTagForStatus {
   NoTxn = 'NOTXN',
 }
 
-export interface GlDailySummaryProcessor {
-
-}
-
-export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
-
-  constructor(
-    private readonly _storageProvider: GlDailySummaryStorageProvider, 
-    private readonly _funcToGetGlTransactionSummaryData: (glTransactionDate: Date) => Promise<BaseGlTransactionSummary[]>,
-    private readonly _lastProcessedGlTransactionDate: GlTransactionDate,
-  ) {}
-
-  get processingStartTimestamp(): Date {
-    if (!this._lastProcessedGlTransactionDate) {
-      return new Date(Date.now() - 86400000);
-    }
-    return DateUtils.convertToStartOfDayEST(DateUtils.addDaysToDate(this._lastProcessedGlTransactionDate.date, 1));
+export class DailyGlSummaryProcessor {
+  private static blobSettings: BlobSettings;
+  private static pipeline: (glTransactionDate: Date) => Promise<BaseGlTransactionSummary[]>;
+  
+  static initialize<TransactionSummaryType extends BaseGlTransactionSummary>(blobSettings: BlobSettings, pipeline?: (glTransactionDate: Date) => Promise<TransactionSummaryType[]>) {
+    DailyGlSummaryProcessor.blobSettings = blobSettings;
+    DailyGlSummaryProcessor.pipeline = pipeline;
   }
 
-  get processingEndTimestamp(): Date {
-    return DateUtils.convertToStartOfDayEST(new Date());
-  }
-
-  get glTransactionDate(): GlTransactionDate {
-    return new GlTransactionDate(DateUtils.getUtcDateString(this.processingStartTimestamp, GL_TRANSACTION_DATE_FORMAT));
-  }
-
-  determineStartDate = async (lastProcessedDate: GlTransactionDate): Promise<DailyGlSummarySettings> => {
+  static determineStartDate = async ({ blobStorage, blobContainerName, blobBasePath }: BlobSettings): Promise<DailyGlSummarySettings> => {
     try {
-      let startTimestamp;
-      if (lastProcessedDate === null) {
-        startTimestamp = new Date(Date.now() - 86400000); // Current date minus one day
-      } else {
-        startTimestamp = DateUtils.addDaysToDate(lastProcessedDate.date, 1) // Last processed date plus one day
-      }
+      const blobDates = (await blobStorage.listBlobs(blobContainerName, blobBasePath)) ?? [];
       // should return current date minus one if no entries in blob, else last processed date plus one
-      startTimestamp = DateUtils.convertToStartOfDayEST(new Date(lastProcessedDate.dateString));
-      const glTransactionDate = DateUtils.getUtcDateString(startTimestamp, GL_TRANSACTION_DATE_FORMAT);
-      const endTimestamp = DateUtils.convertToStartOfDayEST(new Date());
+      const startTimestamp = convertToStartOfDayEST(DailyGlSummaryProcessor.calculateStartDate(blobDates.map((blob) => blob.tags.glTransactionDate)));
+      const glTransactionDate = getUtcDateString(startTimestamp, GL_TRANSACTION_DATE_FORMAT);
+      const endTimestamp = convertToStartOfDayEST(new Date());
       return { glTransactionDate, startTimestamp, endTimestamp };
       
     } catch (error) {
@@ -69,43 +44,41 @@ export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
     }
   }
 
-  async process(startDate: Date, endDate: Date) {
+  static async process(startDate: Date, endDate: Date) {
     const originalStartDate = new Date(startDate);
-    console.log(`process-daily-gl-summaries | ${DateUtils.getUtcDateString(startDate, GL_TRANSACTION_DATE_FORMAT)} | ${DateUtils.getUtcDateString(endDate, GL_TRANSACTION_DATE_FORMAT)} | begin`);
+    console.log(`process-daily-gl-summaries | ${getUtcDateString(startDate, GL_TRANSACTION_DATE_FORMAT)} | ${getUtcDateString(endDate, GL_TRANSACTION_DATE_FORMAT)} | begin`);
     let currentDate = startDate;
-    let glTransactionDate = new GlTransactionDate(DateUtils.getUtcDateString(this.processingStartTimestamp, GL_TRANSACTION_DATE_FORMAT));
-    while (glTransactionDate.date < endDate) {
-      // const glTransactionDate = DateUtils.getUtcDateString(currentDate, GL_TRANSACTION_DATE_FORMAT);
+    while (currentDate < endDate) {
+      const glTransactionDate = getUtcDateString(currentDate, GL_TRANSACTION_DATE_FORMAT);
       console.log(`process-daily-gl-summaries | ${glTransactionDate} | begin`);
       try {
-        const glTransactionSummary = await this.getDailyGlTransactionSummaryData(currentDate);
-        const glPostingSummary = this.getDailyGlPostingSummaryData(currentDate, glTransactionSummary);
-        await this.saveDailyGlSummaries(glTransactionDate, glTransactionSummary, glPostingSummary);
+        const glTransactionSummary = await DailyGlSummaryProcessor.getDailyGlTransactionSummaryData(currentDate);
+        const glPostingSummary = DailyGlSummaryProcessor.getDailyGlPostingSummaryData(currentDate, glTransactionSummary);
+        await DailyGlSummaryProcessor.saveDailyGlSummaries(glTransactionDate, glTransactionSummary, glPostingSummary);
       } catch (error) {
         console.error(`process-daily-gl-summaries | ${glTransactionDate} | Error processing daily summary: ${error}`);
         continue;
       } finally {
         console.log(`process-daily-gl-summaries | ${glTransactionDate} | end`);
-        // currentDate = DateUtils.addDaysToDate(currentDate, 1);
-        glTransactionDate = DateUtils.addDaysToDate(glTransactionDate.date, 1);
+        currentDate = DailyGlSummaryProcessor.getNextDateToProcess(currentDate);
       }
     }
     console.log(`process-daily-gl-summaries | ${getUtcDateString(originalStartDate, GL_TRANSACTION_DATE_FORMAT)} | ${getUtcDateString(endDate, GL_TRANSACTION_DATE_FORMAT)} | end`);
   }
 
-  private getDailyGlTransactionSummaryData = async (glTransactionDate: Date) => {
-    console.log(`process-daily-gl-summaries | ${DateUtils.getUtcDateString(glTransactionDate, GL_TRANSACTION_DATE_FORMAT)} | get-daily-gl-transaction-summary-data`);
+  private static getDailyGlTransactionSummaryData = async (glTransactionDate: Date) => {
+    console.log(`process-daily-gl-summaries | ${getUtcDateString(glTransactionDate, GL_TRANSACTION_DATE_FORMAT)} | get-daily-gl-transaction-summary-data`);
     // use the pipeline query to fetch data from the database for the current date
-    // return [
-    //   { amount: 100, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 50, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 25, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 200, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    // ];
-    return await this._funcToGetGlTransactionSummaryData(glTransactionDate);
+    return [
+      { amount: 100, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
+      { amount: 50, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
+      { amount: 25, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
+      { amount: 200, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
+    ];
+    // return await DailyGlSummaryProcessor.pipeline(glTransactionDate);
   }
 
-  private getDailyGlPostingSummaryData = (glTransactionDate: Date, transactionSummaryData: BaseGlTransactionSummary[]) => {
+  private static getDailyGlPostingSummaryData = (glTransactionDate: Date, transactionSummaryData: BaseGlTransactionSummary[]) => {
     console.log(`process-daily-gl-summaries | ${getUtcDateString(glTransactionDate, GL_TRANSACTION_DATE_FORMAT)} | get-daily-gl-posting-summary-data`);
     // [TODO] implement mapping transaction summary data to posting summary record
     let glSummary: GlSummary[] = [];
@@ -127,12 +100,12 @@ export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
     }
   }
 
-  private async saveDailyGlSummaries(glTransactionDate: string, glTransactionData: BaseGlTransactionSummary[], glPostingSummaryData: GlPostingSummary) {
-    await GlDailySummaryProcessor.saveTransactionSummary(glTransactionDate, glTransactionData, BlobNameSuffix.TransactionSummary, BlobTagForType.TransactionSummary, GlDailySummaryProcessor.blobSettings);
-    await GlDailySummaryProcessor.savePostingSummary(glTransactionDate, glPostingSummaryData, BlobNameSuffix.PostingSummary, BlobTagForType.PostingSummary, GlDailySummaryProcessor.blobSettings);
+  private static async saveDailyGlSummaries(glTransactionDate: string, glTransactionData: BaseGlTransactionSummary[], glPostingSummaryData: GlPostingSummary) {
+    await DailyGlSummaryProcessor.saveTransactionSummary(glTransactionDate, glTransactionData, BlobNameSuffix.TransactionSummary, BlobTagForType.TransactionSummary, DailyGlSummaryProcessor.blobSettings);
+    await DailyGlSummaryProcessor.savePostingSummary(glTransactionDate, glPostingSummaryData, BlobNameSuffix.PostingSummary, BlobTagForType.PostingSummary, DailyGlSummaryProcessor.blobSettings);
   }
 
-  private saveTransactionSummary = async (glTransactionDate: string, glTransactionData: BaseGlTransactionSummary[], blobNameSuffix: string, blobTagForType: string, { blobContainerName,blobBasePath, blobStorage }: BlobSettings) => {
+  private static saveTransactionSummary = async (glTransactionDate: string, glTransactionData: BaseGlTransactionSummary[], blobNameSuffix: string, blobTagForType: string, { blobContainerName,blobBasePath, blobStorage }: BlobSettings) => {
     const fileNameForGlTransactionSummary = `${glTransactionDate}${blobNameSuffix}`;
 
     // Daily GL Transaction Summary
@@ -157,7 +130,7 @@ export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
     await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlTransactionSummary, blobContainerName, JSON.stringify(glTransactionData), 'application/json', glTransactionTags, callbackOnUploadTransactionSummarySuccess);
   }
 
-  private savePostingSummary = async (glTransactionDate: string, glPostingSummaryData: GlPostingSummary, blobNameSuffix: string, blobTagForType: string, { blobContainerName,blobBasePath, blobStorage }: BlobSettings) => {
+  private static savePostingSummary = async (glTransactionDate: string, glPostingSummaryData: GlPostingSummary, blobNameSuffix: string, blobTagForType: string, { blobContainerName,blobBasePath, blobStorage }: BlobSettings) => {
     // Daily GL Posting Summary
     const blobNameForGlPostingSummary = `${blobBasePath}/${glTransactionDate}${blobNameSuffix}`;
     const glPostingSummaryTags: Record<string, string> = {
@@ -185,7 +158,11 @@ export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
     await blobStorage.createTextBlobIfNotExistsAndConfirm(blobNameForGlPostingSummary, blobContainerName, JSON.stringify(glPostingSummaryData), 'application/json', glPostingSummaryTags, callbackOnUploadPostingSummarySuccess);
   }
 
-  private calculateStartDate = (blobDates: string[]): Date => {
+  private static getNextDateToProcess = (currentDate: Date): Date => {
+    return new Date(currentDate.setDate(currentDate.getDate() + 1));
+  }
+
+  private static calculateStartDate = (blobDates: string[]): Date => {
     if (blobDates.length === 0) {
       return new Date(Date.now() - 86400000); // Current date minus one day
     }

@@ -12,6 +12,9 @@ import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { DomainImpl } from '../app/domain/domain-impl';
 import { TimerContextBuilder } from '../functions/timer/init/timer-context-builder';
 import { ProcessGLTransactions } from '../functions/timer/gl-transaction';
+import { ProcessGlTransactions } from '../functions/http/gl-transaction';
+import { GlTransactionContextBuilder } from '../functions/http/gl-transaction/init/gl-transaction-context-builder';
+import { GlDailySummaryProcessor } from '../app/services/process-daily-gl-summaries';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([
   ['AccountPortal', 'ACCOUNT_PORTAL'],
@@ -41,6 +44,14 @@ async function init(infrastructureServices: InfrastructureServicesBuilder) {
     infrastructureServices.vercel
   );
   await DomainImplInstance.startup();
+
+  GlDailySummaryProcessor.initialize({
+    blobStorage: infrastructureServices.blobStorage,
+    blobContainerName: 'finance',
+    blobBasePath: 'daily-gl-summaries'
+  });
+
+
 }
 
 let infrastructureServices = new InfrastructureServicesBuilder();
@@ -59,6 +70,16 @@ app.http('graphql', {
       },
     })
   ),
+});
+
+app.http('process-gl-transactions', {
+  methods: ['POST'],
+  route: 'process-gl-transactions',
+  handler: async (req) => {
+    let glTransactionContext = new GlTransactionContextBuilder(infrastructureServices, portalTokenValidator);
+    await glTransactionContext.init(req);
+    return ProcessGlTransactions(glTransactionContext);
+  }
 });
 
 app.timer('process_gl_transactions',{

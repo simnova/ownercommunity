@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
-import { sortDateArray, calculateStartDate, convertToStartOfDayEST } from "./save-daily-gl-summaries";
+import { sortDateArray, calculateStartDate, convertToStartOfDayEST } from "./process-daily-gl-summaries-helpers";
 
-describe('SaveDailyGlSummaries', () => {
+
+describe('ProcessDailyGlSummaries', () => {
   describe('sortDateArray', () => {
     it('should return the latest date from a list of dates when sortOrder is -1', () => {
       // Arrange

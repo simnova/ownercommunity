@@ -1,5 +1,5 @@
 import { SyncDomainEventImpl, SyncDomainEventPayloadBaseType } from "../../../../../../../../../seedwork/event-bus-seedwork-node/sync-domain-event-bus";
-import { ViolationTicketV1, ViolationTicketV1Props } from "../../violation-ticket-v1";
+import { ViolationTicketV1, ViolationTicketV1Props } from "../../violation-ticket";
 
 // define the event
 export interface ViolationTicketV1ActivityLogCreatedSyncDomainEventPayload extends SyncDomainEventPayloadBaseType {

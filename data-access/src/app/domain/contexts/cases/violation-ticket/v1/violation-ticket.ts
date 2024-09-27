@@ -18,6 +18,8 @@ import { ViolationTicketV1FinanceDetailEntityReference, ViolationTicketV1Finance
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
+import { ViolationTicketV1SyncDomainEventFactory, ViolationTicketV1SyncDomainEventFactoryImpl } from './sync-domain-events/violation-ticket-v1.sync-domain-event-factory';
+import { ViolationTicketV1SyncDomainEventHandlers } from './sync-domain-events/violation-ticket-v1.sync-domain-event-handlers';
 
 export interface ViolationTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -85,9 +87,15 @@ export interface ViolationTicketV1EntityReference
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ViolationTicketV1Visa> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
+  private readonly _syncDomainEventFactory: ViolationTicketV1SyncDomainEventFactory;
 
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ViolationTicketV1SyncDomainEventHandlers);
+    this._syncDomainEventFactory = new ViolationTicketV1SyncDomainEventFactoryImpl(this);  
+  }
+
+  public get syncDomainEventFactory(): ViolationTicketV1SyncDomainEventFactory {
+    return this._syncDomainEventFactory;
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(
@@ -110,10 +118,8 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     violationTicket.Requestor = requestor;
     violationTicket.Status = ValueObjects.StatusCodes.Draft;
     violationTicket.Priority = 5;
-    let newActivity = violationTicket.requestNewActivityDetail();
-    newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
-    newActivity.ActivityDescription = 'Created';
-    newActivity.setActivityBy();
+    violationTicket.syncDomainEventFactory.addViolationTicketV1CreatedEvent({ requestor });
+    violationTicket.isNew = false;
     violationTicket.financeDetails.ServiceFee = penaltyAmount;
     return violationTicket;
   }

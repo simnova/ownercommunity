@@ -1,4 +1,4 @@
-import { DataSource } from "./data-source";
+import { DataSource } from "../../../seedwork/datasource-seedwork/data-source";
 import { CognitiveSearchInfrastructureService } from "../infrastructure-services/cognitive-search";
 import { AppContext } from "../init/app-context-builder";
 import { Passport } from "../init/passport";

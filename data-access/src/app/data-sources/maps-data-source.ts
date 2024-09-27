@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from './data-source';
+import { DataSource, DataSourceConfig } from '../../../seedwork/datasource-seedwork/data-source';
 import { AzMaps } from '../../../seedwork/services-seedwork-maps-az';
 import { AppContext } from '../init/app-context-builder';
 import { Passport } from '../init/passport';

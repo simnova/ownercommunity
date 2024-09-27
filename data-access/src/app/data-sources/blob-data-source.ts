@@ -1,4 +1,4 @@
-import { DataSource } from './data-source';
+import { DataSource } from '../../../seedwork/datasource-seedwork/data-source';
 import { BlobStorageDomain } from '../domain/infrastructure/blob-storage/interfaces';
 import { AppContext } from '../init/app-context-builder';
 import { Passport } from '../init/passport';

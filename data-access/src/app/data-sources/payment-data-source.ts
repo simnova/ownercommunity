@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from './data-source';
+import { DataSource, DataSourceConfig } from '../../../seedwork/datasource-seedwork/data-source';
 import { Cybersource } from '../../../seedwork/services-seedwork-payment-cybersource';
 import { AppContext } from '../init/app-context-builder';
 import { Passport } from '../init/passport';

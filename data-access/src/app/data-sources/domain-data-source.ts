@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from './data-source';
+import { DataSource, DataSourceConfig } from '../../../seedwork/datasource-seedwork/data-source';
 import { MongoUnitOfWork } from '../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { MongoRepositoryBase } from '../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { AggregateRoot } from '../../../seedwork/domain-seedwork/aggregate-root';

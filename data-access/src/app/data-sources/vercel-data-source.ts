@@ -1,6 +1,6 @@
 import { AppContext } from '../init/app-context-builder';
 import { VercelDomain } from '../domain/infrastructure/vercel/interfaces';
-import { DataSource } from './data-source';
+import { DataSource } from '../../../seedwork/datasource-seedwork/data-source';
 import { Passport } from '../init/passport';
 
 export class VercelDataSource<Context extends AppContext> extends DataSource<Context> {

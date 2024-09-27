@@ -11,15 +11,15 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 
-export interface GlTransactionContext extends AppContext{
+export interface GlDailySummaryContext extends AppContext{
   init(
   req: HttpRequest,
   ): Promise<void>;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }
 
-export class GlTransactionContextBuilder extends AppContextBuilder implements GlTransactionContext {
+export class GlDailySummaryContextBuilder extends AppContextBuilder implements GlDailySummaryContext {
   private _req: HttpRequest;
   private _portalTokenValidator: PortalTokenValidation;
 
@@ -31,14 +31,13 @@ export class GlTransactionContextBuilder extends AppContextBuilder implements Gl
       this._portalTokenValidator = portalTokenValidator;
   }
 
-  get startDate(): Date {
-    const startDateStr = this._req.headers.get('startDate');
-    return startDateStr ? dayjs.tz(startDateStr, 'UTC').toDate() : new Date();
+  get startDate(): string {
+    return this._req.headers.get('startDate');
+
   }
 
-  get endDate(): Date {
-    const endDateStr = this._req.headers.get('endDate');
-    return endDateStr ? dayjs.tz(endDateStr, 'UTC').toDate() : new Date();
+  get endDate(): string {
+    return this._req.headers.get('endDate');
   }
 
   public async init(

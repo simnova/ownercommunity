@@ -63,43 +63,43 @@ export class CosmosDbConnection {
 
   public connect = async () => {
     mongoose.connection.on('open', () => {
-      console.log('open');
+      console.log('custom-log | mongoose | open');
     });
   
     mongoose.connection.on('close', () => {
-      console.log('close');
+      console.log('custom-log | mongoose | close');
     });
   
     mongoose.connection.on('disconnected', () => {
-      console.log('disconnected');
+      console.log('custom-log | mongoose | disconnected');
     });
   
     mongoose.connection.on('connected', () => {
-      console.log('connected');
+      console.log('custom-log | mongoose | connected');
     });
   
     mongoose.connection.on('connecting', () => {
-      console.log('connecting');
+      console.log('custom-log | mongoose | connecting');
     });
   
     mongoose.connection.on('reconnected', () => {
-      console.log('reconnected');
+      console.log('custom-log | mongoose | reconnected');
     });
   
     mongoose.connection.on('error', (err) => {
-      console.error('error', err);
+      console.error('custom-log | mongoose | error | ', err);
     });
   
     mongoose.connection.on('fullsetup', () => {
-      console.log('fullsetup');
+      console.log('custom-log | mongoose | fullsetup');
     });
   
     mongoose.connection.on('all', () => {
-      console.log('all');
+      console.log('custom-log | mongoose | all');
     });
   
     mongoose.connection.on('reconnectFailed', (err) => {
-      console.error('reconnectFailed', err);
+      console.error('custom-log | mongoose | reconnectFailed | ', err);
     });
   
     let connectionString: string = await this.getReadWriteConnectionString();
@@ -120,13 +120,13 @@ export class CosmosDbConnection {
           minPoolSize: this._minPoolSize, //believe the default is 0 - having something higher than 0 helps with performance
           maxPoolSize: this._maxPoolSize, // default is 100
         } as mongoose.ConnectOptions)
-        .then(() => console.log(`🗄️ Successfully connected Mongoose to ${mongoose.connection.name} 🗄️`));
+        .then(() => console.log(`custom-log | mongoose | 🗄️ Successfully connected Mongoose to ${mongoose.connection.name} 🗄️`));
   
       if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
         mongoose.set('debug', { shell: true });
       }
     } catch (error) {
-      console.log(`🔥 An error ocurred when trying to connect Mongoose with ${mongoose.connection.name} 🔥`);
+      console.log(`custom-log | mongoose | 🔥 An error ocurred when trying to connect Mongoose with ${mongoose.connection.name} 🔥`);
       throw error;
     }
   };

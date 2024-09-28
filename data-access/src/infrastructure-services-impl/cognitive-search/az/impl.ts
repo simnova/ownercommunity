@@ -14,10 +14,10 @@ export class AzCognitiveSearchImpl extends AzCognitiveSearch implements Cognitiv
   }
 
   startup = async (): Promise<void> => {
-    console.log('AzCognitiveSearchImpl startup');
+    console.log('custom-log | AzCognitiveSearchImpl | startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('AzCognitiveSearchImpl shutdown');
+    console.log('custom-log | AzCognitiveSearchImpl | shutdown');
   }
 }

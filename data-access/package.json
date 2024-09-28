@@ -1,7 +1,7 @@
 {
   "name": "",
   "version": "",
-  "main": "dist/src/init/index.js",
+  "main": "dist/src/functions/**/*.function.js",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",

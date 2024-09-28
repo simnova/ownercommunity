@@ -13,7 +13,7 @@ import { OpenIdConfig, VerifiedTokenService } from "./verified-token-service";
    * - [prefix]_OIDC_AUDIENCE  
    * - [prefix]_OIDC_ISSUER
    **/
-  constructor(portal: Map<string, string>, refreshInterval: number  = 1000*60*5) {
+  private constructor(portal: Map<string, string>, refreshInterval: number  = 1000*60*5) {
     this.tokenSettings = new Map<string,OpenIdConfig>();
     
     for(let [portalKey, envPrefix] of portal){
@@ -66,4 +66,17 @@ import { OpenIdConfig, VerifiedTokenService } from "./verified-token-service";
     return null;
   }
 
+  private static instance: PortalTokenValidation;
+  public static initialize(portal: Map<string, string>, refreshInterval: number  = 1000*60*5): void {
+    if (PortalTokenValidation.instance) {
+      throw new Error('PortalTokenValidation is already initialized');
+    }
+    PortalTokenValidation.instance = new PortalTokenValidation(portal,refreshInterval);
+  }
+  public static getInstance(): PortalTokenValidation {
+    if (!PortalTokenValidation.instance) {
+      throw new Error('PortalTokenValidation is not initialized');
+    }
+    return PortalTokenValidation.instance;
+  }
 }

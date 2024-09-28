@@ -64,6 +64,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
   ) {}
 
   public async startup(): Promise<void> {
+    console.log('custom-log | DomainImpl | startup');
     this._datastoreImpl.startup();
     this._cognitiveSearchImpl.startup();
     // event handler should be started at the end
@@ -83,6 +84,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
     // remaining services should be stopped in the reverse order of startup
     this._cognitiveSearchImpl.shutdown();
     this._datastoreImpl.shutdown();
+    console.log('custom-log | DomainImpl | shutdown');
   }
 
   public get datastore():  Omit<DatastoreImpl, keyof DatastoreDomainInitializeable> {

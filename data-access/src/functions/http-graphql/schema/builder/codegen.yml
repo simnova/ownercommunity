@@ -7,7 +7,7 @@ schema:
 generates:
   ./src/functions/http-graphql/schema/builder/generated.ts:
     config:
-      contextType: '../../../init/graphql-context-builder#GraphqlContext'
+      contextType: '../../init/graphql-context-builder#GraphqlContext'
       useIndexSignature: true
 
       scalars:

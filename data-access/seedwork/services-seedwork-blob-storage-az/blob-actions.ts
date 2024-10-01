@@ -113,40 +113,34 @@ export class BlobActions {
   };
 
   public createTextBlobIfNotExistsAndConfirm = async (blobName: string, container: string, text: string, contentType:string='text/plain', tags?: Record<string, string>, callbackOnSuccess?: (blobText: string) => boolean) => {
-    const doesBlobExistCheckTimestamp = new Date();
-    const doesBlobExist = await this.checkBlobExists(blobName, container);
-    if(doesBlobExist === false) {
-      const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
-      const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    try {
+      await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType }, tags, conditions: { ifNoneMatch: '*' } });
+    } catch (error) {
+      if (error.name === 'RestError' && error.statusCode === 409) {
+        console.log(`blob-already-exists | ${blobName}`);
+      } else {
+        throw error;
+      }
+    } finally {
+      const authenticatedBlobUrl = await this.generateReadSasToken(blobName, container, 1);
       try {
-        await blobClient.upload(text, text.length, { blobHTTPHeaders: { blobContentType: contentType }, tags, conditions: { ifUnmodifiedSince: doesBlobExistCheckTimestamp} });
+        fetch(authenticatedBlobUrl)
+          .then((response) => response.text())
+          .then((text) => {
+            if (!callbackOnSuccess) {
+              console.log('Blob created successfully');
+            } else if (callbackOnSuccess(text)) {
+              console.log('Blob created successfully and the file contents are valid');
+            } else {
+              console.log('Blob created successfully but the file contents are invalid');
+              // [TODO] should at least throw an error at this point to be handled in the calling function
+            }
+          });
       } catch (error) {
-        // [TODO} need to determine the status code of the error that is thrown when the blob already exists so we can log it and discard it
-        if (error instanceof RestError) {
-          console.log('Error creating blob: ' + error.message);
-        } else {
-          throw error;
-        }
-      } finally {
-          const authenticatedBlobUrl = await this.generateReadSasToken(blobName, container, 1);
-          try {
-            fetch(authenticatedBlobUrl).then((response) => response.text()).then((text) => {
-              if (!callbackOnSuccess) {
-                console.log('Blob created successfully');
-              }
-              else if (callbackOnSuccess(text)) {
-                console.log('Blob created successfully and the file contents are valid');
-              } else {
-                console.log('Blob created successfully but the file contents are invalid');
-                // [TODO] should at least throw an error at this point to be handled in the calling function
-              }
-            });
-          } catch (error) {
-            console.log('Error fetching blob: ' + error);
-          }
-        }
-    } else {
-      console.log('Blob already exists');
+        console.log('Error fetching blob: ' + error);
+      }
     }
   };
 

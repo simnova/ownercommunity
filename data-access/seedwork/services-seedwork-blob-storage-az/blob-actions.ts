@@ -136,6 +136,7 @@ export class BlobActions {
             } else {
               console.log('Blob created successfully but the file contents are invalid');
               // [TODO] should at least throw an error at this point to be handled in the calling function
+              throw new Error(`invalid-file-contents | ${blobName}`);
             }
           });
       } catch (error) {

@@ -98,7 +98,6 @@ export class GlDailySummaryStorageProviderBlobImpl implements GlDailySummaryStor
     // ensure the file exists in blob storage and has the correct number of transactions
     const callbackOnUploadPostingSummarySuccess = (blobText: string):boolean => {
       const fileContent = JSON.parse(blobText) as GlPostingSummary;
-      // [TODO] need to validate this a different way
       if (fileContent['glSummary'].length !== glPostingSummaryData['glSummary'].length) {
         console.error(`gl-daily-summary-processor | ${glTransactionDate} | save-daily-gl-summaries | Error: ${blobNameForGlPostingSummary} has ${fileContent['glSummary'].length} transactions, expected ${glPostingSummaryData['glSummary'].length}`);
         return false

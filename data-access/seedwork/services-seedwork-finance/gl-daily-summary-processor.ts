@@ -106,19 +106,11 @@ export class GlDailySummaryProcessorImpl implements GlDailySummaryProcessor {
 
   private getGlDailyTransactionSummaryData = async (glTransactionDate: GlTransactionDate) => {
     console.log(`gl-daily-summary-processor | ${glTransactionDate.dateString} | get-gl-daily-transaction-summary-data`);
-    // use the pipeline query to fetch data from the database for the current date
-    // return [
-    //   { amount: 100, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 50, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 25, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    //   { amount: 200, financeReference: { debitGlAccount: '000-111-222', creditGlAccount: '333-444-555' } },
-    // ];
     return await this._funcToGetGlTransactionSummaryData(glTransactionDate.startOfDayTimestamp, glTransactionDate.endOfDayTimestamp);
   }
 
   private getGlDailyPostingSummaryData = (glTransactionDate: GlTransactionDate, transactionSummaryData: BaseGlTransactionSummary[]): GlPostingSummary => {
     console.log(`gl-daily-summary-processor | ${glTransactionDate.dateString} | get-gl-daily-posting-summary-data`);
-    // [TODO] implement mapping transaction summary data to posting summary record
     let glSummary: GlPostingSummaryItem[] = [];
     transactionSummaryData.forEach((transaction) => {
       glSummary.push({

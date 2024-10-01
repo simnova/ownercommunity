@@ -45,6 +45,6 @@ export async function initializeFunctionApp() {
   GlDailySummaryStorageProviderBlobImpl.initialize({
     blobStorage: infrastructureServices.blobStorage,
     blobContainerName: 'finance',
-    blobBasePath: 'gl-daily-summary'
+    blobBasePath: 'daily-gl-summaries'
   })
 }

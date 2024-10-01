@@ -8,19 +8,43 @@
 import fs from 'fs';
 import path from 'path';
 import {glob} from 'glob';
-import { parse, DocumentNode, DefinitionNode, ObjectTypeDefinitionNode, InterfaceTypeDefinitionNode, InputObjectTypeDefinitionNode, FieldDefinitionNode, Kind, InputValueDefinitionNode } from 'graphql';
+import { parse, DocumentNode, DefinitionNode, ObjectTypeExtensionNode, ObjectTypeDefinitionNode, InterfaceTypeDefinitionNode, InputObjectTypeDefinitionNode, FieldDefinitionNode, Kind, InputValueDefinitionNode } from 'graphql';
 import { error } from 'console';
 
-type AllowedOutputTypeDefinitionNodes = ObjectTypeDefinitionNode  | InterfaceTypeDefinitionNode;
-type AllowedInputTypeDefinitionNodes = InputObjectTypeDefinitionNode;
-
+type AllowedOutputTypeDefinitionNode = ObjectTypeDefinitionNode  | InterfaceTypeDefinitionNode;
+type AllowedInputTypeDefinitionNode = InputObjectTypeDefinitionNode;
+type AllowedExtensionTypeDefinitionNode = ObjectTypeExtensionNode;
 
 const GRAPHQL_FILES_PATTERN = path.join(__dirname, "../../../http-graphql/**/*.graphql");
 console.log(`... graphql-file-pattern | ${GRAPHQL_FILES_PATTERN}`);
 
 
+// extension types
+function processExtensionTypeNode(outputTypeNode: AllowedExtensionTypeDefinitionNode, processedNodes: string[] = [], errors: string[] = []) {
+    const fieldDefinitions = recursiveFunctionToFindExtensionFieldDefinitions(outputTypeNode);
+    fieldDefinitions.forEach(fieldDef => {
+        const extensionFieldName = `${outputTypeNode.name.value}.${fieldDef.name.value}`
+        if(processedNodes.includes(extensionFieldName)) {
+            errors.push(`duplicate-found | extension-field | ${extensionFieldName}`);
+        }
+        else {
+            processedNodes.push(extensionFieldName);
+        }
+    });
+}
+function recursiveFunctionToFindExtensionFieldDefinitions(node: AllowedExtensionTypeDefinitionNode | FieldDefinitionNode , fieldDefinitions: FieldDefinitionNode[] = []): FieldDefinitionNode[] {
+    if (node.kind === Kind.FIELD_DEFINITION) {
+        fieldDefinitions.push(node);
+    }
+    if (node.kind === Kind.OBJECT_TYPE_EXTENSION) {
+        node.fields.forEach((childNode: AllowedExtensionTypeDefinitionNode | FieldDefinitionNode) => recursiveFunctionToFindExtensionFieldDefinitions(childNode, fieldDefinitions));
+    }
+    return fieldDefinitions;
+}
+
+
 // output types
-function processOutputTypeNode(outputTypeNode: AllowedOutputTypeDefinitionNodes, processedNodes: string[] = [], errors: string[] = []) {
+function processOutputTypeNode(outputTypeNode: AllowedOutputTypeDefinitionNode, processedNodes: string[] = [], errors: string[] = []) {
     const nodeName = outputTypeNode.name.value;
     if (processedNodes.includes(nodeName)) {
         errors.push(`duplicate-found | output-node | ${nodeName}`);
@@ -29,7 +53,7 @@ function processOutputTypeNode(outputTypeNode: AllowedOutputTypeDefinitionNodes,
     }
     checkForDuplicateFieldsInOutputTypeNode(outputTypeNode, errors);
 }
-function checkForDuplicateFieldsInOutputTypeNode(outputTypeNode: AllowedOutputTypeDefinitionNodes, errors: string[]) {
+function checkForDuplicateFieldsInOutputTypeNode(outputTypeNode: AllowedOutputTypeDefinitionNode, errors: string[]) {
     const processedFields: string[] = [];
     const fieldDefinitions = recursiveFunctionToFindOutputFieldDefinitions(outputTypeNode);
     fieldDefinitions.forEach(fieldDef => {
@@ -42,19 +66,19 @@ function checkForDuplicateFieldsInOutputTypeNode(outputTypeNode: AllowedOutputTy
         }
     });
 }
-function recursiveFunctionToFindOutputFieldDefinitions(node: AllowedOutputTypeDefinitionNodes | FieldDefinitionNode , fieldDefinitions: FieldDefinitionNode[] = []): FieldDefinitionNode[] {
+function recursiveFunctionToFindOutputFieldDefinitions(node: AllowedOutputTypeDefinitionNode | FieldDefinitionNode , fieldDefinitions: FieldDefinitionNode[] = []): FieldDefinitionNode[] {
     if (node.kind === Kind.FIELD_DEFINITION) {
         fieldDefinitions.push(node);
     }
     if (node.kind === Kind.OBJECT_TYPE_DEFINITION || node.kind === Kind.INTERFACE_TYPE_DEFINITION) {
-        node.fields.forEach((childNode: AllowedOutputTypeDefinitionNodes | FieldDefinitionNode) => recursiveFunctionToFindOutputFieldDefinitions(childNode, fieldDefinitions));
+        node.fields.forEach((childNode: AllowedOutputTypeDefinitionNode | FieldDefinitionNode) => recursiveFunctionToFindOutputFieldDefinitions(childNode, fieldDefinitions));
     }
     return fieldDefinitions;
 }
 
 
 // input types
-function processInputTypeNode(inputTypeNode: AllowedInputTypeDefinitionNodes, processedNodes: string[] = [], errors: string[] = []) {
+function processInputTypeNode(inputTypeNode: AllowedInputTypeDefinitionNode, processedNodes: string[] = [], errors: string[] = []) {
     const nodeName = inputTypeNode.name.value;
     if (processedNodes.includes(nodeName)) {
         errors.push(`duplicate-found | input-node | ${nodeName}`);
@@ -63,7 +87,7 @@ function processInputTypeNode(inputTypeNode: AllowedInputTypeDefinitionNodes, pr
     }
     checkForDuplicateFieldsInInputTypeNode(inputTypeNode, errors);
 }
-function checkForDuplicateFieldsInInputTypeNode(inputTypeNode: AllowedInputTypeDefinitionNodes, errors: string[]) {
+function checkForDuplicateFieldsInInputTypeNode(inputTypeNode: AllowedInputTypeDefinitionNode, errors: string[]) {
     const processedFields: string[] = [];
     const fieldDefinitions = recursiveFunctionToFindInputValueDefinitions(inputTypeNode);
     fieldDefinitions.forEach(fieldDef => {
@@ -76,12 +100,12 @@ function checkForDuplicateFieldsInInputTypeNode(inputTypeNode: AllowedInputTypeD
         }
     });
 }
-function recursiveFunctionToFindInputValueDefinitions(node: AllowedInputTypeDefinitionNodes | InputValueDefinitionNode, inputValueDefinitions: InputValueDefinitionNode[] = []): InputValueDefinitionNode[] {
+function recursiveFunctionToFindInputValueDefinitions(node: AllowedInputTypeDefinitionNode | InputValueDefinitionNode, inputValueDefinitions: InputValueDefinitionNode[] = []): InputValueDefinitionNode[] {
     if (node.kind === Kind.INPUT_VALUE_DEFINITION) {
         inputValueDefinitions.push(node);
     }
     if (node.kind === Kind.INPUT_OBJECT_TYPE_DEFINITION) {
-        node.fields.forEach((childNode: AllowedInputTypeDefinitionNodes | InputValueDefinitionNode) => recursiveFunctionToFindInputValueDefinitions(childNode, inputValueDefinitions));
+        node.fields.forEach((childNode: AllowedInputTypeDefinitionNode | InputValueDefinitionNode) => recursiveFunctionToFindInputValueDefinitions(childNode, inputValueDefinitions));
     }
     return inputValueDefinitions;
 }
@@ -99,6 +123,9 @@ function traverseDefinitions(definitions: readonly DefinitionNode[]| unknown[], 
         else if (defNode.kind === Kind.INPUT_OBJECT_TYPE_DEFINITION) {
             processInputTypeNode(defNode, processedNodesMap.get(defNode.kind), errors);
         }
+        else if (defNode.kind === Kind.OBJECT_TYPE_EXTENSION) {
+            processExtensionTypeNode(defNode, processedNodesMap.get(defNode.kind), errors);
+        }
         else if (defNode.definitions) {
             traverseDefinitions(defNode.definitions, processedNodesMap, errors);
         }
@@ -115,6 +142,7 @@ glob(GRAPHQL_FILES_PATTERN).then((files) => {
     processedNodesMap.set(Kind.OBJECT_TYPE_DEFINITION, []);
     processedNodesMap.set(Kind.INTERFACE_TYPE_DEFINITION, []);
     processedNodesMap.set(Kind.INPUT_OBJECT_TYPE_DEFINITION, []);
+    processedNodesMap.set(Kind.OBJECT_TYPE_EXTENSION, []);
     files.forEach((file) => {
         console.log(`... processing ${file}`);
         const content = fs.readFileSync(file, 'utf8');

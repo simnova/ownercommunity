@@ -6,23 +6,25 @@ import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedw
 import { StaffRoleDomainAdapter } from '../../roles/staff-role/staff-role.domain-adapter';
 import { StaffRoleEntityReference } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role';
 import { StaffUserVisa } from '../../../../../../app/domain/contexts/users/staff-user/staff-user.visa';
+import { InfrastructureContext } from '../../../../../../app/init/infrastructure-context';
 
 export class StaffUserConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   StaffUser, 
   StaffUserDomainAdapter, 
   StaffUserVisa,
-  StaffUserDO<StaffUserDomainAdapter>
+  StaffUserDO<StaffUserDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(StaffUserDomainAdapter, StaffUserDO);
   }
 }
 
-export class StaffUserDomainAdapter extends MongooseDomainAdapter<StaffUser> implements StaffUserProps {
+export class StaffUserDomainAdapter extends MongooseDomainAdapter<StaffUser, InfrastructureContext> implements StaffUserProps {
   get role(): StaffRoleEntityReference {
     if (this.doc.role) {
-      return new StaffRoleDomainAdapter(this.doc.role);
+      return new StaffRoleDomainAdapter(this.doc.role, this.infrastructureContext);
     }
     return undefined;
   }

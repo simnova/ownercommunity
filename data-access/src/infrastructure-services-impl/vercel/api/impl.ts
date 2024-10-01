@@ -8,10 +8,10 @@ export class VercelApiImpl extends VercelApi implements VercelInfrastructureServ
   }
 
   startup = async (): Promise<void> => {
-    console.log('VercelApiImpl startup');
+    console.log('custom-log | VercelApiImpl | startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('VercelApiImpl shutdown');
+    console.log('custom-log | VercelApiImpl | shutdown');
   }
 }

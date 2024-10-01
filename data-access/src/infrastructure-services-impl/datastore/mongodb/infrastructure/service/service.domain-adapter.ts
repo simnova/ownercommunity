@@ -7,20 +7,22 @@ import { CommunityProps } from '../../../../../app/domain/contexts/community/com
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { ServiceVisa } from '../../../../../app/domain/contexts/community/service/service.visa';
+import { InfrastructureContext } from '../../../../../app/init/infrastructure-context';
 
 export class ServiceConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   Service, 
   ServiceDomainAdapter,
   ServiceVisa, 
-  ServiceDO<ServiceDomainAdapter>
+  ServiceDO<ServiceDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(ServiceDomainAdapter, ServiceDO);
   }
 }
 
-export class ServiceDomainAdapter extends MongooseDomainAdapter<Service> implements ServiceProps {
+export class ServiceDomainAdapter extends MongooseDomainAdapter<Service, InfrastructureContext> implements ServiceProps {
   get serviceName() {
     return this.doc.serviceName;
   }
@@ -39,7 +41,7 @@ export class ServiceDomainAdapter extends MongooseDomainAdapter<Service> impleme
     if (this.doc.community && !this.doc.populated('community')) {
       console.warn('Community not populated - may want to look at repository populate', this.doc.community);
     }
-    return this.doc.community ? new CommunityDomainAdapter(this.doc.community) : undefined;
+    return this.doc.community ? new CommunityDomainAdapter(this.doc.community, this.infrastructureContext) : undefined;
   }
   setCommunityRef(community: CommunityProps) {
     this.doc.set('community', community['props']['doc']);

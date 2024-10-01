@@ -6,6 +6,8 @@ import { ServiceDomainAdapter, CommunityConverter, ServiceConverter, ServiceRepo
 import { ServiceCreateInput, ServiceUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 import { ServiceVisa } from "../../domain/contexts/community/service/service.visa";
+import { ReadOnlyInfrastructureContext } from "../../init/infrastructure-context";
+import { ReadOnlyDomainExecutionContext } from "../../domain/domain-execution-context";
 
 export interface ServiceDomainApi {
   serviceCreate(input: ServiceCreateInput) : Promise<ServiceData>;
@@ -28,7 +30,7 @@ export class ServiceDomainApiImpl
 
     let serviceToReturn: ServiceData;
     let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
-    let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let communityDo = new CommunityConverter().toDomain(community, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     await this.withTransaction(async (repo) => {
       let newService = await repo.getNewInstance(

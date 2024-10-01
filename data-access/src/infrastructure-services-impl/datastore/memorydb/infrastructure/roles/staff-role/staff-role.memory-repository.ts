@@ -5,6 +5,7 @@ import { StaffRole, StaffRoleProps } from "../../../../../../app/domain/contexts
 import { StaffRoleRepository } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role.repository";
 import { StaffRolePermissionsProps } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-permissions";
 import { CommunityVisa } from "../../../../../../app/domain/contexts/community/community.visa";
+import { InfrastructureContext } from "../../../../../../app/init/infrastructure-context";
 
 
 
@@ -110,7 +111,7 @@ export class MemoryStaffRole extends MemoryBaseAdapter implements StaffRoleProps
 export class MemoryStaffRoleRepository<
   PropType extends StaffRoleProps, 
   DomainType extends StaffRole<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType, InfrastructureContext> 
     implements StaffRoleRepository<PropType> 
   {
 

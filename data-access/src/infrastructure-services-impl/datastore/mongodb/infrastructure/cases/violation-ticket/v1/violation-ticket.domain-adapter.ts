@@ -1,4 +1,4 @@
-import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
+import { ActivityDetail, Photo } from '../../../../models/cases/violation-ticket';
 import { AdhocTransaction, Approval, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
@@ -10,7 +10,7 @@ import { PropertyDomainAdapter } from '../../../property/property.domain-adapter
 import { PropertyEntityReference } from '../../../../../../../app/domain/contexts/property/property/property';
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
-import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/activity-detail';
 import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
@@ -28,23 +28,26 @@ import { GlTransactionProps } from '../../../../../../../app/domain/contexts/cas
 import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-adhoc-transactions-finance-reference';
 import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
 import { ViolationTicketV1Visa } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.visa';
+import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
+import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
   ViolationTicketV1DomainAdapter,
   ViolationTicketV1Visa,
-  ViolationTicketV1DO<ViolationTicketV1DomainAdapter>
+  ViolationTicketV1DO<ViolationTicketV1DomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(ViolationTicketV1DomainAdapter, ViolationTicketV1DO);
   }
 }
 
-export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketV1Props {
+export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<ViolationTicket, InfrastructureContext> implements ViolationTicketV1Props {
   get community() {
     if (this.doc.community) {
-      return new CommunityDomainAdapter(this.doc.community);
+      return new CommunityDomainAdapter(this.doc.community, this.infrastructureContext);
     }
   }
   public setCommunityRef(community: CommunityEntityReference) {
@@ -53,7 +56,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
 
   get property() {
     if (this.doc.property) {
-      return new PropertyDomainAdapter(this.doc.property);
+      return new PropertyDomainAdapter(this.doc.property, this.infrastructureContext);
     }
   }
 
@@ -61,7 +64,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     if (!this.doc.revisionRequest) {
       this.doc.set('revisionRequest', {});
     }
-    return new ViolationTicketV1RevisionRequestDomainAdapter(this.doc.revisionRequest);
+    return new ViolationTicketV1RevisionRequestDomainAdapter(this.doc.revisionRequest, this.infrastructureContext);
   }
   
   public setPropertyRef(property: PropertyEntityReference) {
@@ -70,7 +73,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
 
   get requestor() {
     if (this.doc.requestor) {
-      return new MemberDomainAdapter(this.doc.requestor);
+      return new MemberDomainAdapter(this.doc.requestor, this.infrastructureContext);
     }
   }
   public setRequestorRef(requestor: MemberEntityReference) {
@@ -79,7 +82,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
 
   get assignedTo() {
     if (this.doc.assignedTo) {
-      return new MemberDomainAdapter(this.doc.assignedTo);
+      return new MemberDomainAdapter(this.doc.assignedTo, this.infrastructureContext);
     }
   }
 
@@ -88,7 +91,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
   }
 
   get service() {
-    return this.doc.service ? new ServiceDomainAdapter(this.doc.service) : undefined;
+    return this.doc.service ? new ServiceDomainAdapter(this.doc.service, this.infrastructureContext) : undefined;
   }
   public setServiceRef(service: ServiceEntityReference) {
     this.doc.set('service', service ? service['props']['doc'] : null);
@@ -123,15 +126,15 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
   }
 
   get activityLog() {
-    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
+    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter, this.infrastructureContext);
   }
 
   get messages() {
-    return new MongoosePropArray(this.doc.messages, ViolationTicketV1MessageDomainAdapter);
+    return new MongoosePropArray(this.doc.messages, ViolationTicketV1MessageDomainAdapter, this.infrastructureContext);
   }
 
   get photos() {
-    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter);
+    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter, this.infrastructureContext);
   }
 
   get hash() {
@@ -164,12 +167,12 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     if (!this.doc.financeDetails) {
       this.doc.set('financeDetails', {});
     }
-    return new FinanceDetailDomainAdapter(this.doc.financeDetails);
+    return new FinanceDetailDomainAdapter(this.doc.financeDetails, this.infrastructureContext);
   }
 }
 
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {
-  constructor(public readonly props: ActivityDetail) {}
+  constructor(public readonly props: ActivityDetail, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -190,16 +193,16 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
 
   get activityBy() {
     if (this.props.activityBy) {
-      return new MemberDomainAdapter(this.props.activityBy);
+      return new MemberDomainAdapter(this.props.activityBy, this.infrastructureContext);
     }
   }
-  public setActivityByRef(activityBy: MemberEntityReference) {
-    this.props.set('activityBy', activityBy['props']['doc']);
+  public setActivityByRef(funcToGetMemberRef: FuncToGetMemberRefFromAuditContextFactory) {
+    this.props.set('activityBy', funcToGetMemberRef(this.infrastructureContext.auditContext));
   }
 }
 
 export class PhotoDomainAdapter implements PhotoProps {
-  constructor(public readonly props: Photo) {}
+  constructor(public readonly props: Photo, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -224,7 +227,7 @@ export class PhotoDomainAdapter implements PhotoProps {
 }
 
 export class ApprovalDomainAdapter implements ApprovalProps {
-  constructor(public readonly props: Approval) {}
+  constructor(public readonly props: Approval, private readonly infrastructureContext: InfrastructureContext) {}
 
   get isApplicantApprovalRequired() {
     return this.props.isApplicantApprovalRequired;
@@ -250,8 +253,9 @@ export class ApprovalDomainAdapter implements ApprovalProps {
     this.props.applicantRespondedAt = applicantRespondedAt;
   }
 }
+
 export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
-  constructor(public readonly doc: AdhocTransaction) {}
+  constructor(public readonly doc: AdhocTransaction, private readonly infrastructureContext: InfrastructureContext) {}
 
   public get id(): string {
     return this.doc.id.valueOf() as string;
@@ -271,21 +275,21 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
     if(!this.doc.approval) {
       this.doc.set('approval', {});
     }
-    return new ApprovalDomainAdapter(this.doc.approval);
+    return new ApprovalDomainAdapter(this.doc.approval, this.infrastructureContext);
   }
 
   get transactionReference() {
     if(!this.doc.transactionReference) {
       this.doc.set('transactionReference', {});
     }
-    return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
+    return new TransactionReferenceDomainAdapter(this.doc.transactionReference, this.infrastructureContext);
   }
 
   get financeReference() {
     if(!this.doc.financeReference) {
       this.doc.set('financeReference', {});
     }
-    return new FinanceReferenceDomainAdapter(this.doc.financeReference);
+    return new FinanceReferenceDomainAdapter(this.doc.financeReference, this.infrastructureContext);
   }
 
   get createdAt() {
@@ -319,10 +323,8 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
   }
 }
 
-
-
 export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetailProps {
-  constructor(public readonly doc: FinanceDetails) {}
+  constructor(public readonly doc: FinanceDetails, private readonly infrastructureContext: InfrastructureContext) {}
 
   get serviceFee() {
     return this.doc.serviceFee;
@@ -336,52 +338,52 @@ export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetai
     if (!this.doc?.transactions) {
       this.doc.set('transactions', {});
     }
-    return new TransactionDomainAdapter(this.doc.transactions);
+    return new TransactionDomainAdapter(this.doc.transactions, this.infrastructureContext);
   }
 
   get revenueRecognition() {
     if (!this.doc?.revenueRecognition) {
       this.doc.set('revenueRecognition', {});
     }
-    return new RevenueRecognitionDomainAdapter(this.doc.revenueRecognition);
+    return new RevenueRecognitionDomainAdapter(this.doc.revenueRecognition, this.infrastructureContext);
   }
 }
 
 export class TransactionDomainAdapter implements TransactionsProps {
-  constructor(public readonly doc: Transaction) {}
+  constructor(public readonly doc: Transaction, private readonly infrastructureContext: InfrastructureContext) {}
 
   get submission() {
-    return new SubmissionDomainAdapter(this.doc.submission);
+    return new SubmissionDomainAdapter(this.doc.submission, this.infrastructureContext);
   }
   
   get adhocTransactions() {
     if (!this.doc.adhocTransactions) {
       this.doc.set('adhocTransactions', []);
     }
-    return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
+    return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter, this.infrastructureContext);
   }
 }
 
 export class RevenueRecognitionDomainAdapter implements RevenueRecognitionProps {
-  constructor(public readonly doc: RevenueRecognition) {}
+  constructor(public readonly doc: RevenueRecognition, private readonly infrastructureContext: InfrastructureContext) {}
 
   get submission() {
     if(!this.doc.submission) {
       this.doc.set('submission', {});
     }
-    return new GlTransactionDomainAdapter(this.doc.submission);
+    return new GlTransactionDomainAdapter(this.doc.submission, this.infrastructureContext);
   }
 
   get recognition() {
     if(!this.doc.recognition) {
       this.doc.set('recognition', {});
     }
-    return new GlTransactionDomainAdapter(this.doc.recognition);
+    return new GlTransactionDomainAdapter(this.doc.recognition, this.infrastructureContext);
   }
 }
 
 export class GlTransactionDomainAdapter implements GlTransactionProps {
-  constructor(public readonly doc: GlTransaction) {}
+  constructor(public readonly doc: GlTransaction, private readonly infrastructureContext: InfrastructureContext) {}
 
   get debitGlAccount() {
     return this.doc.debitGlAccount;
@@ -420,7 +422,7 @@ export class GlTransactionDomainAdapter implements GlTransactionProps {
 }
 
 export class TransactionReferenceDomainAdapter implements TransactionReferenceProps {
-  constructor(public readonly doc: TransactionReference) {}
+  constructor(public readonly doc: TransactionReference, private readonly infrastructureContext: InfrastructureContext) {}
 
   get referenceId() {
     return this.doc.referenceId;
@@ -449,7 +451,7 @@ export class TransactionReferenceDomainAdapter implements TransactionReferencePr
 }
 
 export class FinanceReferenceDomainAdapter implements FinanceReferenceProps {
-  constructor(public readonly doc: FinanceReference) {}
+  constructor(public readonly doc: FinanceReference, private readonly infrastructureContext: InfrastructureContext) {}
 
   get debitGlAccount() {
     return this.doc.debitGlAccount;
@@ -472,8 +474,9 @@ export class FinanceReferenceDomainAdapter implements FinanceReferenceProps {
     this.doc.completedOn = completedOn;
   }
 }
+
 export class SubmissionDomainAdapter implements SubmissionProps {
-  constructor(public readonly doc: Submission) {}
+  constructor(public readonly doc: Submission, private readonly infrastructureContext: InfrastructureContext) {}
 
   get amount() {
     return this.doc.amount;
@@ -484,12 +487,12 @@ export class SubmissionDomainAdapter implements SubmissionProps {
   }
 
   get transactionReference() {
-    return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
+    return new TransactionReferenceDomainAdapter(this.doc.transactionReference, this.infrastructureContext);
   }
 }
 
 export class ViolationTicketV1MessageDomainAdapter implements ViolationTicketV1MessageProps {
-  constructor(public readonly props: ViolationTicketMessage) {}
+  constructor(public readonly props: ViolationTicketMessage, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
   }
@@ -503,7 +506,7 @@ export class ViolationTicketV1MessageDomainAdapter implements ViolationTicketV1M
 
   get initiatedBy() {
     if (this.props.initiatedBy) {
-      return new MemberDomainAdapter(this.props.initiatedBy);
+      return new MemberDomainAdapter(this.props.initiatedBy, this.infrastructureContext);
     }
   }
   public setInitiatedByRef(initiatedBy: MemberEntityReference) {
@@ -540,7 +543,7 @@ export class ViolationTicketV1MessageDomainAdapter implements ViolationTicketV1M
 }
 
 export class ViolationTicketV1RevisionRequestDomainAdapter implements ViolationTicketV1RevisionRequestProps {
-  constructor(public readonly doc: ViolationTicketRevisionRequest) {}
+  constructor(public readonly doc: ViolationTicketRevisionRequest, private readonly infrastructureContext: InfrastructureContext) {}
 
   get requestedAt() {
     return this.doc.requestedAt;
@@ -551,7 +554,7 @@ export class ViolationTicketV1RevisionRequestDomainAdapter implements ViolationT
 
   get requestedBy() {
     if (this.doc.requestedBy) {
-      return new MemberDomainAdapter(this.doc.requestedBy);
+      return new MemberDomainAdapter(this.doc.requestedBy, this.infrastructureContext);
     }
   }
   public setRequestedByRef(requestedBy: MemberEntityReference) {
@@ -566,7 +569,7 @@ export class ViolationTicketV1RevisionRequestDomainAdapter implements ViolationT
   }
 
   get requestedChanges() {
-    return new ViolationTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges);
+    return new ViolationTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges, this.infrastructureContext);
   }
 
   get revisionSubmittedAt() {
@@ -578,7 +581,7 @@ export class ViolationTicketV1RevisionRequestDomainAdapter implements ViolationT
 }
 
 export class ViolationTicketV1RevisionRequestedChangesDomainAdapter implements ViolationTicketV1RevisionRequestedChangesProps {
-  constructor(public readonly doc: ViolationTicketRevisionRequestedChanges) {}
+  constructor(public readonly doc: ViolationTicketRevisionRequestedChanges, private readonly infrastructureContext: InfrastructureContext) {}
 
   get requestUpdatedStatus() {
     return this.doc.requestUpdatedStatus;
@@ -608,4 +611,3 @@ export class ViolationTicketV1RevisionRequestedChangesDomainAdapter implements V
     this.doc.requestUpdatedPaymentTransaction = requestUpdatedPaymentTransaction;
   }
 }
-

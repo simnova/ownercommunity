@@ -13,11 +13,11 @@ import { MongoStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staf
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 
   startup = async (): Promise<void> => {
-    console.log('MongodbDatastoreImpl startup');
+    console.log('custom-log | MongodbDatastoreImpl | startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('MongodbDatastoreImpl shutdown');
+    console.log('custom-log | MongodbDatastoreImpl | shutdown');
   }
 
   get endUserUnitOfWork(): typeof MongoEndUserUnitOfWork {

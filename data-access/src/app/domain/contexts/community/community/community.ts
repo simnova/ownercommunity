@@ -2,7 +2,7 @@ import { CommunityCreatedEvent } from '../../../events/types/community-created';
 import { CommunityDomainUpdatedEvent } from '../../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
@@ -26,7 +26,7 @@ export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 
 export class Community<props extends CommunityProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements CommunityEntityReference {
   private isNew: boolean = false;
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forCommunity(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forCommunity(this), {});
   }
 
   get id() {

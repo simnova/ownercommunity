@@ -6,21 +6,24 @@ import { EventBus } from "../../domain-seedwork/event-bus";
 import { DomainEvent } from "../../domain-seedwork/domain-event";
 import { MemoryStore } from "./memory-store";
 import { Visa } from "../../passport-seedwork/visa";
+import { InfrastructureContextBase } from "../../infrastructure-seedwork/infrastructure-context-base";
 
 export class MemoryRepositoryBase<
-  ContextType extends BaseDomainExecutionContext,
+  DomaineExecutionContextType extends BaseDomainExecutionContext,
   PropType extends DomainEntityProps,
   VisaType extends Visa,
-  DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
+  DomainType extends AggregateRoot<PropType, DomaineExecutionContextType, VisaType>,
+  InfrastructureContextType extends InfrastructureContextBase
   > implements Repository<DomainType> {
 
   private itemsInTransaction: DomainType[] = [];
   // protected memoryStore = new MemoryStore<PropType>();
   constructor(
     protected eventBus: EventBus,
-    protected domainClass: new (args: PropType, context: ContextType) => DomainType,
-    protected context: ContextType,
-    protected memoryStore: MemoryStore<PropType>
+    protected domainClass: new (args: PropType, context: DomaineExecutionContextType) => DomainType,
+    protected context: DomaineExecutionContextType,
+    protected infrastructureContext: InfrastructureContextType,
+    protected memoryStore: MemoryStore<PropType>,
   ) {
   }
 
@@ -70,19 +73,26 @@ export class MemoryRepositoryBase<
   }
 
   static create<
-    ContextType extends BaseDomainExecutionContext,
+    DomainExecutionContextType extends BaseDomainExecutionContext,
     PropType extends DomainEntityProps,
     VisaType extends Visa,
-    DomainType extends AggregateRoot<PropType, ContextType, VisaType>,
-    RepoType extends MemoryRepositoryBase<ContextType, PropType, VisaType, DomainType>
+    DomainType extends AggregateRoot<PropType, DomainExecutionContextType, VisaType>,
+    InfrastructureContextType extends InfrastructureContextBase,
+    RepoType extends MemoryRepositoryBase<DomainExecutionContextType, PropType, VisaType, DomainType, InfrastructureContextType>
   >(
     eventBus: EventBus,
-    domainClass: new (args: PropType, context: ContextType) => DomainType,
-    context: ContextType,
+    domainClass: new (args: PropType, context: DomainExecutionContextType) => DomainType,
+    domainExecutionContext: DomainExecutionContextType,
+    infrastructureContext: InfrastructureContextType,
     memoryStore: MemoryStore<PropType>,
-    repoClass: new (eventBus: EventBus, domainClass:new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
+    repoClass: new (
+      eventBus: EventBus, 
+      domainClass:new (args: PropType, context: DomainExecutionContextType) => DomainType, 
+      domainExecutionContext: DomainExecutionContextType, 
+      infrastructureContext: InfrastructureContextType,
+      databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
   ): RepoType {
-    return new repoClass(eventBus, domainClass, context, memoryStore);
+    return new repoClass(eventBus, domainClass, domainExecutionContext, infrastructureContext, memoryStore);
   }
 
 }

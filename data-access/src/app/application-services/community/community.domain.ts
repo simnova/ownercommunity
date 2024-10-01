@@ -1,11 +1,12 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 import { Community } from "../../domain/contexts/community/community/community";
-import { ReadOnlyContext } from "../../domain/domain-execution-context";
+import { ReadOnlyDomainExecutionContext } from "../../domain/domain-execution-context";
 import { CommunityData } from "../../external-dependencies/datastore";
 import { CommunityDomainAdapter, EndUserConverter, CommunityConverter, CommunityRepository } from "../../external-dependencies/domain";
 import { CommunityCreateInput, CommunityUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
+import { ReadOnlyInfrastructureContext } from "../../init/infrastructure-context";
 
 export interface CommunityDomainApi {
   communityCreate(input: CommunityCreateInput) : Promise<CommunityData>;
@@ -26,7 +27,7 @@ export class CommunityDomainApiImpl
       throw new Error('Unauthorized:communityCreate');
     }
     let mongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let userDo = new EndUserConverter().toDomain(mongoUser, ReadOnlyContext());
+    let userDo = new EndUserConverter().toDomain(mongoUser, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     let communityToReturn: CommunityData;
     await this.withTransaction(async (repo) => {

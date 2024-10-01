@@ -1,11 +1,13 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { CommunityVisa } from "../../../domain/contexts/community/community.visa";
 import { EndUserRole } from "../../../domain/contexts/community/roles/end-user-role/end-user-role";
+import { ReadOnlyDomainExecutionContext } from "../../../domain/domain-execution-context";
 import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
 import { EndUserRoleData } from "../../../external-dependencies/datastore";
 import { EndUserRoleDomainAdapter, CommunityConverter, EndUserRoleConverter, EndUserRoleRepository } from "../../../external-dependencies/domain";
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from "../../../external-dependencies/graphql-api";
 import { AppContext } from "../../../init/app-context-builder";
+import { ReadOnlyInfrastructureContext } from "../../../init/infrastructure-context";
 
 export interface EndUserRoleDomainApi {
   roleAdd(input: RoleAddInput) : Promise<EndUserRoleData>;
@@ -29,7 +31,7 @@ export class EndUserRoleDomainApiImpl
 
     let roleToReturn: EndUserRoleData;
     let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
-    let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let communityDo = new CommunityConverter().toDomain(community, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
 
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getNewInstance(
@@ -105,7 +107,7 @@ export class EndUserRoleDomainApiImpl
     }
 
     let mongoNewRole = await this.context.applicationServices.roles.endUserRole.dataApi.getRoleById(input.roleToReassignTo);
-    let newROleDo = new EndUserRoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let newROleDo = new EndUserRoleConverter().toDomain(mongoNewRole, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     let roleToReturn: EndUserRoleData;
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.roleToDelete);

@@ -13,20 +13,22 @@ import { MemberCustomViewProps } from '../../../../../app/domain/contexts/commun
 import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
+import { InfrastructureContext } from '../../../../../app/init/infrastructure-context';
 
 export class MemberConverter extends MongoTypeConverter<
   DomainExecutionContext, 
   Member, 
   MemberDomainAdapter, 
   CommunityVisa,
-  MemberDO<MemberDomainAdapter>
+  MemberDO<MemberDomainAdapter>,
+  InfrastructureContext
 > {
   constructor() {
     super(MemberDomainAdapter, MemberDO);
   }
 }
 
-export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implements MemberProps {
+export class MemberDomainAdapter extends MongooseDomainAdapter<Member, InfrastructureContext> implements MemberProps {
   get memberName() {
     return this.doc.memberName;
   }
@@ -44,7 +46,7 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
 
   get community() {
     if (this.doc.community) {
-      return new CommunityDomainAdapter(this.doc.community);
+      return new CommunityDomainAdapter(this.doc.community, this.infrastructureContext);
     }
     return undefined;
   }
@@ -53,12 +55,12 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
   }
 
   get accounts() {
-    return new MongoosePropArray(this.doc.accounts, AccountDomainAdapter);
+    return new MongoosePropArray(this.doc.accounts, AccountDomainAdapter, this.infrastructureContext);
   }
 
   get role() {
     if (this.doc.role) {
-      return new EndUserRoleDomainAdapter(this.doc.role);
+      return new EndUserRoleDomainAdapter(this.doc.role, this.infrastructureContext);
     }
     return undefined;
   }
@@ -70,16 +72,16 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
     if (!this.doc.profile) {
       this.doc.set('profile', {});
     } //embedded - ensure it exists
-    return new ProfileDomainAdapter(this.doc.profile);
+    return new ProfileDomainAdapter(this.doc.profile, this.infrastructureContext);
   }
 
   get customViews() {
-    return new MongoosePropArray(this.doc.customViews, CustomViewDomainAdapter);
+    return new MongoosePropArray(this.doc.customViews, CustomViewDomainAdapter, this.infrastructureContext);
   }
 }
 
 export class AccountDomainAdapter implements MemberAccountProps {
-  constructor(public readonly doc: Account) {}
+  constructor(public readonly doc: Account, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.doc.id.valueOf() as string;
   }
@@ -100,7 +102,7 @@ export class AccountDomainAdapter implements MemberAccountProps {
 
   get user() {
     if (this.doc.user) {
-      return new EndUserDomainAdapter(this.doc.user);
+      return new EndUserDomainAdapter(this.doc.user, this.infrastructureContext);
     }
     return undefined;
   }
@@ -117,7 +119,7 @@ export class AccountDomainAdapter implements MemberAccountProps {
 
   get createdBy() {
     if (this.doc.createdBy) {
-      return new EndUserDomainAdapter(this.doc.createdBy);
+      return new EndUserDomainAdapter(this.doc.createdBy, this.infrastructureContext);
     }
     return undefined;
   }
@@ -127,7 +129,7 @@ export class AccountDomainAdapter implements MemberAccountProps {
 }
 
 export class CustomViewDomainAdapter implements MemberCustomViewProps {
-  constructor(public readonly doc: CustomView) {}
+  constructor(public readonly doc: CustomView, private readonly infrastructureContext: InfrastructureContext) {}
   public get id(): string {
     return this.doc.id.valueOf() as string;
   }
@@ -169,7 +171,7 @@ export class CustomViewDomainAdapter implements MemberCustomViewProps {
 }
 
 export class ProfileDomainAdapter implements MemberProfileProps {
-  constructor(public readonly props: Profile) {}
+  constructor(public readonly props: Profile, private readonly infrastructureContext: InfrastructureContext) {}
 
   get name() {
     return this.props.name;

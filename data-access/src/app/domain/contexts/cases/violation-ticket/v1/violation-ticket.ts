@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../../../prope
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './violation-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './violation-ticket.value-objects';
@@ -18,6 +18,8 @@ import { ViolationTicketV1FinanceDetailEntityReference, ViolationTicketV1Finance
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
+import { ViolationTicketV1SyncDomainEventFactory, ViolationTicketV1SyncDomainEventFactoryImpl } from './sync-domain-events/violation-ticket-v1.sync-domain-event-factory';
+import { ViolationTicketV1SyncDomainEventHandlers } from './sync-domain-events/violation-ticket-v1.sync-domain-event-handlers';
 
 export interface ViolationTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -85,9 +87,15 @@ export interface ViolationTicketV1EntityReference
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props, DomainExecutionContext, ViolationTicketV1Visa> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
+  private readonly _syncDomainEventFactory: ViolationTicketV1SyncDomainEventFactory;
 
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forServiceTicketV1(this), ViolationTicketV1SyncDomainEventHandlers);
+    this._syncDomainEventFactory = new ViolationTicketV1SyncDomainEventFactoryImpl(this);  
+  }
+
+  public get syncDomainEventFactory(): ViolationTicketV1SyncDomainEventFactory {
+    return this._syncDomainEventFactory;
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(
@@ -110,10 +118,8 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     violationTicket.Requestor = requestor;
     violationTicket.Status = ValueObjects.StatusCodes.Draft;
     violationTicket.Priority = 5;
-    let newActivity = violationTicket.requestNewActivityDetail();
-    newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
-    newActivity.ActivityDescription = 'Created';
-    newActivity.ActivityBy = requestor;
+    violationTicket.syncDomainEventFactory.addViolationTicketV1CreatedEvent({ requestor });
+    violationTicket.isNew = false;
     violationTicket.financeDetails.ServiceFee = penaltyAmount;
     return violationTicket;
   }
@@ -378,7 +384,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Updated;
     activityDetail.ActivityDescription = description;
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
 
   public requestAddMessage(message: string, sentBy: string, embedding: string, initiatedBy?: MemberEntityReference): void {
@@ -419,7 +425,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityDescription = description;
     activityDetail.ActivityType = this.statusMappings.get(newStatus.valueOf());
-    activityDetail.ActivityBy = by;
+    activityDetail.setActivityBy();
   }
 
   public override onSave(isModified: boolean): void {

@@ -3,7 +3,7 @@ import { SpanStatusCode, trace } from '@opentelemetry/api';
 import { SeverityNumber, logs } from '@opentelemetry/api-logs';
 import dayjs from 'dayjs';
 import { Property, PropertyProps } from '../../contexts/property/property/property';
-import { SystemExecutionContext } from '../../domain-execution-context';
+import { SystemDomainExecutionContext } from '../../domain-execution-context';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { PropertyUpdatedEvent } from '../types/property-updated';
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
@@ -11,6 +11,7 @@ import { PropertyUnitOfWork } from '../../contexts/property/property/property.uo
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
 import { EventBusInstance } from '../event-bus';
 import { generateHash, updateSearchIndexWithRetry } from './update-search-index-helpers';
+import { SystemInfrastructureContext } from '../../../init/infrastructure-context';
 
 export default (cognitiveSearch: CognitiveSearchDomain, propertyUnitOfWork: PropertyUnitOfWork) => {
   EventBusInstance.register(PropertyUpdatedEvent, async (payload) => {
@@ -30,8 +31,8 @@ export default (cognitiveSearch: CognitiveSearchDomain, propertyUnitOfWork: Prop
         });
 
         // console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
-        const context = SystemExecutionContext();
-        await propertyUnitOfWork.withTransaction(context, async (repo) => {
+        const context = SystemDomainExecutionContext();
+        await propertyUnitOfWork.withTransaction(context, SystemInfrastructureContext(), async (repo) => {
           let updatedProperty = await repo.getById(payload.id);
           let indexDoc = convertToIndexDocument(updatedProperty);
           const newHash = generateHash(indexDoc);

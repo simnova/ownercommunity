@@ -42,7 +42,7 @@ export class ServiceTicketV1DataApiImpl
     let converter = new ServiceTicketV1Converter();
 
     return (await Promise.all(serviceTickets.map((ticket) => ticket)))
-      .map((ticket) => converter.toDomain(ticket, context.passport))
+      .map((ticket) => converter.toDomain(ticket, {auditContext: context.auditContext}, context.passport))
       .filter((ticket) => context.passport.domainVisa
         .forServiceTicketV1(ticket)
         .determineIf(

@@ -8,10 +8,10 @@ export class AzBlobStorageImpl extends AzBlobStorage implements BlobStorageInfra
   }
 
   startup = async (): Promise<void> => {
-    console.log('AzBlobStorageImpl startup');
+    console.log('custom-log | AzBlobStorageImpl | startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('AzBlobStorageImpl shutdown');
+    console.log('custom-log | AzBlobStorageImpl | shutdown');
   }
 }

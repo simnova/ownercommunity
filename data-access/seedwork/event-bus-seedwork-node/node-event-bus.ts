@@ -64,7 +64,7 @@ class NodeEventBusImpl implements EventBus {
   }
 
   register<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (...args: any) => T, func: (payload: T['payload']) => Promise<void>): void {
-    console.log(`Registering node event handler for: ${event.name}`);
+    console.log(`custom-log | registering-node-event-handler | ${event.name}`);
 
     this.broadcaster.on(event.name, async (rawPayload: string) => {
       console.log(`Received node event ${event.name} with data ${JSON.stringify(rawPayload)}`);

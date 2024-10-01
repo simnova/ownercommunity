@@ -1,8 +1,10 @@
+import { useApolloClient } from '@apollo/client';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react'; // useState
-import { AuthContextProps } from 'react-oidc-context';
-import { FormatTimeCounter, HandleLogout, IsInStorybookEnv } from '../../../constants';
+import { useAuth } from 'react-oidc-context';
+import { FormatTimeCounter, IsInStorybookEnv } from '../../../constants';
+import { HandleLogout } from '../handle-logout';
 import { MaintenanceKickoutMessage } from './maintenance-kickout-message';
 import MaintenanceMessageContext from './maintenance-message-context';
 
@@ -18,25 +20,29 @@ export interface MaintenanceMessageInfo {
 export type MaintenanceMessageProps = {
   children: ReactNode;
   maintenanceInfo: MaintenanceMessageInfo;
-  auth?: AuthContextProps;
 };
 
 const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
   // const timeoutBeforeMaintenance = import.meta.env.VITE_TIMEOUT_BEFORE_MAINTENANCE ?? 120; //in seconds
+  const auth = useAuth();
+  const apolloClient = useApolloClient();
+
   const [isImpending, setIsImpending] = useState<boolean | undefined>(undefined);
   const [isMaintenance, setIsMaintenance] = useState<boolean | undefined>(undefined);
   const [isApproachingMaintenance, setIsApproachingMaintenance] = useState(false);
-  const [maintenanceCountdown, setMaintenanceCountdown] = useState<number>(props.maintenanceInfo.timeoutBeforeMaintenance); //in seconds
+  const [maintenanceCountdown, setMaintenanceCountdown] = useState<number>(
+    props.maintenanceInfo.timeoutBeforeMaintenance
+  ); //in seconds
 
   const timerInstance = React.useRef(undefined);
 
   useEffect(() => {
     // auto logout when maintenance countdown reaches 0
     if (maintenanceCountdown === 0) {
-      if (props.auth) {
+      if (auth) {
         setIsApproachingMaintenance(false);
         console.log('Maintenance countdown reached 0, logging out');
-        HandleLogout(props.auth, window.location.origin);
+        HandleLogout(auth, apolloClient, window.location.origin);
       }
 
       return;
@@ -197,7 +203,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
   console.log(contextValues);
   return (
     <MaintenanceMessageContext.Provider value={contextValues}>
-      {isApproachingMaintenance && props.auth?.isAuthenticated && (
+      {isApproachingMaintenance && auth.isAuthenticated && (
         <MaintenanceKickoutMessage timer={FormatTimeCounter(maintenanceCountdown)} />
       )}
       {props.children}

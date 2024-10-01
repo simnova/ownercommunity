@@ -5,7 +5,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../communit
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
 import { MemberAccount, MemberAccountEntityReference, MemberAccountProps } from './member-account';
 import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
-import { DomainExecutionContext, SystemExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../domain-execution-context';
 import { MemberProfile, MemberProfileEntityReference, MemberProfileProps } from './member-profile';
 import { CommunityVisa } from "../community.visa";
 import { MemberCustomView, MemberCustomViewEntityReference, MemberCustomViewProps } from './member-custom-view';
@@ -36,7 +36,7 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'commu
 export class Member<props extends MemberProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements MemberEntityReference {
   private isNew: boolean = false;
   constructor(props: props, _context: DomainExecutionContext) {
-    super(props, _context, SystemExecutionContext(), (context) => context.domainVisa.forMember(this), {});
+    super(props, _context, SystemDomainExecutionContext(), (context) => context.domainVisa.forMember(this), {});
   }
 
   get id() {

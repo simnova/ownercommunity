@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache, from } from '@apollo/client';
 
@@ -7,30 +7,33 @@ import { setContext } from '@apollo/client/link/context';
 import { useAuth } from 'react-oidc-context';
 import { useParams } from 'react-router-dom';
 
-export interface AuthProps {
-  AuthenticationIdentifier?: string;
-}
-
 const ApolloConnection: FC<any> = (props) => {
   const auth = useAuth();
   const params = useParams(); // useParams.memberId won't work here because ApolloConnection wraps the Routes, not inside a Route
 
-
-  const hasAuth = props.AuthenticationIdentifier !== null && typeof props.AuthenticationIdentifier !== 'undefined';
+  const getAuthHeaders = async (headers: any) => {
+    const access_token = auth.user?.access_token;
+    console.log('auth-token', access_token);
+    const returnHeaders = { ...headers };
+    if (access_token) {
+      returnHeaders['Authorization'] = `Bearer ${access_token}`;
+    }
+    console.log('params ', params['*']?.slice(0, 24));
+    const communityId = params['*']?.slice(0, 24) ?? null;
+    if (communityId !== null && communityId !== 'accounts') {
+      returnHeaders['community'] = communityId;
+    }
+    const memberId = params['*']?.match(/(member|admin)\/([\w\d]+)/)?.[2] ?? null;
+    if (memberId !== null) {
+      returnHeaders['member'] = memberId;
+    }
+    console.log('returnHeaders', returnHeaders);
+    return { headers: returnHeaders };
+  };
 
   const withToken = setContext(async (_, { headers }) => {
-    if (hasAuth) {
-      const access_token = auth.user?.access_token;
-      console.log('auth-token',access_token);
-      const returnHeaders = {...headers};
-      if(access_token){ returnHeaders['Authorization'] = `Bearer ${access_token}`; }
-      console.log('params ', params['*']?.slice(0, 24));
-      const communityId = params['*']?.slice(0, 24) ?? null;
-      if(communityId !== null && communityId !== 'accounts'){ returnHeaders['community'] = communityId; }
-      const memberId = params['*']?.match(/(member|admin)\/([\w\d]+)/)?.[2] ?? null;
-      if(memberId !== null){ returnHeaders['member'] = memberId; }
-      console.log('returnHeaders',returnHeaders);
-      return {headers: returnHeaders};
+    if (auth.isAuthenticated) {
+      return getAuthHeaders(headers);
     } else {
       return {
         headers: {
@@ -59,22 +62,6 @@ const ApolloConnection: FC<any> = (props) => {
     cache: new InMemoryCache(),
     connectToDevTools: import.meta.env.NODE_ENV !== 'production'
   });
-
-  useEffect(() => {
-    const updateCache = async (): Promise<void> => {
-      if (hasAuth && client && !auth.isAuthenticated) {
-        try {
-          // will throw exception if not connected
-          await client.resetStore(); //clear Apollo cache when user logs off
-        } catch (err) {
-          if (err instanceof Error && err.message !== 'Failed to fetch') {
-            console.error('Apollo Reset error', err);
-          }
-        }
-      }
-    };
-    updateCache().catch((e) => console.error(e));
-  }, [auth.isAuthenticated, hasAuth, props.AuthenticationIdentifier, client]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
 };

@@ -8,10 +8,10 @@ export class AzContentModeratorImpl extends AzContentModerator implements Conten
   }
 
   startup = async (): Promise<void> => {
-    console.log('AzContentModeratorImpl startup');
+    console.log('custom-log | AzContentModeratorImpl | startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('AzContentModeratorImpl shutdown');
+    console.log('custom-log | AzContentModeratorImpl | shutdown');
   }
 }

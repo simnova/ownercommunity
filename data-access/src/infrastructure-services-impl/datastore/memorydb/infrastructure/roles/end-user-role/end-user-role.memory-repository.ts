@@ -7,6 +7,7 @@ import { DomainExecutionContext } from "../../../../../../app/domain/domain-exec
 import { EndUserRoleRepository } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role.repository";
 import { EndUserRole } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
 import { CommunityVisa } from "../../../../../../app/domain/contexts/community/community.visa";
+import { InfrastructureContext } from "../../../../../../app/init/infrastructure-context";
 
 export class MemoryEndUserRoleCommunityPermissions extends MemoryBaseAdapter {
   canManageRolesAndPermissions: boolean;
@@ -117,7 +118,7 @@ export class MemoryEndUserRole extends MemoryBaseAdapter implements EndUserRoleP
 export class MemoryEndUserRoleRepository<
   PropType extends EndUserRoleProps, 
   DomainType extends EndUserRole<PropType>
-  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType> 
+  > extends MemoryRepositoryBase<DomainExecutionContext, PropType, CommunityVisa, DomainType, InfrastructureContext> 
     implements EndUserRoleRepository<PropType> 
   {
 

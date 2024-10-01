@@ -1,7 +1,7 @@
 {
   "name": "",
   "version": "",
-  "main": "dist/src/init/index.js",
+  "main": "dist/src/functions/**/*.function.js",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
@@ -10,8 +10,10 @@
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",
     "test": "npx jest --watchAll=true",
-    "gen": "graphql-codegen --config src/functions/http/graphql/schema/builder/codegen.yml",
-    "gen:watch": "graphql-codegen --config src/functions/http/graphql/schema/builder/codegen.yml --watch  --silent=false",
+    "validate-graphql-schema": "ts-node src/functions/http-graphql/schema/builder/check-duplicate-types.ts",
+    "generate-graphql-schema": "graphql-codegen --config src/functions/http-graphql/schema/builder/codegen.yml",
+    "gen": "clear && npm run validate-graphql-schema && npm run generate-graphql-schema",
+    "gen:watch": "graphql-codegen --config src/functions/http-graphql/schema/builder/codegen.yml --watch  --silent=false",
     "postinstall": "serenity-bdd update",
     "prebdd": "npm run bdd:clean && npm run bdd:build",
     "bdd": "cucumber-js --config ./features/support/cucumber.json",

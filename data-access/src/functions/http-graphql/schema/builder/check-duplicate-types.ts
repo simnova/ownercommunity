@@ -19,6 +19,9 @@ const GRAPHQL_FILES_PATTERN = path.join(__dirname, "../../../http-graphql/**/*.g
 console.log(`... graphql-file-pattern | ${GRAPHQL_FILES_PATTERN}`);
 
 
+// [TODO] sourcery suggestion: https://github.com/simnova/ownercommunity/pull/316#discussion_r1783529777
+
+
 // extension types
 function processExtensionTypeNode(outputTypeNode: AllowedExtensionTypeDefinitionNode, processedNodes: string[] = [], errors: string[] = []) {
     const fieldDefinitions = recursiveFunctionToFindExtensionFieldDefinitions(outputTypeNode);

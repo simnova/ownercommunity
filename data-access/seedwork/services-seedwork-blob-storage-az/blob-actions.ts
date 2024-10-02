@@ -8,7 +8,6 @@ import {
   StorageSharedKeyCredential,
   PublicAccessType,
   BlobDownloadResponseParsed,
-  RestError,
 } from '@azure/storage-blob';
 import internal from 'stream';
 import { FileInfo } from '../services-seedwork-blob-storage-interfaces';
@@ -135,7 +134,6 @@ export class BlobActions {
               console.log('Blob created successfully and the file contents are valid');
             } else {
               console.log('Blob created successfully but the file contents are invalid');
-              // [TODO] should at least throw an error at this point to be handled in the calling function
               throw new Error(`invalid-file-contents | ${blobName}`);
             }
           });
@@ -144,12 +142,6 @@ export class BlobActions {
       }
     }
   };
-
-  public checkBlobExists = async (blobName: string, container: string): Promise<boolean> => {
-    const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
-    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
-    return blobClient.exists();
-  }
 
   public createContainer = async (container: string, allowPublicAccess: boolean) => {
     const blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net/`, this.sharedKeyCredential);

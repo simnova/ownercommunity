@@ -1,5 +1,6 @@
 import { PortalTokenValidation } from "../../../seedwork/auth-seedwork-oidc/portal-token-validation";
 import { CosmosDbConnection } from "../../../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection";
+import { GlDailySummaryStorageProviderBlobImpl } from "../../../seedwork/services-seedwork-finance/gl-daily-summary-storage-provider-blob";
 import { tryGetEnvVar } from "../../../seedwork/utils/get-env-var";
 import { DomainImpl } from "../../app/domain/domain-impl";
 import { InfrastructureServicesBuilder } from "../../infrastructure-services-impl/infrastructure-services-builder";
@@ -40,4 +41,10 @@ export async function initializeFunctionApp() {
     infrastructureServices.vercel
   );
   await DomainImplInstance.startup();
+
+  GlDailySummaryStorageProviderBlobImpl.initialize({
+    blobStorage: infrastructureServices.blobStorage,
+    blobContainerName: 'finance',
+    blobBasePath: 'daily-gl-summaries'
+  })
 }

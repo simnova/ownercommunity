@@ -108,7 +108,7 @@ export class MemberDataApiImpl
     return result;
   }
   async getMemberById(memberId: string): Promise<MemberData> {
-    let result = await (await this.findOneById(memberId)).populate('role');
+    let result = await this.model.findById(memberId).populate('role');
     return result;
   }
 

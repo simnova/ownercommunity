@@ -68,7 +68,6 @@ const ApolloConnection: FC<any> = (props) => {
     ));
   },[auth]);
 
-  console.log('ApolloConnection > client', client.link);
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
 };
 

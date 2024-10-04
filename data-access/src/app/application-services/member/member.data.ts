@@ -100,16 +100,13 @@ export class MemberDataApiImpl
   }
 
   async getMemberByIdWithCommunity(memberId: string): Promise<MemberData> {
-    const result = await this.model.findById(memberId).populate('community').exec();
-    return result;
+    return await this.model.findById(memberId).populate('community').exec();
   }
   async getMemberByIdWithCommunityAccountRole(memberId: string): Promise<MemberData> {
-    const result = await this.model.findById(memberId).populate('community').populate('accounts.user').populate('role').exec();
-    return result;
+    return await this.model.findById(memberId).populate('community').populate('accounts.user').populate('role').exec();  
   }
   async getMemberById(memberId: string): Promise<MemberData> {
-    let result = await this.model.findById(memberId).populate('role');
-    return result;
+    return await this.model.findById(memberId).populate('role');
   }
 
   async getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]> {

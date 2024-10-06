@@ -14,7 +14,7 @@ import { uiConfig, staffConfig } from './config/odic-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import { useFeatureFlags } from './components/shared/feature-flag-react-lite';
 
-function App() {
+export function App() {
   const { GetFeatureFlagByName } = useFeatureFlags();
 
   let maintenanceInfo = {
@@ -91,5 +91,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;

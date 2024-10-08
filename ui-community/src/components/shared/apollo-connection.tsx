@@ -45,7 +45,7 @@ export const ApolloConnection: FC<ApolloConnectionProps> = (props: ApolloConnect
   ]);
 
   const updateLink = () => {
-    const link = ApolloLink.split(
+    return ApolloLink.split(
       // various options to split:
       // 1. use a custom property in context: (operation) => operation.getContext().dataSource === DataSourceEnum.country,
       // 2. check for string name of the query if it is named: (operation) => operation.operationName === "CountryDetails",
@@ -55,9 +55,6 @@ export const ApolloConnection: FC<ApolloConnectionProps> = (props: ApolloConnect
       // and make the graphql link the default
       dataSources.get(DataSourceEnum.graphql)
     ) as ApolloLink;
-
-    console.log(`updateLink > link : ${JSON.stringify(link)}`);
-    return link;
   };
   
   client.setLink(updateLink());

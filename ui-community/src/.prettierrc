@@ -6,5 +6,7 @@
   "jsxSingleQuote": false,
   "jsxBracket": 500,
   "proseWrap": "preserve",
-  "printWidth": 120
+  "printWidth": 200,
+  "bracketSpacing": true,
+  "arrowParens": "always"
 }

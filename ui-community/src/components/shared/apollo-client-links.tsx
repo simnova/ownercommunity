@@ -19,8 +19,18 @@ export const BaseApolloLink = (): ApolloLink => setContext(async (_, { headers }
   };
 });
 
-
-export const ApolloLinkToAddAuthHeader = (auth: AuthContextProps): ApolloLink => new ApolloLink((operation, forward) => {;
+export const ApolloLinkToAddAuthHeader = (auth: AuthContextProps): ApolloLink => 
+  setContext(async (_, { headers }) => {
+    const access_token = auth.isAuthenticated ? auth.user?.access_token : undefined;
+    return {
+      headers: {
+        ...headers,
+        ...(access_token && { Authorization: `Bearer ${access_token}` })
+      }
+    };
+  });
+// alternate way to add auth header
+export const ApolloLinkToAddAuthHeader1 = (auth: AuthContextProps): ApolloLink => new ApolloLink((operation, forward) => {;
   const access_token = (auth.isAuthenticated) ? auth.user?.access_token : undefined;
   if(!access_token) {
     return forward(operation);
@@ -31,7 +41,7 @@ export const ApolloLinkToAddAuthHeader = (auth: AuthContextProps): ApolloLink =>
   });
   return forward(operation);
 });
-// in case apolloLinkToAddAuthHeader does not work
+// alternate way to add auth header
 export const ApolloLinkToAddAuthHeader2 = (auth: AuthContextProps): ApolloLink => {
   return setContext(async (_, { headers }) => { 
     const returnHeaders = { ...headers };

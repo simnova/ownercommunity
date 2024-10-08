@@ -36,29 +36,13 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
     }
   });
 
-  function stripTypenames(obj: any, propToDelete: string) {
-    let tempObj = JSON.parse(JSON.stringify(obj));
-    for (const property in tempObj) {
-      if (typeof tempObj[property] === 'object' && !(tempObj[property] instanceof File)) {
-        delete tempObj.property;
-        const newData = stripTypenames(tempObj[property], propToDelete);
-        tempObj[property] = newData;
-      } else if (property === propToDelete) {
-        delete tempObj[property];
-      }
-    }
-    return tempObj;
-  }
 
 
   const handleSave = async (values: PropertyUpdateInput) => {
-    let original = values;
-    let stripped = stripTypenames(values, '__typename');
-    console.log(original, stripped);
     try {
       await updateProperty({
         variables: {
-          input: stripped
+          input: values
         }
       });
       message.success('Saved');

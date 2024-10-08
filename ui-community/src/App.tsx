@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import ApolloConnection from './components/shared/apollo-connection';
+import { ApolloConnection } from './components/shared/apollo-connection';
 import { Accounts } from './components/layouts/accounts';
 import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';

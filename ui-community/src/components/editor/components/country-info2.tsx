@@ -35,7 +35,10 @@ const CountryInfo2: any = ({country, ...props} : CountryInfo2Prop ) => {
   
   const { loading, data, error } = useQuery(
     GET_COUNTRY_DETAILS,
-    { variables: { country: country}, context: { clientName: 'country' } }
+    { 
+      variables: { country: country}, 
+      // context: { clientName: 'country' } 
+    }
   );
 
   useEditor((state) => ({

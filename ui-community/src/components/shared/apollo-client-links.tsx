@@ -4,13 +4,15 @@ import { AuthContextProps } from 'react-oidc-context';
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
 import { setContext } from '@apollo/client/link/context';
 
-
+// apollo client instance
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
   connectToDevTools: import.meta.env.NODE_ENV !== 'production'
 });
 
 
+// base apollo link with no customizations
+// could be used as a base for the link chain
 export const BaseApolloLink = (): ApolloLink => setContext(async (_, { headers }) => {
   return {
     headers: {
@@ -19,6 +21,8 @@ export const BaseApolloLink = (): ApolloLink => setContext(async (_, { headers }
   };
 });
 
+
+// apollo link to add auth header
 export const ApolloLinkToAddAuthHeader = (auth: AuthContextProps): ApolloLink => 
   setContext(async (_, { headers }) => {
     const access_token = auth.isAuthenticated ? auth.user?.access_token : undefined;
@@ -54,6 +58,7 @@ export const ApolloLinkToAddAuthHeader2 = (auth: AuthContextProps): ApolloLink =
 };
 
 
+// apollo link to add custom header
 export const ApolloLinkToAddCustomHeader = (headerName: string, headerValue: string | null | undefined, ifTrue?: boolean): ApolloLink => new ApolloLink((operation, forward) => {
   if(!headerValue || (ifTrue !== undefined && ifTrue === false)) {
     return forward(operation);
@@ -66,6 +71,7 @@ export const ApolloLinkToAddCustomHeader = (headerName: string, headerValue: str
 });
 
 
+// apollo link to batch graphql requests
 // includes removeTypenameFromVariables link
 export const TerminatingApolloLinkForGraphqlServer= (config: BatchHttpLink.Options) => {
   const batchHttpLink = new BatchHttpLink({
@@ -75,4 +81,3 @@ export const TerminatingApolloLinkForGraphqlServer= (config: BatchHttpLink.Optio
   });
   return from([removeTypenameFromVariables(), batchHttpLink]);
 };
-

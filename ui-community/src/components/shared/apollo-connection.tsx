@@ -5,12 +5,6 @@ import { useAuth } from "react-oidc-context";
 import { useParams } from "react-router-dom";
 import { ApolloLinkToAddAuthHeader, ApolloLinkToAddCustomHeader, client, BaseApolloLink, TerminatingApolloLinkForGraphqlServer } from "./apollo-client-links";
 
-
-export enum DataSourceEnum {
-  country = 'country',
-  graphql = 'graphql'
-}
-
 export interface ApolloConnectionProps {
   children: React.ReactNode;
 }
@@ -39,25 +33,26 @@ export const ApolloConnection: FC<ApolloConnectionProps> = (props: ApolloConnect
     })
   ]);
 
-  const dataSources = new Map<DataSourceEnum, ApolloLink>([
-    [DataSourceEnum.country, apolloLinkChainForCountryDataSource],
-    [DataSourceEnum.graphql, apolloLinkChainForGraphqlDataSource]
-  ]);
+  const linkMap = {  
+    CountryDetails: apolloLinkChainForCountryDataSource,  
+    default: apolloLinkChainForGraphqlDataSource  
+  };  
 
-  const updateLink = () => {
-    return ApolloLink.split(
-      // various options to split:
-      // 1. use a custom property in context: (operation) => operation.getContext().dataSource === DataSourceEnum.country,
-      // 2. check for string name of the query if it is named: (operation) => operation.operationName === "CountryDetails",
-      (operation) => operation.operationName === "CountryDetails",
-      dataSources.get(DataSourceEnum.country)!,
-      // you can add more nested split links here
-      // and make the graphql link the default
-      dataSources.get(DataSourceEnum.graphql)
-    ) as ApolloLink;
-  };
-  
-  client.setLink(updateLink());
+  const updateLink = () => {  
+    return ApolloLink.from([  
+      ApolloLink.split(  
+        // various options to split:
+        // 1. use a custom property in context: (operation) => operation.getContext().dataSource === some DataSourceEnum,
+        // 2. check for string name of the query if it is named: (operation) => operation.operationName === "CountryDetails",
+        (operation) => operation.operationName in linkMap,  
+        new ApolloLink((operation, forward) => {  
+          const link = linkMap[operation.operationName as keyof typeof linkMap] || linkMap.default;  
+          return link.request(operation, forward);  
+        }),  
+        apolloLinkChainForGraphqlDataSource  
+      )  
+    ]);  
+  }; 
 
   useEffect(() => {
     client.setLink(updateLink());

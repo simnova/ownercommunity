@@ -8,3 +8,5 @@ export { Service as ServiceData, ServiceModel } from "../../infrastructure-servi
 export { ServiceTicket as ServiceTicketData, ServiceTicketModel } from "../../infrastructure-services-impl/datastore/mongodb/models/cases/service-ticket";
 export { Member as MemberData, MemberModel } from "../../infrastructure-services-impl/datastore/mongodb/models/member";
 export { ViolationTicket as ViolationTicketData, ViolationTicketModel } from "../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket";
+export { VendorUser as VendorUserData, VendorUserModel } from "../../infrastructure-services-impl/datastore/mongodb/models/users/vendor-user";
+export { VendorUserRole as VendorUserRoleData, VendorUserRoleModel, VendorUserRoleCommunityPermissions, VendorUserRolePropertyPermissions, VendorUserRoleServicePermissions, VendorUserRoleServiceTicketPermissions, VendorUserRoleViolationTicketPermissions, VendorUserRolePermissions } from "../../infrastructure-services-impl/datastore/mongodb/models/roles/vendor-user-role";

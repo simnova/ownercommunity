@@ -699,6 +699,8 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  vendorUserCreate: VendorUserMutationResult;
+  vendorUserUpdate: VendorUserMutationResult;
   violationTicketAddUpdateActivity: ViolationTicketMutationResult;
   violationTicketAdhocPaymentRequest: ViolationTicketMutationResult;
   violationTicketAssign: ViolationTicketMutationResult;
@@ -927,6 +929,16 @@ export type MutationStaffUserUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationUserUpdateArgs = {
   input: UserUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationVendorUserCreateArgs = {
+  input: VendorUserCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationVendorUserUpdateArgs = {
+  input: VendorUserUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1252,6 +1264,8 @@ export type Query = {
   user?: Maybe<User>;
   userCurrent?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
+  vendorUser?: Maybe<VendorUser>;
+  vendorUsers?: Maybe<Array<Maybe<VendorUser>>>;
   violationTicket?: Maybe<ViolationTicket>;
   violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
 };
@@ -1363,6 +1377,11 @@ export type QueryStaffUserArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryVendorUserArgs = {
   id: Scalars['ObjectID'];
 };
 
@@ -1834,6 +1853,77 @@ export type UserUpdateInput = {
   personalInformation?: InputMaybe<PersonalInformationInput>;
 };
 
+export type VendorUser = MongoBase & {
+  __typename?: 'VendorUser';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  personalInformation?: Maybe<VendorUserPersonalInformation>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorUserContactInformation = {
+  __typename?: 'VendorUserContactInformation';
+  email?: Maybe<Scalars['String']>;
+};
+
+export type VendorUserContactInformationInput = {
+  email?: InputMaybe<Scalars['String']>;
+};
+
+export type VendorUserCreateInput = {
+  accessBlocked?: InputMaybe<Scalars['Boolean']>;
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
+  externalId: Scalars['String'];
+  personalInformation: VendorUserPersonalInformationInput;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VendorUserIdentityDetails = {
+  __typename?: 'VendorUserIdentityDetails';
+  lastName?: Maybe<Scalars['String']>;
+  legalNameConsistsOfOneName?: Maybe<Scalars['Boolean']>;
+  restOfName?: Maybe<Scalars['String']>;
+};
+
+export type VendorUserIdentityDetailsInput = {
+  lastName?: InputMaybe<Scalars['String']>;
+  legalNameConsistsOfOneName?: InputMaybe<Scalars['Boolean']>;
+  restOfName?: InputMaybe<Scalars['String']>;
+};
+
+export type VendorUserMutationResult = {
+  __typename?: 'VendorUserMutationResult';
+  status: MutationStatus;
+  user?: Maybe<VendorUser>;
+};
+
+export type VendorUserPersonalInformation = {
+  __typename?: 'VendorUserPersonalInformation';
+  contactInformation?: Maybe<VendorUserContactInformation>;
+  identityDetails?: Maybe<VendorUserIdentityDetails>;
+};
+
+export type VendorUserPersonalInformationInput = {
+  contactInformation?: InputMaybe<VendorUserContactInformationInput>;
+  identityDetails?: InputMaybe<VendorUserIdentityDetailsInput>;
+};
+
+export type VendorUserUpdateInput = {
+  accessBlocked?: InputMaybe<Scalars['Boolean']>;
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  personalInformation?: InputMaybe<VendorUserPersonalInformationInput>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 /** An Violation ticket describes violation ticket type. */
 export type ViolationTicket = {
   __typename?: 'ViolationTicket';
@@ -2161,7 +2251,8 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ServiceTicket']
     | ResolversTypes['StaffRole']
     | ResolversTypes['StaffUser']
-    | ResolversTypes['User'];
+    | ResolversTypes['User']
+    | ResolversTypes['VendorUser'];
   MongoSubdocument:
     | ResolversTypes['AdditionalAmenities']
     | ResolversTypes['BedroomDetails']
@@ -2298,6 +2389,16 @@ export type ResolversTypes = ResolversObject<{
   UserMutationResult: ResolverTypeWrapper<UserMutationResult>;
   UserUpdateInput: UserUpdateInput;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
+  VendorUser: ResolverTypeWrapper<VendorUser>;
+  VendorUserContactInformation: ResolverTypeWrapper<VendorUserContactInformation>;
+  VendorUserContactInformationInput: VendorUserContactInformationInput;
+  VendorUserCreateInput: VendorUserCreateInput;
+  VendorUserIdentityDetails: ResolverTypeWrapper<VendorUserIdentityDetails>;
+  VendorUserIdentityDetailsInput: VendorUserIdentityDetailsInput;
+  VendorUserMutationResult: ResolverTypeWrapper<VendorUserMutationResult>;
+  VendorUserPersonalInformation: ResolverTypeWrapper<VendorUserPersonalInformation>;
+  VendorUserPersonalInformationInput: VendorUserPersonalInformationInput;
+  VendorUserUpdateInput: VendorUserUpdateInput;
   ViolationTicket: ResolverTypeWrapper<ViolationTicket>;
   ViolationTicketAddUpdateActivityInput: ViolationTicketAddUpdateActivityInput;
   ViolationTicketAssignInput: ViolationTicketAssignInput;
@@ -2431,7 +2532,8 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ServiceTicket']
     | ResolversParentTypes['StaffRole']
     | ResolversParentTypes['StaffUser']
-    | ResolversParentTypes['User'];
+    | ResolversParentTypes['User']
+    | ResolversParentTypes['VendorUser'];
   MongoSubdocument:
     | ResolversParentTypes['AdditionalAmenities']
     | ResolversParentTypes['BedroomDetails']
@@ -2568,6 +2670,16 @@ export type ResolversParentTypes = ResolversObject<{
   UserMutationResult: UserMutationResult;
   UserUpdateInput: UserUpdateInput;
   UtcOffset: Scalars['UtcOffset'];
+  VendorUser: VendorUser;
+  VendorUserContactInformation: VendorUserContactInformation;
+  VendorUserContactInformationInput: VendorUserContactInformationInput;
+  VendorUserCreateInput: VendorUserCreateInput;
+  VendorUserIdentityDetails: VendorUserIdentityDetails;
+  VendorUserIdentityDetailsInput: VendorUserIdentityDetailsInput;
+  VendorUserMutationResult: VendorUserMutationResult;
+  VendorUserPersonalInformation: VendorUserPersonalInformation;
+  VendorUserPersonalInformationInput: VendorUserPersonalInformationInput;
+  VendorUserUpdateInput: VendorUserUpdateInput;
   ViolationTicket: ViolationTicket;
   ViolationTicketAddUpdateActivityInput: ViolationTicketAddUpdateActivityInput;
   ViolationTicketAssignInput: ViolationTicketAssignInput;
@@ -3124,7 +3236,11 @@ export type MemberProfileResolvers<
 }>;
 
 export type MongoBaseResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'Community' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'StaffRole' | 'StaffUser' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<
+    'Community' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'StaffRole' | 'StaffUser' | 'User' | 'VendorUser',
+    ParentType,
+    ContextType
+  >;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -3233,6 +3349,8 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   staffUserUpdate?: Resolver<ResolversTypes['StaffUserMutationResult'], ParentType, ContextType, RequireFields<MutationStaffUserUpdateArgs, 'input'>>;
   userCreate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType>;
   userUpdate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'input'>>;
+  vendorUserCreate?: Resolver<ResolversTypes['VendorUserMutationResult'], ParentType, ContextType, RequireFields<MutationVendorUserCreateArgs, 'input'>>;
+  vendorUserUpdate?: Resolver<ResolversTypes['VendorUserMutationResult'], ParentType, ContextType, RequireFields<MutationVendorUserUpdateArgs, 'input'>>;
   violationTicketAddUpdateActivity?: Resolver<
     ResolversTypes['ViolationTicketMutationResult'],
     ParentType,
@@ -3586,6 +3704,8 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  vendorUser?: Resolver<Maybe<ResolversTypes['VendorUser']>, ParentType, ContextType, RequireFields<QueryVendorUserArgs, 'id'>>;
+  vendorUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['VendorUser']>>>, ParentType, ContextType>;
   violationTicket?: Resolver<Maybe<ResolversTypes['ViolationTicket']>, ParentType, ContextType, RequireFields<QueryViolationTicketArgs, 'id'>>;
   violationTicketPaymentTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['PaymentTransactionsResult']>>>, ParentType, ContextType>;
 }>;
@@ -3984,6 +4104,56 @@ export interface UtcOffsetScalarConfig extends GraphQLScalarTypeConfig<Resolvers
   name: 'UtcOffset';
 }
 
+export type VendorUserResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['VendorUser'] = ResolversParentTypes['VendorUser']> = ResolversObject<{
+  accessBlocked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  personalInformation?: Resolver<Maybe<ResolversTypes['VendorUserPersonalInformation']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type VendorUserContactInformationResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['VendorUserContactInformation'] = ResolversParentTypes['VendorUserContactInformation'],
+> = ResolversObject<{
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type VendorUserIdentityDetailsResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['VendorUserIdentityDetails'] = ResolversParentTypes['VendorUserIdentityDetails'],
+> = ResolversObject<{
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  legalNameConsistsOfOneName?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  restOfName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type VendorUserMutationResultResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['VendorUserMutationResult'] = ResolversParentTypes['VendorUserMutationResult'],
+> = ResolversObject<{
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['VendorUser']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type VendorUserPersonalInformationResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['VendorUserPersonalInformation'] = ResolversParentTypes['VendorUserPersonalInformation'],
+> = ResolversObject<{
+  contactInformation?: Resolver<Maybe<ResolversTypes['VendorUserContactInformation']>, ParentType, ContextType>;
+  identityDetails?: Resolver<Maybe<ResolversTypes['VendorUserIdentityDetails']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type ViolationTicketResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['ViolationTicket'] = ResolversParentTypes['ViolationTicket'],
@@ -4217,6 +4387,11 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
   UserMutationResult?: UserMutationResultResolvers<ContextType>;
   UtcOffset?: GraphQLScalarType;
+  VendorUser?: VendorUserResolvers<ContextType>;
+  VendorUserContactInformation?: VendorUserContactInformationResolvers<ContextType>;
+  VendorUserIdentityDetails?: VendorUserIdentityDetailsResolvers<ContextType>;
+  VendorUserMutationResult?: VendorUserMutationResultResolvers<ContextType>;
+  VendorUserPersonalInformation?: VendorUserPersonalInformationResolvers<ContextType>;
   ViolationTicket?: ViolationTicketResolvers<ContextType>;
   ViolationTicketMutationResult?: ViolationTicketMutationResultResolvers<ContextType>;
   ViolationTicketPermissions?: ViolationTicketPermissionsResolvers<ContextType>;

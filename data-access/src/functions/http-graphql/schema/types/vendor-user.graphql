@@ -1,0 +1,77 @@
+# vendor-user.graphql
+type VendorUser implements MongoBase {
+  externalId: String
+  displayName: String
+  email: String
+  accessBlocked: Boolean
+  tags: [String]
+  personalInformation: VendorUserPersonalInformation
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type VendorUserPersonalInformation {
+  identityDetails: VendorUserIdentityDetails
+  contactInformation: VendorUserContactInformation
+}
+
+type VendorUserIdentityDetails {
+  lastName: String
+  legalNameConsistsOfOneName: Boolean
+  restOfName: String
+}
+
+type VendorUserContactInformation {
+  email: String
+}
+
+extend type Query {
+  vendorUser(id: ObjectID!): VendorUser
+  vendorUsers: [VendorUser]
+}
+
+extend type Mutation {
+  vendorUserCreate(input: VendorUserCreateInput!): VendorUserMutationResult!
+  vendorUserUpdate(input: VendorUserUpdateInput!): VendorUserMutationResult!
+}
+
+input VendorUserCreateInput {
+  externalId: String!
+  displayName: String!
+  email: String
+  accessBlocked: Boolean
+  tags: [String]
+  personalInformation: VendorUserPersonalInformationInput!
+}
+
+input VendorUserUpdateInput {
+  id: ObjectID!
+  displayName: String
+  email: String
+  accessBlocked: Boolean
+  tags: [String]
+  personalInformation: VendorUserPersonalInformationInput
+}
+
+input VendorUserPersonalInformationInput {
+  identityDetails: VendorUserIdentityDetailsInput
+  contactInformation: VendorUserContactInformationInput
+}
+
+input VendorUserIdentityDetailsInput {
+  lastName: String
+  legalNameConsistsOfOneName: Boolean
+  restOfName: String
+}
+
+input VendorUserContactInformationInput {
+  email: String
+}
+
+type VendorUserMutationResult {
+  status: MutationStatus!
+  user: VendorUser
+}

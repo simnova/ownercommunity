@@ -12,7 +12,7 @@
     "test": "npx jest --watchAll=true",
     "validate-graphql-schema": "ts-node src/functions/http-graphql/schema/builder/check-duplicate-types.ts",
     "generate-graphql-schema": "graphql-codegen --config src/functions/http-graphql/schema/builder/codegen.yml",
-    "gen": "clear && npm run validate-graphql-schema && npm run generate-graphql-schema",
+    "gen": "graphql-codegen --config src/functions/http-graphql/schema/builder/codegen.yml",
     "gen:watch": "graphql-codegen --config src/functions/http-graphql/schema/builder/codegen.yml --watch  --silent=false",
     "postinstall": "serenity-bdd update",
     "prebdd": "npm run bdd:clean && npm run bdd:build",

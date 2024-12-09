@@ -107,4 +107,4 @@ export const VendorUserRoleSchema = new Schema<VendorUserRole, Model<VendorUserR
   roleOptions
 ).index({ roleName: 1, community: 1 }, { unique: true });
 
-export const VendorUserRoleModel = RoleModel.discriminator('end-user-roles', VendorUserRoleSchema);
+export const VendorUserRoleModel = RoleModel.discriminator('vendor-user-roles', VendorUserRoleSchema);

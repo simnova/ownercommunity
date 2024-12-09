@@ -79,4 +79,4 @@ export const VendorUserSchema = new Schema<VendorUser, Model<VendorUser>, Vendor
   userOptions
 ).index({ 'personalInformation.contactInformation.email': 1 }, { sparse: true });
 
-export const VendorUserModel = UserModel.discriminator('end-users', VendorUserSchema);
+export const VendorUserModel = UserModel.discriminator('vendor-users', VendorUserSchema);

@@ -44,7 +44,8 @@ input VendorUserCreateInput {
   email: String
   accessBlocked: Boolean
   tags: [String]
-  personalInformation: VendorUserPersonalInformationInput!
+  userType: String
+  personalInformation: VendorUserPersonalInformationInput
 }
 
 input VendorUserUpdateInput {
@@ -53,6 +54,8 @@ input VendorUserUpdateInput {
   email: String
   accessBlocked: Boolean
   tags: [String]
+  externalId: String
+  userType: String
   personalInformation: VendorUserPersonalInformationInput
 }
 
@@ -72,6 +75,5 @@ input VendorUserContactInformationInput {
 }
 
 type VendorUserMutationResult {
-  status: MutationStatus!
   user: VendorUser
 }

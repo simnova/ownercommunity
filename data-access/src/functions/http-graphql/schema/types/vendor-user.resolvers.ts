@@ -2,7 +2,6 @@
 import { isValidObjectId } from 'mongoose';
 import { Resolvers } from '../builder/generated';
 
-
 const vendorUserResolvers: Resolvers = {
   VendorUser: {
     personalInformation: (parent) => parent.personalInformation,
@@ -17,11 +16,13 @@ const vendorUserResolvers: Resolvers = {
     },
   },
   Mutation: {
-    vendorUserCreate: async (parent, args, context, info ) => {
-     return null
+    vendorUserCreate: async (parent, args, context, info) => {
+      const user = await context.applicationServices.users.vendorUser.domainApi.addUser();
+      return { user };
     },
     vendorUserUpdate: async (parent, args, context, info) => {
-      return  null
+      const user = await context.applicationServices.users.vendorUser.domainApi.updateUser(args.input);
+      return { user };
     },
   },
 };

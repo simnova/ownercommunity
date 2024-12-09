@@ -1879,8 +1879,9 @@ export type VendorUserCreateInput = {
   displayName: Scalars['String'];
   email?: InputMaybe<Scalars['String']>;
   externalId: Scalars['String'];
-  personalInformation: VendorUserPersonalInformationInput;
+  personalInformation?: InputMaybe<VendorUserPersonalInformationInput>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  userType?: InputMaybe<Scalars['String']>;
 };
 
 export type VendorUserIdentityDetails = {
@@ -1898,7 +1899,6 @@ export type VendorUserIdentityDetailsInput = {
 
 export type VendorUserMutationResult = {
   __typename?: 'VendorUserMutationResult';
-  status: MutationStatus;
   user?: Maybe<VendorUser>;
 };
 
@@ -1917,9 +1917,11 @@ export type VendorUserUpdateInput = {
   accessBlocked?: InputMaybe<Scalars['Boolean']>;
   displayName?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
+  externalId?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   personalInformation?: InputMaybe<VendorUserPersonalInformationInput>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  userType?: InputMaybe<Scalars['String']>;
 };
 
 /** An Violation ticket describes violation ticket type. */

@@ -8,7 +8,9 @@ const vendorUserResolvers: Resolvers = {
   },
   Query: {
     vendorUser: async (parent, args, context, info) => {
-      if (!isValidObjectId(args.id)) throw new Error('Invalid User ID');
+      if (!isValidObjectId(args.id)) {
+        throw new Error('Invalid User ID');
+      }
       return await context.applicationServices.users.vendorUser.dataApi.getUserById(args.id);
     },
     vendorUsers: async (parent, args, context, info) => {

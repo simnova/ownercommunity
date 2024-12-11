@@ -13,7 +13,7 @@ export class CommunityVisaImplForVendorUserRole<root extends VendorUserRoleEntit
       console.log("Vendor User Role Visa : member is not a member of this community", this.member, this.root);
       return false;
     }
-    const communityPermissions = this.member.role.permissions.communityPermissions;
+    const { communityPermissions } = this.member.role.permissions;
     if(!communityPermissions) {
       console.log("Vendor User Role Visa : no community permissions");
       return false;

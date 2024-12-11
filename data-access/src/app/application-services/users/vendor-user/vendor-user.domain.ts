@@ -26,23 +26,32 @@ export class VendorUserDomainApiImpl extends DomainDataSource<AppContext, Vendor
       if (!domainObject || domainObject.externalId !== this.context.verifiedUser.verifiedJWT.sub) {
         throw new Error('Unauthorized');
       }
-      if (user.personalInformation?.identityDetails?.restOfName !== undefined)
+      if (user.personalInformation?.identityDetails?.restOfName !== undefined) {
         domainObject.personalInformation.identityDetails.RestOfName = user.personalInformation?.identityDetails?.restOfName;
+      }
 
-      if (user.personalInformation?.identityDetails?.lastName !== undefined)
+      if (user.personalInformation?.identityDetails?.lastName !== undefined) {
         domainObject.personalInformation.identityDetails.LastName = user.personalInformation?.identityDetails?.lastName;
+      }
 
-      if (user.personalInformation?.identityDetails?.legalNameConsistsOfOneName !== undefined)
+      if (user.personalInformation?.identityDetails?.legalNameConsistsOfOneName !== undefined) {
         domainObject.personalInformation.identityDetails.LegalNameConsistsOfOneName = user.personalInformation?.identityDetails?.legalNameConsistsOfOneName;
-
-      if (user.personalInformation?.contactInformation?.email !== undefined)
+      }
+      if (user.personalInformation?.contactInformation?.email !== undefined) {
         domainObject.personalInformation.contactInformation.Email = user.personalInformation?.contactInformation?.email;
+      }
 
-      if (user.displayName != undefined) domainObject.DisplayName = user.displayName;
+      if (user.displayName != undefined) {
+        domainObject.DisplayName = user.displayName;
+      }
 
-      if (user.accessBlocked !== undefined) domainObject.AccessBlocked = user.accessBlocked;
+      if (user.accessBlocked !== undefined) {
+        domainObject.AccessBlocked = user.accessBlocked;
+      }
 
-      if (user.externalId !== undefined) domainObject.ExternalId = user.externalId;
+      if (user.externalId !== undefined) {
+        domainObject.ExternalId = user.externalId;
+      }
 
       result = new VendorUserConverter().toPersistence(await repo.save(domainObject));
     });

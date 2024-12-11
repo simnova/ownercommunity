@@ -50,14 +50,18 @@ export class VendorUser<props extends VendorUserProps> extends AggregateRoot<pro
     let user = new VendorUser(newProps, context);
     user.MarkAsNew();
     user.ExternalId=(externalId);
+    
+    const { identityDetails } = user.personalInformation;
+
     if (restOfName !== undefined) {
-      user.personalInformation.identityDetails.RestOfName=(restOfName);
-      user.personalInformation.identityDetails.LegalNameConsistsOfOneName=(false);
-      user.DisplayName=(`${restOfName} ${lastName}`);
+      identityDetails.RestOfName = restOfName;
+      identityDetails.LegalNameConsistsOfOneName = false;
+      user.DisplayName = `${restOfName} ${lastName}`;
     } else {
-      user.personalInformation.identityDetails.LegalNameConsistsOfOneName=(true);
-      user.DisplayName=(lastName);
+      identityDetails.LegalNameConsistsOfOneName = true;
+      user.DisplayName = lastName;
     }
+
     user.personalInformation.identityDetails.LastName=(lastName);
     user.isNew = false;
     return user;

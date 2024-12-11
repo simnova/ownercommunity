@@ -47,3 +47,13 @@ export { MongoServiceTicketV1Repository as ServiceTicketV1Repository } from '../
 export { MongoViolationTicketV1UnitOfWork as ViolationTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.uow';
 export {  ViolationTicketV1DomainAdapter, ViolationTicketV1Converter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.domain-adapter';
 export { MongoViolationTicketV1Repository as ViolationTicketV1Repository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.mongo-repository';
+
+// vendor user role
+export { MongoVendorUserRoleUnitOfWork as VendorUserRoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/vendor-user-role/vendor-user-role.mongo-uow';
+export { VendorUserRoleDomainAdapter, VendorUserRoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/vendor-user-role/vendor-user-role.domain-adapter';
+export { MongoVendorUserRoleRepository as VendorUserRoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/vendor-user-role/vendor-user-role.mongo-repository';
+
+// end user
+export { MongoVendorUserUnitOfWork as VendorUserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/vendor-user/vendor-user.uow';
+export { VendorUserDomainAdapter, VendorUserConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/vendor-user/vendor-user.domain-adapter';
+export { MongoVendorUserRepository as VendorUserRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/vendor-user/vendor-user.mongo-repository';

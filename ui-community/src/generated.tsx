@@ -1463,6 +1463,7 @@ export type ServiceTicket = MongoBase & {
   __typename?: 'ServiceTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
   assignedTo?: Maybe<Member>;
+  assignedVendor?: Maybe<Scalars['String']>;
   community: Community;
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
@@ -1515,6 +1516,7 @@ export type ServiceTicketChangeStatusInput = {
 };
 
 export type ServiceTicketCreateInput = {
+  assignedVendor?: InputMaybe<Scalars['String']>;
   description: Scalars['String'];
   propertyId: Scalars['ObjectID'];
   requestorId?: InputMaybe<Scalars['ObjectID']>;
@@ -1573,6 +1575,7 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
+  assignedVendor?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
   priority?: InputMaybe<Scalars['Int']>;

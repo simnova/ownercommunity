@@ -13,7 +13,7 @@ type ServiceTicket implements MongoBase {
   activityLog: [ServiceTicketActivityDetail]
   messages: [ServiceTicketV1Message]
   revisionRequest: ServiceTicketV1RevisionRequest
-
+  assignedVendor: String
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -104,6 +104,7 @@ input ServiceTicketCreateInput {
   title: String!
   description: String!
   serviceId: ObjectID
+  assignedVendor:String
 }
 
 input ServiceTicketUpdateInput {
@@ -115,6 +116,7 @@ input ServiceTicketUpdateInput {
   serviceId: ObjectID
   messages: [ServiceTicketV1MessageInput]
   revisionRequest: ServiceTicketV1RevisionRequestUpdateInput
+  assignedVendor:String
 }
 
 input ServiceTicketV1MessageInput {

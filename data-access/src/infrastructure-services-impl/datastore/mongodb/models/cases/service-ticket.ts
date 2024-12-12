@@ -114,6 +114,7 @@ export interface ServiceTicket extends Ticket {
   hash: string;
   lastIndexed: Date;
   updateIndexFailedDate: Date;
+  assignedVendor: string
 }
 
 const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(
@@ -159,8 +160,9 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },
     updateIndexFailedDate: { type: Date, required: false },
+    assignedVendor: { type: String, required: false }
   },
-  ticketOptions
+  ticketOptions,
 );
 
 // TODO: Discriminator key and Version can't exist together, if we don't use version key it will fall back to __v

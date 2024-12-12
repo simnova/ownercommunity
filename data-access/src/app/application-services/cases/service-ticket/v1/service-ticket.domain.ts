@@ -73,6 +73,14 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
       serviceDo = new ServiceConverter().toDomain(service, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
     }
 
+    if(input.assignedVendor?.length) //check for empty, undefined, null
+    {
+      const vendorUser = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
+      if(!vendorUser?._id){
+        throw new Error('Vendor not found');
+      }
+    }
+
     console.log(`serviceTicketCreate:memberDO`, memberDo);
     console.log(`serviceTicketCreate:requestorId`, input.requestorId);
 
@@ -165,7 +173,14 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
           serviceTicket.revisionRequest.RevisionSubmittedAt = input.revisionRequest.revisionSubmittedAt;
         }
       }
-
+      
+      if(input.assignedVendor?.length) //check for empty, undefined, null
+      {
+        const vendorUser = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
+        if(!vendorUser?._id){
+          throw new Error('Vendor not found');
+        }
+      }  
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));
     });

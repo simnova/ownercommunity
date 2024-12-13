@@ -192,6 +192,15 @@ export type Approval = {
   isApplicantApproved?: Maybe<Scalars['Boolean']>;
 };
 
+export type ApprovedVendors = {
+  __typename?: 'ApprovedVendors';
+  approvedAt?: Maybe<Scalars['String']>;
+  approvedBy?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+};
+
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -237,6 +246,7 @@ export enum CacheControlScope {
 
 export type Community = MongoBase & {
   __typename?: 'Community';
+  approvedVendors?: Maybe<Array<Maybe<ApprovedVendors>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   domainStatus?: Maybe<CommunityDomainResult>;
@@ -2155,6 +2165,7 @@ export type ResolversTypes = ResolversObject<{
   AdhocPaymentRequestInput: AdhocPaymentRequestInput;
   AdhocTransaction: ResolverTypeWrapper<AdhocTransaction>;
   Approval: ResolverTypeWrapper<Approval>;
+  ApprovedVendors: ResolverTypeWrapper<ApprovedVendors>;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
@@ -2437,6 +2448,7 @@ export type ResolversParentTypes = ResolversObject<{
   AdhocPaymentRequestInput: AdhocPaymentRequestInput;
   AdhocTransaction: AdhocTransaction;
   Approval: Approval;
+  ApprovedVendors: ApprovedVendors;
   BedroomDetails: BedroomDetails;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars['BigInt'];
@@ -2786,6 +2798,18 @@ export type ApprovalResolvers<ContextType = GraphqlContext, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ApprovedVendorsResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ApprovedVendors'] = ResolversParentTypes['ApprovedVendors'],
+> = ResolversObject<{
+  approvedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  approvedBy?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  vendorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type BedroomDetailsResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['BedroomDetails'] = ResolversParentTypes['BedroomDetails'],
@@ -2838,6 +2862,7 @@ export interface ByteScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type CommunityResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Community'] = ResolversParentTypes['Community']> = ResolversObject<{
+  approvedVendors?: Resolver<Maybe<Array<Maybe<ResolversTypes['ApprovedVendors']>>>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   domainStatus?: Resolver<Maybe<ResolversTypes['CommunityDomainResult']>, ParentType, ContextType>;
@@ -4253,6 +4278,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   Address?: AddressResolvers<ContextType>;
   AdhocTransaction?: AdhocTransactionResolvers<ContextType>;
   Approval?: ApprovalResolvers<ContextType>;
+  ApprovedVendors?: ApprovedVendorsResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;

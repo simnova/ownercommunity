@@ -190,6 +190,15 @@ export type Approval = {
   isApplicantApproved?: Maybe<Scalars['Boolean']>;
 };
 
+export type ApprovedVendors = {
+  __typename?: 'ApprovedVendors';
+  approvedAt?: Maybe<Scalars['String']>;
+  approvedBy?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+};
+
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -235,6 +244,7 @@ export enum CacheControlScope {
 
 export type Community = MongoBase & {
   __typename?: 'Community';
+  approvedVendors?: Maybe<Array<Maybe<ApprovedVendors>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   domainStatus?: Maybe<CommunityDomainResult>;

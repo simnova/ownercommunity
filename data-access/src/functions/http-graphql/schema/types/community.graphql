@@ -13,6 +13,15 @@ type Community implements MongoBase {
   createdAt: DateTime
   updatedAt: DateTime
   userIsAdmin: Boolean
+  approvedVendors: [ApprovedVendors]
+}
+
+type ApprovedVendors {
+  vendorId: String
+  displayName: String
+  email: String
+  approvedBy: String
+  approvedAt: String
 }
 
 type CommunityDomainResult {

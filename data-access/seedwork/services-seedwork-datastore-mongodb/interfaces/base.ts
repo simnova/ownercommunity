@@ -47,5 +47,5 @@ export const Patterns = {
 
 
 export type FindQuery = {
-  _id: { $in: string[] };
+  _id?: { $in: string[] };
 };

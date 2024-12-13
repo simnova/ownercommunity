@@ -23,7 +23,7 @@ const GET_COUNTRY_DETAILS = gql`
     }
 `;
 
-const CountryInfo2: any = ({country, ...props} : CountryInfo2Prop ) => {
+export const CountryInfo2: any = ({country, ...props} : CountryInfo2Prop ) => {
   const {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
@@ -140,7 +140,4 @@ CountryInfo2.craft = {
 
 }
 
-export {
-  CountryInfo2
-};
 

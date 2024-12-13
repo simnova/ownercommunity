@@ -4,9 +4,7 @@ import { Container } from "./container";
 import { TextComponent } from "./text-component";
 import { TextThing } from "./text-thing";
 
-
-
-const CardTop = (props: any) => {
+export const CardTop = (props: any) => {
     
     const { connectors: {connect} } = useNode();
     return (
@@ -24,9 +22,7 @@ CardTop.craft = {
 }
 
 
-let Card: any;
-
-Card = () => {
+export const Card = () => {
     const {
         token: { colorTextBase, colorBgContainer }
       }=theme.useToken();
@@ -85,7 +81,3 @@ Card.craft = {
     }
 }
 
-export {
-    Card,
-    CardTop
-};

@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 
 const { Title } = Typography;
 
-const SiteEditorFiles: React.FC = (_props) => {
+export const SiteEditorFiles: React.FC = (_props) => {
   const params = useParams();
 
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -44,4 +44,3 @@ const SiteEditorFiles: React.FC = (_props) => {
     </Row>
   </div>
 }
-export { SiteEditorFiles };

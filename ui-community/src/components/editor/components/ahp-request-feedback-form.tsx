@@ -13,7 +13,7 @@ interface AhpRequestFeedbackFormProps {
   isAdmin: boolean;
 }
 
-const AhpRequestFeedbackFormTop = (props: any) => {
+export const AhpRequestFeedbackFormTop = (props: any) => {
   const {
     connectors: { connect }
   } = useNode();
@@ -26,7 +26,8 @@ AhpRequestFeedbackFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpRequestFeedbackForm: any = ({ changesRequested, isAdmin }: AhpRequestFeedbackFormProps) => {
+
+export const AhpRequestFeedbackForm: any = ({ changesRequested, isAdmin }: AhpRequestFeedbackFormProps) => {
   const {
     actions: {}
   } = useNode((state) => ({
@@ -129,5 +130,3 @@ AhpRequestFeedbackForm.craft = {
     padding: 0
   }
 };
-
-export { AhpRequestFeedbackForm, AhpRequestFeedbackFormTop };

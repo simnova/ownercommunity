@@ -10,9 +10,9 @@ interface TextProp {
   theme: string;
 }
 
-let MenuComponent:any;
+// let MenuComponent:any;
 
-MenuComponent = ({ theme, ...props } : TextProp) => {
+export const MenuComponent = ({ theme, ...props } : TextProp) => {
   const {
     token: { colorBgContainer }
   }=antdTheme.useToken();
@@ -107,8 +107,4 @@ MenuComponent.craft = {
   }
 
 }
-
-export {
-  MenuComponent
-};
 

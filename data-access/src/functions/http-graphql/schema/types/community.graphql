@@ -24,6 +24,14 @@ type ApprovedVendors {
   approvedAt: String
 }
 
+input ApprovedVendorsInput {
+  vendorId: String
+  displayName: String
+  email: String
+  approvedBy: String
+  approvedAt: String
+}
+
 type CommunityDomainResult {
   verified: Boolean
   verification: [CommunityDomainVerificationDetail]
@@ -67,6 +75,7 @@ input CommunityUpdateInput {
   domain: String
   whiteLabelDomain: String
   handle: String
+  approvedVendors: [ApprovedVendorsInput]
 }
 
 input CommunityBlobFileInput {

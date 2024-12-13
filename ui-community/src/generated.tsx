@@ -199,6 +199,14 @@ export type ApprovedVendors = {
   vendorId?: Maybe<Scalars['String']>;
 };
 
+export type ApprovedVendorsInput = {
+  approvedAt?: InputMaybe<Scalars['String']>;
+  approvedBy?: InputMaybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  vendorId?: InputMaybe<Scalars['String']>;
+};
+
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -334,6 +342,7 @@ export type CommunityPublicFileRemoveInput = {
 };
 
 export type CommunityUpdateInput = {
+  approvedVendors?: InputMaybe<Array<InputMaybe<ApprovedVendorsInput>>>;
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];

@@ -222,5 +222,3 @@ SiteEditorFilesList.defaultProps = {
   initialPageSize: 10,
   initialCurrentPage: 1
 };
-
-export default SiteEditorFilesList;

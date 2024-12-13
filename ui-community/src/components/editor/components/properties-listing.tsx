@@ -29,7 +29,7 @@ const GET_PROPERTIES_BY_COMMUNITY = gql`
 `;
 
 
-const PropertiesListing: any = () => {
+export const PropertiesListing: any = () => {
   const {
     token: { colorBgContainer }
   }=theme.useToken();
@@ -120,5 +120,3 @@ PropertiesListing.craft = {
     isDeletable: false
   }
 };
-
-export { PropertiesListing };

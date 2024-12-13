@@ -22,7 +22,8 @@ interface AhpIdFormConfirmationProps {
 }
 
 const communityId = '669ff09eae443cf6818a5bed';
-const AhpIdFormConfirmationTop = (props: any) => {
+
+export const AhpIdFormConfirmationTop = (props: any) => {
   const {
     connectors: { connect }
   } = useNode();
@@ -35,7 +36,8 @@ AhpIdFormConfirmationTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpIdFormConfirmation: any = ({ fileName, blobPath, response, value, submitted }: AhpIdFormConfirmationProps) => {
+
+export const AhpIdFormConfirmation: any = ({ fileName, blobPath, response, value, submitted }: AhpIdFormConfirmationProps) => {
   const {
     actions: { setProp }
   } = useNode((state) => ({
@@ -214,5 +216,3 @@ AhpIdFormConfirmation.craft = {
     padding: 0
   }
 };
-
-export { AhpIdFormConfirmation, AhpIdFormConfirmationTop };

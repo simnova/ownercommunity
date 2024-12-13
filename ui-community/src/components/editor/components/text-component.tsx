@@ -10,7 +10,7 @@ interface TextComponentProp {
     color?: string;
   }
 
-const TextComponent: any = ({text, fontSize, fontWeight }:TextComponentProp) => {
+export const TextComponent: any = ({text, fontSize, fontWeight }:TextComponentProp) => {
   const { connectors: {connect, drag} } = useNode();
 
   return (
@@ -69,7 +69,3 @@ TextComponent.craft = {
     settings: TextComponentSettings
   }
 }
-
-export {
-  TextComponent
-};

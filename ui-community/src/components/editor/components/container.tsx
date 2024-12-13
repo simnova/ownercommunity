@@ -16,7 +16,7 @@ interface ContainerProp {
 export type ContainerPropTypes = PropTypes.InferProps<typeof ContainerProps> & ContainerProp;
 
 
-const Container: any = ({ children }: ContainerProp) => {
+export const Container: any = ({ children }: ContainerProp) => {
   const { connectors: { connect, drag } } = useNode((state) =>(
     {
         selected: state.events.selected,
@@ -67,8 +67,4 @@ Container.craft = {
   related: {
     settings: ContainerSettings,
   }
-}
-
-export {
-  Container
 }

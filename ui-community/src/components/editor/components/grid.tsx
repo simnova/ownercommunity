@@ -8,7 +8,7 @@ interface GridProp {
   bgColor: string;
 }
 
-const Grid: any = ({ numOfCols, bgColor, ...props }: GridProp) => {
+export const Grid: any = ({ numOfCols, bgColor, ...props }: GridProp) => {
   const {
     connectors: { connect, drag }
   } = useNode((state) => ({
@@ -100,4 +100,3 @@ Grid.craft = {
   },
 };
 
-export { Grid };

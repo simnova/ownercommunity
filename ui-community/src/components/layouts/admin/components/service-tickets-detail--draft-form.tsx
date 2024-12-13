@@ -11,6 +11,7 @@ export interface ServiceTicketsDetailDraftFormProps {
   };
   onUpdate: (serviceTicket: ServiceTicketUpdateInput) => void;
 }
+
 export const ServiceTicketsDetailDraftForm : React.FC<ServiceTicketsDetailDraftFormProps> = (props) => 
 {
   const [editDraftForm] = Form.useForm<ServiceTicketUpdateInput>();

@@ -7,7 +7,7 @@ import { CommunityPropertyDetail } from '../../layouts/members/components/commun
 import { mockPropertyData } from './property-details.mock-data';
 
 
-const PropertyDetails: any = () => {
+export const PropertyDetails: any = () => {
     const params = useParams();
     const propertyId = params['*']?.slice(params['*'].lastIndexOf('/') + 1);
 
@@ -65,7 +65,3 @@ PropertyDetails.craft = {
         isDeletable: false,
     }
 }
-
-export {
-    PropertyDetails
-};

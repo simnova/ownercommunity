@@ -3,7 +3,6 @@ import { Button, Input } from 'antd';
 import { gql, useLazyQuery } from '@apollo/client';
 import { useState } from "react";
 
-
 const GET_COUNTRY_DETAILS = gql`
   query CountryDetails($country: ID!) {
       country(code: $country) {
@@ -19,7 +18,6 @@ const GET_COUNTRY_DETAILS = gql`
       }
     }
 `;
-
 
 export const CountryInfo = () => {
   const { connectors: { connect, drag } } = useNode();

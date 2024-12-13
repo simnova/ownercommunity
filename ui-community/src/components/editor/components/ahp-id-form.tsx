@@ -19,7 +19,7 @@ interface AhpIdFormProps {
 }
 
 const communityId = '669ff09eae443cf6818a5bed';
-const AhpIdFormTop = (props: any) => {
+export const AhpIdFormTop = (props: any) => {
   const {
     connectors: { connect }
   } = useNode();
@@ -32,7 +32,8 @@ AhpIdFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpIdForm: any = ({ fileName, blobPath }: AhpIdFormProps) => {
+
+export const AhpIdForm: any = ({ fileName, blobPath }: AhpIdFormProps) => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -168,5 +169,3 @@ AhpIdForm.craft = {
     padding: 0
   }
 };
-
-export { AhpIdForm, AhpIdFormTop };

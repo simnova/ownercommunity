@@ -44,6 +44,15 @@ export class CommunityDomainApiImpl
       throw new Error('Unauthorized');
     }
 
+    if(community.approvedVendors){
+      const {approvedVendors} = community;
+      const vendorIds:string[] = approvedVendors.map((vendor) => vendor.vendorId);
+      const vendors = await this._context.applicationServices.users.vendorUser.dataApi.getUsers({ _id: { $in: vendorIds } });
+      if(vendors.length !== approvedVendors.length){
+        throw new Error('Not all approved vendors exist');
+      }
+    }
+
     let result: CommunityData;
     await this.withTransaction(async (repo) => {
       let domainObject = await repo.get(community.id);
@@ -54,6 +63,7 @@ export class CommunityDomainApiImpl
       domainObject.Domain = (community.domain);
       domainObject.WhiteLabelDomain = (community.whiteLabelDomain);
       domainObject.Handle = (community.handle);
+      domainObject.ApprovedVendors = (community.approvedVendors);
       result = (new CommunityConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;

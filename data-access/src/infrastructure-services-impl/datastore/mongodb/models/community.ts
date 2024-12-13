@@ -8,7 +8,6 @@ export interface ApprovedVendor {
   displayName: string; //name of vendor user
   email: string; //email of vendor user
   approvedBy: string; //ref of staff user record from mongoDB
-  approvedAt: Date;
 }
 export interface Community extends Base {
   name: string;
@@ -24,7 +23,6 @@ export const approvedVendorSchema = new Schema<ApprovedVendor, Model<ApprovedVen
   displayName: { type: String, required: true },
   email: { type: String, required: true },
   approvedBy: { type: String, required: true },
-  approvedAt: { type: Date, required: true },
 })
 
 export const CommunityModel = model<Community>('Community',new Schema<Community, Model<Community>, Community>(

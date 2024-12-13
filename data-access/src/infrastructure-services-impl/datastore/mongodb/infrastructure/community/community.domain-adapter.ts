@@ -50,6 +50,14 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community, Inf
     this.doc.handle = handle;
   }
 
+  get approvedVendors() {
+    return this.doc.approvedVendors;
+  }
+  set approvedVendors(approvedVendors) {
+    this.doc.approvedVendors = approvedVendors;
+  }
+
+
   get createdBy(): EndUserProps {
     if (this.doc.createdBy) {
       return new EndUserDomainAdapter(this.doc.createdBy, this.infrastructureContext);

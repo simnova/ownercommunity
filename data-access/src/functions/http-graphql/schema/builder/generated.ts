@@ -194,7 +194,6 @@ export type Approval = {
 
 export type ApprovedVendors = {
   __typename?: 'ApprovedVendors';
-  approvedAt?: Maybe<Scalars['String']>;
   approvedBy?: Maybe<Scalars['String']>;
   displayName?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -202,11 +201,10 @@ export type ApprovedVendors = {
 };
 
 export type ApprovedVendorsInput = {
-  approvedAt?: InputMaybe<Scalars['String']>;
-  approvedBy?: InputMaybe<Scalars['String']>;
-  displayName?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  vendorId?: InputMaybe<Scalars['String']>;
+  approvedBy: Scalars['String'];
+  displayName: Scalars['String'];
+  email: Scalars['String'];
+  vendorId: Scalars['String'];
 };
 
 export type BedroomDetails = MongoSubdocument & {
@@ -2813,7 +2811,6 @@ export type ApprovedVendorsResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['ApprovedVendors'] = ResolversParentTypes['ApprovedVendors'],
 > = ResolversObject<{
-  approvedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   approvedBy?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

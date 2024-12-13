@@ -21,15 +21,13 @@ type ApprovedVendors {
   displayName: String
   email: String
   approvedBy: String
-  approvedAt: String
 }
 
 input ApprovedVendorsInput {
-  vendorId: String
-  displayName: String
-  email: String
-  approvedBy: String
-  approvedAt: String
+  vendorId: String!
+  displayName: String!
+  email: String!
+  approvedBy: String!
 }
 
 type CommunityDomainResult {

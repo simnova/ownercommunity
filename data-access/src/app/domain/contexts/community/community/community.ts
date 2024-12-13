@@ -6,6 +6,7 @@ import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../d
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
+import { ApprovedVendor } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
 
 export interface CommunityProps extends DomainEntityProps {
   name: string;
@@ -17,6 +18,7 @@ export interface CommunityProps extends DomainEntityProps {
   readonly schemaVersion: string;
   readonly createdBy: EndUserProps;
   setCreatedByRef(user: EndUserEntityReference): void;
+  approvedVendors?: ApprovedVendor[];
 }
 
 export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 'createdBy' | 'setCreatedByRef'>> {
@@ -108,6 +110,13 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
       throw new Error('You do not have permission to change the handle of this community');
     }
     this.props.handle = handle ? new ValueObjects.Handle(handle).valueOf() : null;
+  }
+
+  set ApprovedVendors(approvedVendors: ApprovedVendor[]) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
+      throw new Error('You do not have permission to change the handle of this community');
+    }
+    this.props.approvedVendors = approvedVendors ? new ValueObjects.ApprovedVendors(approvedVendors).valueOf() : null;
   }
 
   set CreatedBy(createdBy: EndUserEntityReference) {

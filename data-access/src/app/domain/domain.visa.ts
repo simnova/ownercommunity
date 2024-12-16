@@ -29,6 +29,10 @@ import { StaffUserPermissionsSpec, StaffUserVisa, StaffUserVisaImpl } from "./co
 
 import { ViolationTicketV1EntityReference } from './contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Visa, ViolationTicketV1VisaImpl, ViolationTicketPermissionsSpec } from './contexts/cases/violation-ticket/v1/violation-ticket.visa';
+import { VendorUserRoleEntityReference } from "./contexts/community/roles/vendor-user-role/vendor-user-role";
+import { VendorUserEntityReference } from "./contexts/users/vendor-user/vendor-user";
+import { VendorUserVisa, VendorUserVisaImpl } from "./contexts/users/vendor-user/vendor-user.visa";
+import { CommunityVisaImplForVendorUserRole } from "./contexts/community/roles/vendor-user-role/community.visa-impl.for-vendor-user-role";
 
 export const SystemUserId = 'system';
 
@@ -43,7 +47,9 @@ export interface DomainVisa {
   forProperty(root: PropertyEntityReference):  PropertyVisa;
   forService(root: ServiceEntityReference): ServiceVisa;
   forServiceTicketV1(root: ServiceTicketV1EntityReference): ServiceTicketV1Visa;
-  forViolationTicketV1(root: ViolationTicketV1EntityReference): ViolationTicketV1Visa
+  forViolationTicketV1(root: ViolationTicketV1EntityReference): ViolationTicketV1Visa;
+  forVendorUserRole(root: VendorUserRoleEntityReference): CommunityVisa;
+  forVendorUser(root: VendorUserEntityReference):  VendorUserVisa;
 }
 
 export class DomainVisaImpl implements DomainVisa {
@@ -92,6 +98,12 @@ export class DomainVisaImpl implements DomainVisa {
   forViolationTicketV1(root: ViolationTicketV1EntityReference): ViolationTicketV1Visa {
     return new ViolationTicketV1VisaImpl(root,this.member);
   }
+  forVendorUserRole(root: VendorUserRoleEntityReference): CommunityVisa {
+    return new CommunityVisaImplForVendorUserRole(root,this.member);
+  }
+  forVendorUser(root: VendorUserEntityReference):  VendorUserVisa {
+    return new VendorUserVisaImpl(root,this.user as VendorUserEntityReference);
+  }   
 }
 
 export class ReadOnlyDomainVisa implements DomainVisa {
@@ -132,6 +144,12 @@ export class ReadOnlyDomainVisa implements DomainVisa {
     return {determineIf:  () => false }; 
   }
   forViolationTicketV1(_root: ViolationTicketV1EntityReference): ViolationTicketV1Visa {
+    return {determineIf:  () => false }; 
+  }
+  forVendorUserRole(_root: VendorUserRoleEntityReference): CommunityVisa {
+    return {determineIf:  () => false }; 
+  }
+  forVendorUser(_root: VendorUserEntityReference): VendorUserVisa {
     return {determineIf:  () => false }; 
   }
 }
@@ -217,5 +235,11 @@ export class SystemDomainVisa implements DomainVisa {
   }
   forViolationTicketV1(root: ViolationTicketV1EntityReference): ViolationTicketV1Visa {
     return {determineIf:  (func) => func(this.violationTicketPermissionsForSystem) };
+  }
+  forVendorUserRole(root: VendorUserRoleEntityReference): CommunityVisa {
+    return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
+  }
+  forVendorUser(root: VendorUserEntityReference): VendorUserVisa {
+    return {determineIf:  () => false }; 
   }
 }

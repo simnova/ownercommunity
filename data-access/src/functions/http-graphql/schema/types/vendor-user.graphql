@@ -1,4 +1,3 @@
-# vendor-user.graphql
 type VendorUser implements MongoBase {
   externalId: String
   displayName: String

@@ -19,7 +19,7 @@ import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceT
 import { ServiceTicketV1RevisionRequest, ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from './service-ticket-v1-revision-request';
 import { ServiceTicketV1SyncDomainEventFactory, ServiceTicketV1SyncDomainEventFactoryImpl } from './sync-domain-events/service-ticket-v1.sync-domain-event-factory';
 import { ServiceTicketV1SyncDomainEventHandlers } from './sync-domain-events/service-ticket-v1.sync-domain-event-handlers';
-
+import { VendorUserEntityReference, VendorUserProps } from '../../../users/vendor-user/vendor-user';
 
 export interface ServiceTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
@@ -37,6 +37,9 @@ export interface ServiceTicketV1Props extends DomainEntityProps {
   readonly ticketType?: string;
   status: string;
   priority: number;
+  readonly assignedVendor: VendorUserProps;
+  setAssignedVendorRef(assignedVendor: VendorUserEntityReference): void;
+
   readonly activityLog: PropArray<ActivityDetailProps>;
   readonly messages: PropArray<ServiceTicketV1MessageProps>;
   readonly revisionRequest?: ServiceTicketV1RevisionRequestProps;
@@ -69,6 +72,8 @@ export interface ServiceTicketV1EntityReference
       | 'messages'
       | 'photos'
       | 'revisionRequest'
+      | 'assignedVendor'
+      | 'setAssignedVendorRef'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -80,6 +85,7 @@ export interface ServiceTicketV1EntityReference
   readonly messages: ReadonlyArray<ServiceTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
+  readonly assignedVendor: VendorUserEntityReference;
 }
 
 export interface ServiceTicketV1RootRegistry extends AggregateRootTypeForApplicationService<DomainExecutionContext> {
@@ -106,7 +112,8 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     community: CommunityEntityReference,
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
-    context: DomainExecutionContext
+    context: DomainExecutionContext,
+    assignedVendor: VendorUserEntityReference
   ): ServiceTicketV1<props> {
     let serviceTicket = new ServiceTicketV1(newProps, context);
     serviceTicket.MarkAsNew();
@@ -120,6 +127,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Priority = 5;
     serviceTicket.syncDomainEventFactory.addServiceTicketV1CreatedEvent({ requestor });
     serviceTicket.isNew = false;
+    serviceTicket.AssignedVendor = assignedVendor;
     return serviceTicket;
   }
 
@@ -188,6 +196,10 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     return this.props.revisionRequest ? new ServiceTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa) : undefined;
   }
 
+  get assignedVendor() {
+    return this.props.assignedVendor
+  }
+
   private readonly validStatusTransitions = new Map<string, string[]>([
     [ValueObjects.StatusCodes.Draft, [ValueObjects.StatusCodes.Submitted]],
     [ValueObjects.StatusCodes.Submitted, [ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
@@ -239,6 +251,16 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     this.props.setRequestorRef(requestor);
   }
 
+  private set AssignedVendor(assignedVendor: VendorUserEntityReference) {
+    if (!this.isNew) {
+      throw new Error('Unauthorized');
+    }
+    if (!assignedVendor) {
+      throw new Error('assignedVendor cannot be null or undefined');
+    }
+    this.props.setAssignedVendorRef(assignedVendor);
+  }
+
   set AssignedTo(assignedTo: MemberEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canAssignTickets)) {
       throw new Error('Unauthorized2');
@@ -275,7 +297,18 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     }
     this.props.description = new ValueObjects.Description(description).valueOf();
   }
+
+
   
+  setAssignedVendorRef(assignedVendor: VendorUserEntityReference) {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))
+    ) {
+      throw new Error('Unauthorized3b');
+    }
+    this.props.setAssignedVendorRef (assignedVendor)
+  }
 
   set Status(statusCode: ValueObjects.StatusCode) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount)) {

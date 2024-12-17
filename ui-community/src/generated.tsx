@@ -190,21 +190,6 @@ export type Approval = {
   isApplicantApproved?: Maybe<Scalars['Boolean']>;
 };
 
-export type ApprovedVendors = {
-  __typename?: 'ApprovedVendors';
-  approvedBy?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  vendorId?: Maybe<Scalars['String']>;
-};
-
-export type ApprovedVendorsInput = {
-  approvedBy: Scalars['String'];
-  displayName: Scalars['String'];
-  email: Scalars['String'];
-  vendorId: Scalars['String'];
-};
-
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -250,7 +235,7 @@ export enum CacheControlScope {
 
 export type Community = MongoBase & {
   __typename?: 'Community';
-  approvedVendors?: Maybe<Array<Maybe<ApprovedVendors>>>;
+  approvedVendors?: Maybe<Array<Maybe<VendorUser>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   domainStatus?: Maybe<CommunityDomainResult>;
@@ -340,7 +325,7 @@ export type CommunityPublicFileRemoveInput = {
 };
 
 export type CommunityUpdateInput = {
-  approvedVendors?: InputMaybe<Array<InputMaybe<ApprovedVendorsInput>>>;
+  approvedVendors?: InputMaybe<Array<InputMaybe<Scalars['ObjectID']>>>;
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -1480,7 +1465,7 @@ export type ServiceTicket = MongoBase & {
   __typename?: 'ServiceTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
   assignedTo?: Maybe<Member>;
-  assignedVendor?: Maybe<Scalars['String']>;
+  assignedVendor?: Maybe<VendorUser>;
   community: Community;
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
@@ -1533,7 +1518,6 @@ export type ServiceTicketChangeStatusInput = {
 };
 
 export type ServiceTicketCreateInput = {
-  assignedVendor?: InputMaybe<Scalars['String']>;
   description: Scalars['String'];
   propertyId: Scalars['ObjectID'];
   requestorId?: InputMaybe<Scalars['ObjectID']>;

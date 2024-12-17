@@ -6,7 +6,7 @@ import { DomainExecutionContext, SystemDomainExecutionContext } from '../../../d
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
-import { ApprovedVendor } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
+import { VendorUserEntityReference, VendorUserProps } from '../../users/vendor-user/vendor-user';
 
 export interface CommunityProps extends DomainEntityProps {
   name: string;
@@ -18,11 +18,13 @@ export interface CommunityProps extends DomainEntityProps {
   readonly schemaVersion: string;
   readonly createdBy: EndUserProps;
   setCreatedByRef(user: EndUserEntityReference): void;
-  approvedVendors?: ApprovedVendor[];
+  readonly approvedVendors?: VendorUserProps[];
+  setApprovedVendorsRef(approvedVendors: VendorUserEntityReference[]): void;
 }
 
-export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 'createdBy' | 'setCreatedByRef'>> {
+export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 'createdBy' | 'setCreatedByRef' | 'approvedVendors' | 'setApprovedVendorsRef'>> {
   readonly createdBy: EndUserEntityReference;
+  readonly approvedVendors?: VendorUserEntityReference[];
 }
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props, DomainExecutionContext, CommunityVisa> implements CommunityEntityReference {
@@ -112,11 +114,14 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     this.props.handle = handle ? new ValueObjects.Handle(handle).valueOf() : null;
   }
 
-  set ApprovedVendors(approvedVendors: ApprovedVendor[]) {
+  set ApprovedVendors(approvedVendors: VendorUserEntityReference[]) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the handle of this community');
     }
-    this.props.approvedVendors = approvedVendors ? new ValueObjects.ApprovedVendors(approvedVendors).valueOf() : null;
+    if (approvedVendors === null || approvedVendors === undefined) {
+      throw new Error('createdBy cannot be null or undefined');
+    }
+    this.props.setApprovedVendorsRef(approvedVendors);
   }
 
   set CreatedBy(createdBy: EndUserEntityReference) {

@@ -13,7 +13,35 @@ type ServiceTicket implements MongoBase {
   activityLog: [ServiceTicketActivityDetail]
   messages: [ServiceTicketV1Message]
   revisionRequest: ServiceTicketV1RevisionRequest
-  assignedVendor: String
+  assignedVendor: VendorUser
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type VendorUserPersonalInformation {
+  identityDetails: VendorUserIdentityDetails
+  contactInformation: VendorUserContactInformation
+}
+
+type VendorUserIdentityDetails {
+  lastName: String
+  legalNameConsistsOfOneName: Boolean
+  restOfName: String
+}
+
+type VendorUserContactInformation {
+  email: String
+}
+
+type VendorUser implements MongoBase {
+  externalId: String
+  displayName: String
+  email: String
+  accessBlocked: Boolean
+  tags: [String]
+  personalInformation: VendorUserPersonalInformation
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -104,7 +132,6 @@ input ServiceTicketCreateInput {
   title: String!
   description: String!
   serviceId: ObjectID
-  assignedVendor:String
 }
 
 input ServiceTicketUpdateInput {
@@ -116,7 +143,7 @@ input ServiceTicketUpdateInput {
   serviceId: ObjectID
   messages: [ServiceTicketV1MessageInput]
   revisionRequest: ServiceTicketV1RevisionRequestUpdateInput
-  assignedVendor:String
+  assignedVendor:ObjectID
 }
 
 input ServiceTicketV1MessageInput {

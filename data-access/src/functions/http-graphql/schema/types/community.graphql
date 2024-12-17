@@ -13,22 +13,37 @@ type Community implements MongoBase {
   createdAt: DateTime
   updatedAt: DateTime
   userIsAdmin: Boolean
-  approvedVendors: [ApprovedVendors]
+  approvedVendors: [VendorUser]
 }
 
-type ApprovedVendors {
-  vendorId: String
+type VendorUserPersonalInformation {
+  identityDetails: VendorUserIdentityDetails
+  contactInformation: VendorUserContactInformation
+}
+
+type VendorUserIdentityDetails {
+  lastName: String
+  legalNameConsistsOfOneName: Boolean
+  restOfName: String
+}
+
+type VendorUserContactInformation {
+  email: String
+}
+
+type VendorUser implements MongoBase {
+  externalId: String
   displayName: String
   email: String
-  approvedBy: String
+  accessBlocked: Boolean
+  tags: [String]
+  personalInformation: VendorUserPersonalInformation
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
-input ApprovedVendorsInput {
-  vendorId: String!
-  displayName: String!
-  email: String!
-  approvedBy: String!
-}
 
 type CommunityDomainResult {
   verified: Boolean
@@ -73,7 +88,7 @@ input CommunityUpdateInput {
   domain: String
   whiteLabelDomain: String
   handle: String
-  approvedVendors: [ApprovedVendorsInput]
+  approvedVendors: [ObjectID]
 }
 
 input CommunityBlobFileInput {

@@ -15,6 +15,7 @@ import {
   ServiceDomainAdapter,
   ServiceConverter,
   ServiceTicketV1Converter,
+  VendorUserConverter,
 } from '../../../../external-dependencies/domain';
 import {
   ServiceTicketAddUpdateActivityInput,
@@ -71,14 +72,6 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
     if (input.serviceId) {
       let service = await this.context.applicationServices.service.dataApi.getServiceById(input.serviceId);
       serviceDo = new ServiceConverter().toDomain(service, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
-    }
-
-    if(input.assignedVendor?.length) //check for empty, undefined, null
-    {
-      const vendorUser = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
-      if(!vendorUser?._id){
-        throw new Error('Vendor not found');
-      }
     }
 
     console.log(`serviceTicketCreate:memberDO`, memberDo);
@@ -176,10 +169,10 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
       
       if(input.assignedVendor?.length) //check for empty, undefined, null
       {
-        const vendorUser = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
-        if(!vendorUser?._id){
-          throw new Error('Vendor not found');
-        }
+        
+        let vendor = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
+        let vendorDo = new VendorUserConverter().toDomain(vendor, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
+        serviceTicket.AssignedVendor = vendorDo;
       }  
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));

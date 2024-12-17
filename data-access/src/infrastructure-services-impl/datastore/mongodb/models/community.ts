@@ -1,29 +1,15 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc } from 'mongoose';
 import { Base } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as EndUser from './users/end-user';
-
-
-export interface ApprovedVendor {
-  vendorId: string; //ref of vendor user record form mongoDB
-  displayName: string; //name of vendor user
-  email: string; //email of vendor user
-  approvedBy: string; //ref of staff user record from mongoDB
-}
+import { VendorUser, VendorUserModel } from './users/vendor-user';
 export interface Community extends Base {
   name: string;
   domain: string;
   whiteLabelDomain: string;
   handle: string;
-  approvedVendors?: ApprovedVendor[];
+  approvedVendors?: PopulatedDoc<VendorUser>[] | ObjectId[];
   createdBy:PopulatedDoc<EndUser.EndUser> | ObjectId;
 }
-
-export const approvedVendorSchema = new Schema<ApprovedVendor, Model<ApprovedVendor>, ApprovedVendor>({
-  vendorId: { type: String, required: true },
-  displayName: { type: String, required: true },
-  email: { type: String, required: true },
-  approvedBy: { type: String, required: true },
-})
 
 export const CommunityModel = model<Community>('Community',new Schema<Community, Model<Community>, Community>(
   {
@@ -40,7 +26,7 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
       required: false, 
       maxlength: 50,
     },
-    approvedVendors: { type: [approvedVendorSchema], required: false },
+    approvedVendors: { type: [{type: Schema.Types.ObjectId, ref:VendorUserModel}], required: false },
     createdBy: { type: Schema.Types.ObjectId, ref: EndUser.EndUserModel.modelName, required: true},
   },
 

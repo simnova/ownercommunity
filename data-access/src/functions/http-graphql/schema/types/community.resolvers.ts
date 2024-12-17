@@ -1,6 +1,7 @@
-import { Resolvers, Community, CommunityMutationResult, Role } from '../builder/generated';
+import { Resolvers, Community, CommunityMutationResult, Role, VendorUser } from '../builder/generated';
 import { Community as CommunityDo } from '../../../../infrastructure-services-impl/datastore/mongodb/models/community';
 import { applyPermission, applyPermissionFilter, checkAccountPortalAccess, checkAnyAccess, checkStaffPortalAccess, checkSystemAccess } from '../resolver-helper';
+import { isValidObjectId } from 'mongoose';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
@@ -54,6 +55,27 @@ const community: Resolvers = {
       }
       return null;
     },
+    approvedVendors: async (rootObj: Community, _args, { applicationServices, passport }) => {
+      if (
+        checkPermission(
+          passport,
+          rootObj,
+          (permissions) =>
+            permissions.canManageAllCommunities ||
+            (permissions.canManageSiteContent && rootObj.approvedVendors?.length)
+        )
+      ) {
+        return rootObj.approvedVendors.map(async (vendor) => {
+          if (isValidObjectId(vendor.toString())) {
+            return (await applicationServices.users.vendorUser.dataApi.getUserById(
+              vendor.toString()
+            )) as VendorUser;
+          }
+        });
+      }
+      return null;
+    }
+    
   },
   Query: {
     community: async (_, _args, { applicationServices, verifiedUser, passport, member }) => {

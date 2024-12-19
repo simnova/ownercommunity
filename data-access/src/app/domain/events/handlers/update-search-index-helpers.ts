@@ -6,8 +6,7 @@ import { SearchIndex } from "@azure/search-documents";
 export const generateHash = (indexDoc: Partial<any>) => {
   const docCopy = JSON.parse(JSON.stringify(indexDoc));
   delete docCopy.updatedAt;
-  const hash = crypto.createHash("sha256").update(JSON.stringify(docCopy)).digest("base64");
-  return hash;
+  return crypto.createHash("sha256").update(JSON.stringify(docCopy)).digest("base64");
 };
 
 const updateSearchIndex = async (cognitiveSearch: CognitiveSearchDomain, indexDefinition: SearchIndex, indexDoc: Partial<any>) => {

@@ -1,6 +1,6 @@
-import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from "@azure/identity";
-import { SearchIndexClient, SearchClient, SearchIndex, SearchDocumentsResult, AzureKeyCredential } from "@azure/search-documents";
-import { CognitiveSearchBase } from "../services-seedwork-cognitive-search-interfaces";
+import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
+import { SearchIndexClient, SearchClient, SearchIndex, SearchDocumentsResult, AzureKeyCredential } from '@azure/search-documents';
+import { CognitiveSearchBase } from '../services-seedwork-cognitive-search-interfaces';
 
 export class AzCognitiveSearch implements CognitiveSearchBase {
   private client: SearchIndexClient;
@@ -14,9 +14,9 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
     return value;
   }
 
-  constructor(searchKey: string, endpoint: string) {
+  constructor(endpoint: string) {
     let credentials: TokenCredential;
-    if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       credentials = new DefaultAzureCredential();
     } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
       credentials = new DefaultAzureCredential({ ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
@@ -26,13 +26,14 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
     this.client = new SearchIndexClient(endpoint, credentials);
   }
 
-  async initializeSearchClients(): Promise<void> {
-    const indexNames = this.client.listIndexesNames();
-    for await (const indexName of indexNames) {
-      this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+  private getSearchClient(indexName: string): SearchClient<unknown> {
+    let client = this.searchClients.get(indexName);
+    if (!client) {
+      client = this.client.getSearchClient(indexName);
+      this.searchClients.set(indexName, client);
     }
+    return client;
   }
-
 
   // check if index exists
   async indexExists(indexName: string): Promise<boolean> {
@@ -42,9 +43,13 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
   async createIndexIfNotExists(indexDefinition: SearchIndex): Promise<void> {
     const indexExists = this.indexExists(indexDefinition.name);
     if (!indexExists) {
-      await this.client.createIndex(indexDefinition);
-      this.searchClients.set(indexDefinition.name, this.client.getSearchClient(indexDefinition.name));
-      console.log(`Index ${indexDefinition.name} created`);
+      try {
+        await this.client.createIndex(indexDefinition);
+        this.searchClients.set(indexDefinition.name, this.client.getSearchClient(indexDefinition.name));
+        console.log(`Index ${indexDefinition.name} created`);
+      } catch (error) {
+        throw new Error(`Failed to create index ${indexDefinition.name}: ${error.message}`);
+      }
     }
   }
 
@@ -65,10 +70,9 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
 
   async search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const startTime = new Date();
-    const result = await this.searchClients.get(indexName).search(searchText, options);
-     const endTime = new Date();
-     console.log(`SearchLibrary took ${endTime.getTime() - startTime.getTime()}ms`);
-     return result
+    const result = await this.getSearchClient(indexName).search(searchText, options);
+    console.log(`SearchLibrary took ${new Date().getTime() - startTime.getTime()}ms`);
+    return result;
   }
 
   async deleteDocument(indexName: string, document: any): Promise<void> {

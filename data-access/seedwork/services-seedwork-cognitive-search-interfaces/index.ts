@@ -3,10 +3,11 @@ export { SearchDocumentsResult, SearchIndex, GeographyPoint } from '@azure/searc
 
 
 export interface CognitiveSearchBase {
-  createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void>;
+  createIndexIfNotExists(indexDefinition: SearchIndex): Promise<void>;
   createOrUpdateIndexDefinition(indexName: string, indexDefinition: SearchIndex): Promise<void>;
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   deleteIndex(indexName: string): Promise<void>;
   indexExists(indexName: string): Promise<boolean>;
+  initializeSearchClients(): Promise<void>;
 }

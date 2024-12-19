@@ -19,7 +19,7 @@ export interface CommunityProps extends DomainEntityProps {
   readonly createdBy: EndUserProps;
   setCreatedByRef(user: EndUserEntityReference): void;
   readonly approvedVendors?: VendorUserProps[];
-  setApprovedVendorsRef(approvedVendors: VendorUserEntityReference[]): void;
+  setApprovedVendorsRef?: (approvedVendors: VendorUserEntityReference[]) => void;
 }
 
 export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 'createdBy' | 'setCreatedByRef' | 'approvedVendors' | 'setApprovedVendorsRef'>> {

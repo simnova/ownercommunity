@@ -9,7 +9,6 @@ export interface ServiceTicketV1DataApi {
   getServiceTicketsOpenByRequestor(memberId: string): Promise<ServiceTicketData[]>;
   getServiceTicketsClosedByRequestor(memberId: string): Promise<ServiceTicketData[]>;
   getServiceTicketsByAssignedTo(communityId: string, memberId: string): Promise<ServiceTicketData[]>; 
-  getServiceTicketsByVendor(vendorId: string): Promise<ServiceTicketData[]>;
 }
 
 export class ServiceTicketV1DataApiImpl
@@ -36,10 +35,6 @@ export class ServiceTicketV1DataApiImpl
   }
   async getServiceTicketsByAssignedTo(communityId: string, memberId: string): Promise<ServiceTicketData[]> {
     let dbData = await this.findByFields({ community: communityId, assignedTo: memberId });
-    return this.applyPermissionFilter(dbData, this.context);
-  }
-  async getServiceTicketsByVendor(vendorId: string): Promise<ServiceTicketData[]> {
-    let dbData = await this.findByFields({ assignedVendor: vendorId });
     return this.applyPermissionFilter(dbData, this.context);
   }
 

@@ -11,9 +11,8 @@ beforeAll(() => {
 let cognitiveSearch;
 
 beforeEach(() => {
-  const searchKey = process.env.SEARCH_API_KEY;
   const endpoint = process.env.SEARCH_API_ENDPOINT;
-  cognitiveSearch = new AzCognitiveSearch(searchKey, endpoint);
+  cognitiveSearch = new AzCognitiveSearch(endpoint);
 });
 
 test.skip('Initialize cognitive search object', () => {

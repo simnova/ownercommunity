@@ -101,7 +101,6 @@ export class PropertySearchApiImpl extends CognitiveSearchDataSource<AppContext>
       }
     }
 
-    console.log('filterStrings: ', filterStrings.join(' and '));
 
     return filterStrings.join(' and ');
   }
@@ -115,26 +114,17 @@ export class PropertySearchApiImpl extends CognitiveSearchDataSource<AppContext>
   }
 
   async propertiesSearch(input: PropertiesSearchInput): Promise<PropertySearchResult> {
-   
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, searchService) => {
       // for the first time, create the index
-      const indexExists = await searchService.indexExists(PropertyListingIndexSpec.name);
-      if (!indexExists) {
-        console.log(`Index ${PropertyListingIndexSpec.name} does not exist, creating it...`);
-        await searchService.createIndexIfNotExists(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
-        return undefined;
-      }
+      await searchService.createIndexIfNotExists(PropertyListingIndexSpec);
 
       let searchString = '';
       if (!input.options.filter?.position) {
         searchString = input.searchString.trim();
       }
-  
-      console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
+
       let filterString = this.getFilterString(input.options.filter);
-      console.log('filterString: ', filterString);
-  
 
       searchResults = await searchService.search('property-listings', searchString, {
         queryType: 'full',
@@ -148,7 +138,6 @@ export class PropertySearchApiImpl extends CognitiveSearchDataSource<AppContext>
       });
     });
 
-    console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);
     const results = this.convertToGraphqlResponse(searchResults, input);
     return results;
   }

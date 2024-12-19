@@ -49,7 +49,6 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       }
     }
 
-    
     return filterStrings.join(' and ');
   }
 
@@ -85,9 +84,7 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
   async serviceTicketsSearch(input: ServiceTicketsSearchInput, memberId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     let searchString = input.searchString.trim();
 
-    console.log(`Resolver>Query>serviceTicketsSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter, memberId);
-    console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, search) => {
@@ -103,7 +100,6 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       });
     });
 
-    console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
   }
 
@@ -113,9 +109,7 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       searchString = input.searchString.trim();
     }
 
-    console.log(`Resolver>Query>serviceTicketsSearchAdmin: ${searchString}`);
     let filterString = this.getFilterStringAdmin(input ? input.options.filter : null, communityId);
-    console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, search) => {
@@ -129,7 +123,6 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       });
     });
 
-    console.log(`Resolver>Query>serviceTicketsSearchAdmin ${JSON.stringify(searchResults)}`);
     return searchResults;
   }
 
@@ -152,17 +145,17 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
     };
   }
 
-  async reIndexServiceTickets():Promise<SearchDocumentsResult<Pick<unknown, never>>> {
+  async reIndexServiceTickets(): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     // drop index, create a brand new index
     await this.withSearch(async (_passport, searchService) => {
       await searchService.deleteIndex(ServiceTicketIndexSpec.name);
-      await searchService.createIndexIfNotExists(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+      await searchService.createIndexIfNotExists(ServiceTicketIndexSpec);
     });
 
     const context = await ReadOnlyDomainExecutionContext();
     const ids = await this.context.applicationServices.service.dataApi.getAllIds();
 
-    await ServiceTicketV1UnitOfWork.withTransaction(context, ReadOnlyInfrastructureContext() ,async (repo) => {
+    await ServiceTicketV1UnitOfWork.withTransaction(context, ReadOnlyInfrastructureContext(), async (repo) => {
       const searchDocs: Partial<ServiceTicketIndexDocument>[] = [];
 
       // loop through ids, get objects, convert to domain objects, convert to index document, update search index

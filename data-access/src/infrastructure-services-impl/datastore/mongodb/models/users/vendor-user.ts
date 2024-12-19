@@ -34,7 +34,6 @@ export const VendorUserPersonalInformationType = {
 
 export interface VendorUser extends User {
   personalInformation: VendorUserPersonalInformation;
-
   email?: string;
   displayName: string;
   externalId: string;

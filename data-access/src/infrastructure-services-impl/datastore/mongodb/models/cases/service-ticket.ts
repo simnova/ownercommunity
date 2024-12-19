@@ -5,6 +5,7 @@ import * as Property from './../property';
 import * as Member from './../member';
 import * as Service from './../service';
 import { Ticket, TicketModel, ticketOptions } from './ticket';
+import * as VendorUser from '../users/vendor-user';
 
 export interface ServiceTicketRevisionRequestChanges extends NestedPath {
   requestUpdatedAssignment: boolean;
@@ -114,6 +115,7 @@ export interface ServiceTicket extends Ticket {
   hash: string;
   lastIndexed: Date;
   updateIndexFailedDate: Date;
+  assignedVendor: PopulatedDoc<VendorUser.VendorUser>;
 }
 
 const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(
@@ -159,8 +161,9 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },
     updateIndexFailedDate: { type: Date, required: false },
+    assignedVendor: { type: Schema.Types.ObjectId, ref: VendorUser.VendorUserModel.modelName, required: true }
   },
-  ticketOptions
+  ticketOptions,
 );
 
 // TODO: Discriminator key and Version can't exist together, if we don't use version key it will fall back to __v

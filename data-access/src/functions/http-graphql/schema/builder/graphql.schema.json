@@ -12911,7 +12911,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "ObjectID",
               "ofType": null
             },
             "defaultValue": null,

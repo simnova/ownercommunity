@@ -50,11 +50,11 @@ const serviceTicket: Resolvers = {
       }
       return parent.service;
     },
-    approvedVendor: async (parent, args, context, info) => {
-      if (parent.approvedVendor && isValidObjectId(parent.approvedVendor.toString())) {
-        return (await context.applicationServices.users.vendorUser.dataApi.getMemberById(parent.approvedVendor.toString())) as VendorUser;
+    assignedVendor: async (parent, args, context, info) => {
+      if (parent.assignedVendor && isValidObjectId(parent.assignedVendor.toString())) {
+        return (await context.applicationServices.users.vendorUser.dataApi.getUserById(parent.assignedVendor.toString())) as VendorUser;
       }
-      return parent.approvedVendor;
+      return parent.assignedVendor;
     },
   },
   ServiceTicketActivityDetail: {

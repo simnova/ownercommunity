@@ -1578,7 +1578,7 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
-  assignedVendor?: InputMaybe<Scalars['String']>;
+  assignedVendor?: InputMaybe<Scalars['ObjectID']>;
   description?: InputMaybe<Scalars['String']>;
   messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
   priority?: InputMaybe<Scalars['Int']>;

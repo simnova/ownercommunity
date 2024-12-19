@@ -31,6 +31,7 @@ import { ServiceTicketV1Visa } from '../../../../../../../app/domain/contexts/ca
 import { InfrastructureContext } from '../../../../../../../app/init/infrastructure-context';
 import { FuncToGetMemberRefFromAuditContextFactory } from '../../../../../../../app/init/audit-context';
 import { VendorUser, VendorUserEntityReference } from '../../../../../../../app/domain/contexts/users/vendor-user/vendor-user';
+import { VendorUserDomainAdapter } from '../../../users/vendor-user/vendor-user.domain-adapter';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -115,7 +116,10 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get assignedVendor() {
-    return this.doc.assignedVendor;
+   if(this.doc.assignedVendor){
+    return new VendorUserDomainAdapter(this.doc.assignedVendor, this.infrastructureContext);
+   }
+   return undefined
   }
   setAssignedVendorRef(assignedVendor: VendorUserEntityReference) {
     this.doc.set('assignedVendor', assignedVendor ? assignedVendor['props']['doc'] : null);

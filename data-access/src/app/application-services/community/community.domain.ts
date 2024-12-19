@@ -52,7 +52,6 @@ export class CommunityDomainApiImpl
         vendorsList.push(vendorDo);
       }
     }
-    const updatedCommunity = {...community, approvedVendors: vendorsList}
     
     let result: CommunityData;
     await this.withTransaction(async (repo) => {
@@ -60,11 +59,11 @@ export class CommunityDomainApiImpl
       if (!domainObject) {
         throw new Error('invalid id');
       }
-      domainObject.Name = (updatedCommunity.name);
-      domainObject.Domain = (updatedCommunity.domain);
-      domainObject.WhiteLabelDomain = (updatedCommunity.whiteLabelDomain);
-      domainObject.Handle = (updatedCommunity.handle);
-      domainObject.ApprovedVendors = (updatedCommunity.approvedVendors);
+      domainObject.Name = (community.name);
+      domainObject.Domain = (community.domain);
+      domainObject.WhiteLabelDomain = (community.whiteLabelDomain);
+      domainObject.Handle = (community.handle);
+      domainObject.ApprovedVendors = (vendorsList);
       result = (new CommunityConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;

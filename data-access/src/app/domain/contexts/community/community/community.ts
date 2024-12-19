@@ -119,7 +119,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
       throw new Error('You do not have permission to change the handle of this community');
     }
     if (approvedVendors === null || approvedVendors === undefined) {
-      throw new Error('createdBy cannot be null or undefined');
+      throw new Error('approvedVendors cannot be null or undefined');
     }
     this.props.setApprovedVendorsRef(approvedVendors);
   }

@@ -26,7 +26,7 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
       required: false, 
       maxlength: 50,
     },
-    approvedVendors: { type: [{type: Schema.Types.ObjectId, ref:VendorUserModel}], required: false },
+    approvedVendors: { type: [{type: Schema.Types.ObjectId, ref:VendorUserModel.modelName}], required: false },
     createdBy: { type: Schema.Types.ObjectId, ref: EndUser.EndUserModel.modelName, required: true},
   },
 

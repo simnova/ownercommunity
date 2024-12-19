@@ -56,8 +56,7 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community, Inf
     return this.doc.approvedVendors.map((item)=> new VendorUserDomainAdapter(item, this.infrastructureContext));
   }
   setApprovedVendorsRef(approvedVendors: VendorUserEntityReference[]) {
-    const vendors = approvedVendors.map((item)=> item.id);
-    this.doc.set('approvedVendors', vendors);
+    this.doc.set('approvedVendors', approvedVendors.map((item)=> item.id));
   }
 
 

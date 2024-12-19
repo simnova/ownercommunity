@@ -167,12 +167,12 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
         }
       }
       
-      if(input.assignedVendor?.length) //check for empty, undefined, null
+      if(input.assignedVendor !== undefined)
       {
         
         let vendor = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
         let vendorDo = new VendorUserConverter().toDomain(vendor, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
-        serviceTicket.AssignedVendor = vendorDo;
+        
       }  
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));

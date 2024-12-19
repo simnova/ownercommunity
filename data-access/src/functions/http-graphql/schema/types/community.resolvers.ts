@@ -73,7 +73,7 @@ const community: Resolvers = {
           }
         });
       }
-      return null;
+      return [];
     }
     
   },

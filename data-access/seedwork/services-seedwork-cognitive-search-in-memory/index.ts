@@ -6,13 +6,14 @@ export interface IMemoryCognitiveSearchCollection<DocumentType extends BaseDocum
   deleteDocument(document: DocumentType): Promise<void>;
 }
 export interface IMemoryCognitiveSearch {
-  createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void>;
+  createIndexIfNotExists(indexDefinition: SearchIndex): Promise<void>;
   createOrUpdateIndexDefinition(indexName: string, indexDefinition: SearchIndex): Promise<void>;
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   search(indexName: string, searchText: string, options?: any): Promise<any>;
   indexExists(indexName: string): Promise<boolean>;
   logSearchCollectionIndexMap(): void;
+  
 }
 
 
@@ -45,14 +46,19 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
     this.searchCollectionIndexMap = new Map<string, MemoryCognitiveSearchCollection<any>>();
     this.searchCollectionIndexDefinitionMap = new Map<string, SearchIndex>();
   }
+  initializeSearchClients(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
   
   deleteIndex(indexName: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
-    if (this.searchCollectionIndexMap.has(indexName)) return;
-    this.createNewIndex(indexName, indexDefinition);
+  async createIndexIfNotExists(indexDefinition: SearchIndex): Promise<void> {
+    if (this.searchCollectionIndexMap.has(indexDefinition.name)) {
+      return;
+    }
+    this.createNewIndex(indexDefinition.name, indexDefinition);
   }
   private createNewIndex(indexName: string, indexDefinition: SearchIndex) {
     this.searchCollectionIndexDefinitionMap.set(indexName, indexDefinition);

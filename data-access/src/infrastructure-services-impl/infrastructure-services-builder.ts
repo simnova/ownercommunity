@@ -97,11 +97,14 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   }
 
   private static _instance: InfrastructureServicesBuilder;
-  public static initialize(): void {
+  public static async initialize(): Promise<void> {
     if (InfrastructureServicesBuilder._instance) {
       throw new Error('InfrastructureServicesBuilder is already initialized');
     }
     InfrastructureServicesBuilder._instance = new InfrastructureServicesBuilder();
+    await InfrastructureServicesBuilder._instance._cognitiveSearch.initializeSearchClients();
+
+
   }
   public static getInstance(): InfrastructureServicesBuilder {
     if (!InfrastructureServicesBuilder._instance) {

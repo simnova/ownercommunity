@@ -29,7 +29,7 @@ export async function initializeFunctionApp() {
   await cosmosDbConnection.connect();
 
   // Initialize the infrastructure services
-  InfrastructureServicesBuilder.initialize();
+  await InfrastructureServicesBuilder.initialize();
   const infrastructureServices = InfrastructureServicesBuilder.getInstance();
 
   // Initialize the domain

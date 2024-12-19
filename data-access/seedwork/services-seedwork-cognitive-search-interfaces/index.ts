@@ -9,5 +9,4 @@ export interface CognitiveSearchBase {
   indexDocument(indexName: string, document: any): Promise<void>;
   deleteIndex(indexName: string): Promise<void>;
   indexExists(indexName: string): Promise<boolean>;
-  initializeSearchClients(): Promise<void>;
 }

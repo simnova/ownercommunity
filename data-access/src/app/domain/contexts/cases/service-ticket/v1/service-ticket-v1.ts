@@ -32,6 +32,8 @@ export interface ServiceTicketV1Props extends DomainEntityProps {
   setAssignedToRef(assignedTo: MemberEntityReference): void;
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
+  readonly assignedVendor?: VendorUserProps;
+  setAssignedVendorRef?: (approvedVendors: VendorUserEntityReference) => void;
   title: string;
   description: string;
   readonly ticketType?: string;
@@ -70,7 +72,8 @@ export interface ServiceTicketV1EntityReference
       | 'messages'
       | 'photos'
       | 'revisionRequest'
- 
+      | 'assignedVendor'
+      | 'setAssignedVendorRef'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -82,6 +85,7 @@ export interface ServiceTicketV1EntityReference
   readonly messages: ReadonlyArray<ServiceTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
   readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
+  readonly assignedVendor?: VendorUserEntityReference;
 }
 
 export interface ServiceTicketV1RootRegistry extends AggregateRootTypeForApplicationService<DomainExecutionContext> {
@@ -109,6 +113,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     context: DomainExecutionContext,
+    assignedVendor?: VendorUserEntityReference
   ): ServiceTicketV1<props> {
     let serviceTicket = new ServiceTicketV1(newProps, context);
     serviceTicket.MarkAsNew();
@@ -122,6 +127,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Priority = 5;
     serviceTicket.syncDomainEventFactory.addServiceTicketV1CreatedEvent({ requestor });
     serviceTicket.isNew = false;
+    if(assignedVendor){
+      serviceTicket.AssignedVendor = assignedVendor;
+    }
     return serviceTicket;
   }
 
@@ -190,6 +198,10 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     return this.props.revisionRequest ? new ServiceTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa) : undefined;
   }
 
+  get assignedVendor() {
+    return this.props.assignedVendor
+  }
+
   private readonly validStatusTransitions = new Map<string, string[]>([
     [ValueObjects.StatusCodes.Draft, [ValueObjects.StatusCodes.Submitted]],
     [ValueObjects.StatusCodes.Submitted, [ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
@@ -239,6 +251,13 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
       throw new Error('requestor cannot be null or undefined');
     }
     this.props.setRequestorRef(requestor);
+  }
+
+  set AssignedVendor(assignedVendor: VendorUserEntityReference) {
+    if (!this.isNew) {
+      throw new Error('Unauthorized');
+    }
+    this.props.setAssignedVendorRef(assignedVendor);
   }
 
   set AssignedTo(assignedTo: MemberEntityReference) {

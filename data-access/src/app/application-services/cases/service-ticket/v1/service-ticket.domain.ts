@@ -1,6 +1,5 @@
 import { DomainDataSource } from '../../../../data-sources/domain-data-source';
 import { Member } from '../../../../domain/contexts/community/member/member';
-import { ReadOnlyDomainVisa } from '../../../../domain/domain.visa';
 import { Service } from '../../../../domain/contexts/community/service/service';
 import { ServiceTicketV1 } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1';
 import { SentBy, Message, Embedding } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects';
@@ -172,7 +171,7 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
         
         let vendor = await this.context.applicationServices.users.vendorUser.dataApi.getUserById(input.assignedVendor);
         let vendorDo = new VendorUserConverter().toDomain(vendor, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
-        
+        serviceTicket.AssignedVendor = vendorDo;
       }  
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));

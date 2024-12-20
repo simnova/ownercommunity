@@ -36,8 +36,8 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
   }
 
   // check if index exists
-  async indexExists(indexName: string): Promise<boolean> {
-    return this.searchClients.has(indexName);
+  indexExists(indexName: string): boolean {
+    return this.getSearchClient(indexName) !== undefined;
   }
 
   async createIndexIfNotExists(indexDefinition: SearchIndex): Promise<void> {
@@ -100,9 +100,4 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
       throw new Error(`Failed to delete index ${indexName}: ${error.message}`);
     }
   }
-
-  // async updateIndex(indexName: string) {
-  //   const index = await this.client.getIndex(indexName);
-  //   this.client.createOrUpdateIndex(index);
-  // }
 }

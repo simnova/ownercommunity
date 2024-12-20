@@ -11,9 +11,9 @@ export interface IMemoryCognitiveSearch {
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   search(indexName: string, searchText: string, options?: any): Promise<any>;
-  indexExists(indexName: string): Promise<boolean>;
+  indexExists(indexName: string): boolean;
   logSearchCollectionIndexMap(): void;
-  
+  initializeSearchClients(): Promise<void>
 }
 
 
@@ -47,9 +47,9 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
     this.searchCollectionIndexDefinitionMap = new Map<string, SearchIndex>();
   }
   initializeSearchClients(): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
-  
+
   deleteIndex(indexName: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
@@ -92,7 +92,7 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
     }
   } 
 
-  async indexExists(indexName: string): Promise<boolean> {
+  indexExists(indexName: string): boolean {
     return this.searchCollectionIndexMap.has(indexName);
   }
 }

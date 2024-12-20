@@ -16,27 +16,42 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
 
   constructor(endpoint: string) {
     let credentials: TokenCredential;
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      credentials = new DefaultAzureCredential();
-    } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
-      credentials = new DefaultAzureCredential({ ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
-    } else {
-      credentials = new DefaultAzureCredential();
+    try {
+      if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+        credentials = new DefaultAzureCredential();
+      } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
+        credentials = new DefaultAzureCredential({ managedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
+      } else {
+        credentials = new DefaultAzureCredential();
+      }
+      this.client = new SearchIndexClient(endpoint, credentials);
+    } catch (error) {
+      const errorMessage =
+        'Failed to initialize DefaultAzureCredential. ' +
+        'Please ensure you have proper Azure credentials configured. ' +
+        'This could be due to missing environment variables, invalid credentials, or network issues.';
+      throw new Error(`${errorMessage}\nOriginal error: ${error instanceof Error ? error.message : String(error)}`);
     }
-    this.client = new SearchIndexClient(endpoint, credentials);
   }
 
-  private getSearchClient(indexName: string): SearchClient<unknown> {
-    let client = this.searchClients.get(indexName);
-    if (!client) {
-      client = this.client.getSearchClient(indexName);
-      this.searchClients.set(indexName, client);
+  async initializeSearchClients(): Promise<void> {
+    try {
+      const indexNames = this.client.listIndexesNames();
+      for await (const indexName of indexNames) {
+        this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+      }
+    } catch (error) {
+      throw new Error(
+        `Failed to initialize search clients while listing indexes. This could be due to network issues or insufficient permissions.\nOriginal error: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
-    return client;
   }
+
 
   // check if index exists
-  async indexExists(indexName: string): Promise<boolean> {
+  indexExists(indexName: string): boolean {
     return this.searchClients.has(indexName);
   }
 
@@ -48,7 +63,7 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
         this.searchClients.set(indexDefinition.name, this.client.getSearchClient(indexDefinition.name));
         console.log(`Index ${indexDefinition.name} created`);
       } catch (error) {
-        throw new Error(`Failed to create index ${indexDefinition.name}: ${error.message}`);
+        throw new Error(`Failed to create index ${indexDefinition.name}: ${error.message}\nCause: ${error}`);
       }
     }
   }
@@ -64,13 +79,13 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
         console.log(`Index ${indexName} updated`);
       }
     } catch (error) {
-      throw new Error(`Failed to create or update index ${indexName}: ${error.message}`);
+      throw new Error(`Failed to create or update index ${indexName}: ${error.message}\nCause: ${error}`);
     }
   }
 
   async search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const startTime = new Date();
-    const result = await this.getSearchClient(indexName).search(searchText, options);
+    const result = await this.searchClients.get(indexName).search(searchText, options);
     console.log(`SearchLibrary took ${new Date().getTime() - startTime.getTime()}ms`);
     return result;
   }
@@ -79,7 +94,7 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
     try {
       await this.searchClients.get(indexName).deleteDocuments([document]);
     } catch (error) {
-      throw new Error(`Failed to delete document from index ${indexName}: ${error.message}`);
+      throw new Error(`Failed to delete document from index ${indexName}: ${error.message}\nCause: ${error}`);
     }
   }
 

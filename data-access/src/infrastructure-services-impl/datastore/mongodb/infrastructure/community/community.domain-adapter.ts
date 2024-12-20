@@ -7,6 +7,8 @@ import { EndUserEntityReference, EndUserProps } from '../../../../../app/domain/
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 import { CommunityVisa } from '../../../../../app/domain/contexts/community/community.visa';
 import { InfrastructureContext } from '../../../../../app/init/infrastructure-context';
+import { VendorUserDomainAdapter } from '../users/vendor-user/vendor-user.domain-adapter';
+import { VendorUserEntityReference } from '../../../../../app/domain/contexts/users/vendor-user/vendor-user';
 
 export class CommunityConverter extends MongoTypeConverter<
   DomainExecutionContext, 
@@ -49,6 +51,14 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community, Inf
   set handle(handle) {
     this.doc.handle = handle;
   }
+
+  get approvedVendors() {
+    return this.doc.approvedVendors.map((item)=> new VendorUserDomainAdapter(item, this.infrastructureContext));
+  }
+  setApprovedVendorsRef(approvedVendors: VendorUserEntityReference[]) {
+    this.doc.set('approvedVendors', approvedVendors.map((item)=> item.id));
+  }
+
 
   get createdBy(): EndUserProps {
     if (this.doc.createdBy) {

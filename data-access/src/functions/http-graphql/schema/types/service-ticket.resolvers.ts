@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers, Service, ServiceTicket, Ticket, ServiceTicketMutationResult } from '../builder/generated';
+import { Community, Member, Property, Resolvers, Service, ServiceTicket, Ticket, ServiceTicketMutationResult, VendorUser } from '../builder/generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../../infrastructure-services-impl/datastore/mongodb/models/cases/service-ticket';
@@ -49,6 +49,12 @@ const serviceTicket: Resolvers = {
         return (await context.applicationServices.service.dataApi.getServiceById(parent.service.toString())) as Service;
       }
       return parent.service;
+    },
+    assignedVendor: async (parent, args, context, info) => {
+      if (parent.assignedVendor && isValidObjectId(parent.assignedVendor.toString())) {
+        return (await context.applicationServices.users.vendorUser.dataApi.getUserById(parent.assignedVendor.toString())) as VendorUser;
+      }
+      return parent.assignedVendor;
     },
   },
   ServiceTicketActivityDetail: {

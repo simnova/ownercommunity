@@ -73,9 +73,8 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   }
 
   private InitCognitiveSearch(): CognitiveSearchInfrastructureService {
-    const searchKey = tryGetEnvVar('SEARCH_API_KEY');
     const endpoint = tryGetEnvVar('SEARCH_API_ENDPOINT');
-    return new AzCognitiveSearchImpl(searchKey, endpoint);
+    return new AzCognitiveSearchImpl(endpoint);
   }
 
   private InitBlobStorage(): BlobStorageInfrastructureService {
@@ -102,6 +101,8 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
       throw new Error('InfrastructureServicesBuilder is already initialized');
     }
     InfrastructureServicesBuilder._instance = new InfrastructureServicesBuilder();
+
+
   }
   public static getInstance(): InfrastructureServicesBuilder {
     if (!InfrastructureServicesBuilder._instance) {

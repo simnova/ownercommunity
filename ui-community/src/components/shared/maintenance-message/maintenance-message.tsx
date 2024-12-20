@@ -12,7 +12,7 @@ export interface MaintenanceMessageProps {
   maintenanceMessage: string;
 }
 
-const MaintenanceMessage: FC<MaintenanceMessageProps> = (props) => {
+export const MaintenanceMessage: FC<MaintenanceMessageProps> = (props) => {
   const replaceTokens = (str: string, mapObj: any) => {
     let re = new RegExp(Object.keys(mapObj).join('|'), 'g');
 
@@ -57,5 +57,3 @@ const MaintenanceMessage: FC<MaintenanceMessageProps> = (props) => {
     </div>
   );
 };
-
-export default MaintenanceMessage;

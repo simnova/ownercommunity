@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Image } from '@react-pdf/renderer';
 import SideBarImage from '../test-images/SideBarImage.png';
-import PdfApplicantCertification from '../eif/PdfApplicantCertification';
-import PdfIdentificationCertification from '../eif/PdfIdentificationCertification';
-import PdfVerificationInformation from './PdfVerificationInformation';
+import { PdfApplicantCertification } from '../eif/PdfApplicantCertification';
+import { PdfIdentificationCertification } from '../eif/PdfIdentificationCertification';
+import { PdfVerificationInformation } from './PdfVerificationInformation';
 
 interface PdfDisclaimersProps {
   data: any;
@@ -39,4 +39,3 @@ export const PdfVerificationSection: React.FC<PdfDisclaimersProps> = (props) => 
     </View>
   );
 };
-export default PdfVerificationSection;

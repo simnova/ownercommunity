@@ -2,9 +2,9 @@ import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
-import PdfEIFSection from '../eif/PdfEIFSection';
-import PdfFooterV2 from '../eif/PdfFooterV2';
-import PdfHeaderV2 from '../eif/PdfHeaderV2';
+import { PdfEIFSection } from '../eif/PdfEIFSection';
+import { PdfFooterV2 } from '../eif/PdfFooterV2';
+import { PdfHeaderV2 } from '../eif/PdfHeaderV2';
 
 interface PdfTemplateProps {
   data: any;
@@ -38,4 +38,3 @@ export const PdfEIFBlankPageV2: React.FC<PdfTemplateProps> = (props) => {
     </Document>
   );
 };
-export default PdfEIFBlankPageV2;

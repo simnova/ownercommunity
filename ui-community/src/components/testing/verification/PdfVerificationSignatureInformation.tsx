@@ -62,4 +62,3 @@ export const PdfVerificationSignatureInformation: React.FC<PdfCredentialDetailsP
     </>
   );
 };
-export default PdfVerificationSignatureInformation;

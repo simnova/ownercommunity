@@ -8,7 +8,7 @@ import { Accounts } from '.';
 import App from '../../../App';
 import { uiConfig } from '../../../config/odic-config';
 import { Community } from '../../../generated';
-import RequireAuth from '../../shared/require-auth';
+import { RequireAuth } from '../../shared/require-auth';
 import { Members } from '../members';
 
 // to be tested scenarios:

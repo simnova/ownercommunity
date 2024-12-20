@@ -37,5 +37,3 @@ export const PdfSignatureReason: React.FC<PdfCredentialDetailsProps> = () => {
     </>
   );
 };
-
-export default PdfSignatureReason;

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import AddPaymentMethodModal from './add-payment-method-modal';
+import { AddPaymentMethodModal } from './add-payment-method-modal';
 import {
   AddPaymentInstrumentInput,
   MemberPaymentInstrumentsDocument,
@@ -15,7 +15,7 @@ export interface TokenOptions {
 
 export type Callback = (err: any, token: string) => Promise<void>;
 
-const AddPaymentMethodModalContainer = () => {
+export const AddPaymentMethodModalContainer = () => {
   const { data: cybersource } = useQuery(SharedPaymentContainercybersourcePublicKeyIdDocument);
 
   const {
@@ -55,5 +55,3 @@ const AddPaymentMethodModalContainer = () => {
     />
   );
 };
-
-export default AddPaymentMethodModalContainer;

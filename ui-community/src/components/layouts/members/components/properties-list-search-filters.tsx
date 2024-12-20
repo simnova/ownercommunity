@@ -74,7 +74,7 @@ const AdditionalAmenitiesFilter: FC<AdditionalAmenitiesFilterProps> = (props) =>
   );
 };
 
-const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
+export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [filters, setFilters] = useState<SearchFilterProps[]>([]);
 
   const generateFilters = (config: SearchFilterConfigDefinition) => {
@@ -293,5 +293,3 @@ const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props
     </>
   );
 };
-
-export default PropertiesListSearchFilters;

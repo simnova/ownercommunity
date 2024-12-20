@@ -47,5 +47,3 @@ export const TestPdfView: React.FC<any> = () => {
     </>
   );
 };
-
-export default TestPdfView;

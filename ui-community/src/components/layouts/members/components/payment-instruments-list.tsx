@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { PaymentInstrument } from '../../../../generated';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import useEditPaymentMethodModal from '../../../../hooks/useEditPaymentMethodModal';
+import { useEditPaymentMethodModal } from '../../../../hooks/useEditPaymentMethodModal';
 
 const getCardType = (cardType: string) => {
   switch (cardType) {

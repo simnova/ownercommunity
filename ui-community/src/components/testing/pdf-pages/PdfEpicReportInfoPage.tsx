@@ -2,10 +2,10 @@ import React from 'react';
 import { Document, Page, Text, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-200.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-600.ttf'
-import PdfCandidateDetails from '../epic/PdfCandidateDetails';
-import PdfCredentialDetails from '../epic/PdfCredentialDetails';
-import PdfDisclaimers from '../epic/PdfDisclaimers';
-import PdfTitleSection from '../epic/PdfTitleSection';
+import { PdfCandidateDetails } from '../epic/PdfCandidateDetails';
+import { PdfCredentialDetails } from '../epic/PdfCredentialDetails';
+import { PdfDisclaimers } from '../epic/PdfDisclaimers';
+import { PdfTitleSection } from '../epic/PdfTitleSection';
 
 interface PdfTemplateProps {
   data: any;
@@ -50,4 +50,3 @@ export const PdfEpicReportInfoPage: React.FC<PdfTemplateProps> = (props) => {
     </Document>
   );
 };
-export default PdfEpicReportInfoPage;

@@ -1,10 +1,19 @@
 import { Element, useNode } from "@craftjs/core";
+import { FC } from "react";
 import { Form, Input, theme } from "antd";
 import { Container } from "./container";
 import { TextComponent } from "./text-component";
 import { TextThing } from "./text-thing";
 
-export const CardTop = (props: any) => {
+interface CardProps {
+
+}
+
+interface CardTopProps {
+    children: 
+}
+
+export const CardTop = (props: CardTopProps ) => {
     
     const { connectors: {connect} } = useNode();
     return (
@@ -22,7 +31,7 @@ CardTop.craft = {
 }
 
 
-export const Card = () => {
+export const Card : FC<CardProps> = (props) => {
     const {
         token: { colorTextBase, colorBgContainer }
       }=theme.useToken();
@@ -80,4 +89,6 @@ Card.craft = {
         settings: CardSettings
     }
 }
+
+
 

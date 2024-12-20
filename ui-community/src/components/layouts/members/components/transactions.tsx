@@ -25,8 +25,7 @@ interface TransactionsProps {
   transactions: any[];
 }
 
-const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
+export const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
   return <Table columns={columns} pagination={{ position: ['bottomRight'] }} rowKey={(record) => record.transactionId} dataSource={transactions} />;
 };
 
-export default Transactions;

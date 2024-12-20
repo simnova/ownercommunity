@@ -1,8 +1,8 @@
 import { Button, theme } from 'antd';
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import ModalPopUp from './components/ModalPopUp';
-import MaintenanceMessage from '../components/shared/maintenance-message/maintenance-message';
-import ImpendingMessage from '../components/shared/maintenance-message/impending-message';
+import { ModalPopUp } from './components/ModalPopUp';
+import { MaintenanceMessage } from '../components/shared/maintenance-message/maintenance-message';
+import { ImpendingMessage } from '../components/shared/maintenance-message/impending-message';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
 
 interface ThemeContextType {

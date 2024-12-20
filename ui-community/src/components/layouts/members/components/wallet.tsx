@@ -1,11 +1,10 @@
 import React from 'react';
 import { Button, Empty } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
-import AddPaymentMethodModalContainer from './add-payment-method-modal.container';
+import { AddPaymentMethodModalContainer } from './add-payment-method-modal.container';
 import { PaymentInstrumentList } from './payment-instruments-list';
 
-import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
+import { useAddPaymentMethodModal } from '../../../../hooks/useAddPaymentMethodModal';
 import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
 import { EditPaymentMethodModalContianer } from './edit-payment-modal.container';
 
@@ -15,7 +14,7 @@ interface WalletProps {
   onDeletePaymentMethod: (paymentInstrumentId: string) => Promise<void>;
 }
 
-const Wallet: React.FC<WalletProps> = ({
+export const Wallet: React.FC<WalletProps> = ({
   paymentInstrumentsResult,
   onSetDefaultPaymentMethod,
   onDeletePaymentMethod
@@ -50,5 +49,3 @@ const Wallet: React.FC<WalletProps> = ({
     </div>
   );
 };
-
-export default Wallet;

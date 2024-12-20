@@ -64,4 +64,3 @@ export const PdfVerificationInformation: React.FC<PdfDisclaimersProps> = (props)
     </>
   );
 };
-export default PdfVerificationInformation;

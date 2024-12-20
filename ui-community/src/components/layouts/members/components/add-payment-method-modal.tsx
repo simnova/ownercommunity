@@ -4,7 +4,7 @@ import { Button, Card, Checkbox, DatePicker, Form, Input, Modal, Select, message
 
 import { Country, State, City } from 'country-state-city';
 
-import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
+import { useAddPaymentMethodModal } from '../../../../hooks/useAddPaymentMethodModal';
 import dayjs from 'dayjs';
 import {
   AddPaymentInstrumentInput,
@@ -51,7 +51,7 @@ interface AddPaymentMethodProps {
   ) => Promise<FetchResult<MutationMemberAddPaymentInstrumentMutation> | undefined>;
 }
 
-const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
+export const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
   memberHasPaymentMethods,
   cybersource,
   onAddPaymentMethod
@@ -536,5 +536,3 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
     </Modal>
   );
 };
-
-export default AddPaymentMethodModal;

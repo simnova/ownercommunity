@@ -104,5 +104,3 @@ export const PdfSignatureArea: React.FC<PdfCredentialDetailsProps> = (props) => 
     </>
   );
 };
-
-export default PdfSignatureArea;

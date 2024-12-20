@@ -21,6 +21,4 @@ const initialContext = {
   GetFeatureFlagByName: stub
 }
 
-const FeatureFlagsContext = createContext<FeatureFlagInterface>(initialContext)
-
-export default FeatureFlagsContext
+export const FeatureFlagsContext = createContext<FeatureFlagInterface>(initialContext)

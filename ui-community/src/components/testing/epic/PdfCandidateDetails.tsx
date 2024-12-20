@@ -55,4 +55,3 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
     </View>
   );
 };
-export default PdfCandidateDetails;

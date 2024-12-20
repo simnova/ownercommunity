@@ -1,9 +1,9 @@
 import { Avatar } from 'antd';
 import { FC } from 'react';
 import dayjs from 'dayjs';
-import RequestFeedbackForm from './admin/embedded/request-feedback-form';
-import PaymentRequestForm from './admin/embedded/payment-request-form';
-import SendMoneyForm from './admin/embedded/send-money-form';
+import { RequestFeedbackForm } from './admin/embedded/request-feedback-form';
+import { PaymentRequestForm } from './admin/embedded/payment-request-form';
+import { SendMoneyForm } from './admin/embedded/send-money-form';
 
 interface ChatMessageProps {
   id: string;

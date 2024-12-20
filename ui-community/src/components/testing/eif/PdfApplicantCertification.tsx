@@ -93,4 +93,3 @@ export const PdfApplicantCertification: React.FC<PdfDisclaimersProps> = () => {
     </View>
   );
 };
-export default PdfApplicantCertification;

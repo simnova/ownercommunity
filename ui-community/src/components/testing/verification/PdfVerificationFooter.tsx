@@ -31,4 +31,3 @@ export const PdfVerificationFooter: React.FC<PdfHeaderProps> = (props) => {
     </View>
   );
 };
-export default PdfVerificationFooter;

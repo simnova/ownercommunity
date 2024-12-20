@@ -81,4 +81,3 @@ export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = () 
     </View>
   );
 };
-export default PdfIdentificationCertification;

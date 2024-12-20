@@ -7,7 +7,7 @@ import { Members } from './components/layouts/members';
 import { Root } from './components/layouts/root';
 import { Staff } from './components/layouts/staff';
 import { AuthLanding } from './components/shared/auth-landing';
-import RequireAuth from './components/shared/require-auth';
+import { RequireAuth } from './components/shared/require-auth';
 import { AHPProofOfConcepts, AHPRootRouteLayer } from './components/layouts/ahp-proof-of-concepts';
 import { AuthProvider } from 'react-oidc-context';
 import { uiConfig, staffConfig } from './config/odic-config';

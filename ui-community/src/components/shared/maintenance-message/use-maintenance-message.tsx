@@ -1,7 +1,6 @@
 import { useContext } from 'react'
-import MaintenanceMessageContext, { MaintenanceMessageInterface } from './maintenance-message-context'
+import { MaintenanceMessageContext, MaintenanceMessageInterface } from './maintenance-message-context'
 
-const useMaintenanceMessage = (): MaintenanceMessageInterface =>
+export const useMaintenanceMessage = (): MaintenanceMessageInterface =>
   useContext(MaintenanceMessageContext)
 
-export default useMaintenanceMessage

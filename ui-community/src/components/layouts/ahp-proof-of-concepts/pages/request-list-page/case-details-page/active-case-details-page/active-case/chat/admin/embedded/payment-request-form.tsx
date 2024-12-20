@@ -23,7 +23,7 @@ interface PaymentRequestFormProps {
   success: boolean;
 }
 
-const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
+export const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
   const params = useParams();
   const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [completed, setCompleted] = useState(props.completed);
@@ -248,5 +248,3 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
     </div>
   );
 };
-
-export default PaymentRequestForm;

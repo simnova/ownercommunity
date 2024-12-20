@@ -50,4 +50,3 @@ export const PdfHeaderV2: React.FC<PdfHeaderProps> = (props) => {
     </>
   );
 };
-export default PdfHeaderV2;

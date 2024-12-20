@@ -2,7 +2,7 @@ import retry from 'async-retry';
 import { AxiosRequestConfig } from 'axios';
 import { LRUCache } from 'lru-cache';
 import React, { FC, ReactNode, useEffect, useState } from 'react'; // useState
-import FeatureFlagContext, { FeatureFlags } from './feature-flag-context';
+import { FeatureFlagsContext ,FeatureFlags } from './feature-flag-context';
 
 /**
  * FeatureFlagConfig
@@ -23,7 +23,7 @@ export type FeatureFlagProps = {
   children: ReactNode;
 };
 
-const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
+export const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
   let tempFeatureFlagList: FeatureFlags | undefined;
   const [featureFlagList, setFeatureFlagListVal] = useState<FeatureFlags | undefined>();
   const cacheTimeout = !props.config.cache ? 30 * 1000 : props.config.cache;
@@ -106,15 +106,13 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
   };
 
   return (
-    <FeatureFlagContext.Provider
+    <FeatureFlagsContext.Provider
       value={{
         FeatureFlagList: featureFlagList,
         GetFeatureFlagByName: (name: string) => getFeatureFlagByName(name)
       }}
     >
       {props.children}
-    </FeatureFlagContext.Provider>
+    </FeatureFlagsContext.Provider>
   );
 };
-
-export default FeatureFlagProvider;

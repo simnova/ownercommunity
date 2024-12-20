@@ -4,7 +4,7 @@ import {
   MemberPaymentInstrumentsDocument,
   MemberSetDefaultPaymentInstrumentDocument
 } from '../../../../generated';
-import Wallet from './wallet';
+import { Wallet } from './wallet';
 import { Empty, Skeleton, message } from 'antd';
 
 interface WalletContainerProps {

@@ -28,7 +28,7 @@ const buildTree = (flatPageLayouts: any) => {
   });
 };
 
-const SiteEditorPageTree: React.FC = () => {
+export const SiteEditorPageTree: React.FC = () => {
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const [treeData, setTreeData] = useState<Array<any>>([]);
   const [selectedNodePath, setSelectedNodePath] = useState<any>(null);
@@ -288,4 +288,3 @@ const SiteEditorPageTree: React.FC = () => {
     </>
   );
 };
-export { SiteEditorPageTree as PageTree };

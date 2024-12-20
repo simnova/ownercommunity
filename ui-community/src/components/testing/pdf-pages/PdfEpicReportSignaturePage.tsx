@@ -4,12 +4,12 @@ import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-f
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import SignatureImage from '../test-images/SignatureImage.png';
 import SealImage from '../test-images/SealImage.png';
-import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
-import PdfSignatureFooter from '../epic/PdfSignatureFooter';
-import PdfSignatureInformation from '../pdf-signature/PdfSignatureInformation';
-import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
-import PdfSignatureReason from '../pdf-signature/PdfSignatureReason';
-import PdfHeader from '../epic/PdfHeader';
+import { PdfSignatureArea } from '../pdf-signature/PdfSignatureArea';
+import { PdfSignatureFooter } from '../epic/PdfSignatureFooter';
+import { PdfSignatureInformation } from '../pdf-signature/PdfSignatureInformation';
+import { PdfSignatureInstructions } from '../pdf-signature/PdfSignatureInstructions';
+import { PdfSignatureReason } from '../pdf-signature/PdfSignatureReason';
+import { PdfHeader } from '../epic/PdfHeader';
 
 interface PdfTemplateProps {
   data: any;
@@ -47,4 +47,3 @@ export const PdfEpicReportSignaturePage: React.FC<PdfTemplateProps> = (props) =>
     </Document>
   );
 };
-export default PdfEpicReportSignaturePage;

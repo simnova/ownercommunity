@@ -29,4 +29,3 @@ export const PdfFooterV2: React.FC<PdfHeaderProps> = (props) => {
     </View>
   );
 };
-export default PdfFooterV2;

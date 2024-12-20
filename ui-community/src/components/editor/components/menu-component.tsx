@@ -6,13 +6,13 @@ import { arePageLayoutsLoaded, usePageLayouts } from "../page-layout";
 
 const { SubMenu } = Menu;
 
-interface TextProp {
+interface MenuComponentProp {
   theme: string;
 }
 
-let MenuComponent:any;
+// let MenuComponent:any;
 
-MenuComponent = ({ theme, ...props } : TextProp) => {
+export const MenuComponent = ({ theme, ...props } : MenuComponentProp) => {
   const {
     token: { colorBgContainer }
   }=antdTheme.useToken();
@@ -107,8 +107,4 @@ MenuComponent.craft = {
   }
 
 }
-
-export {
-  MenuComponent
-};
 

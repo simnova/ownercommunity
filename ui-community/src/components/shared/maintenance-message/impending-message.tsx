@@ -12,7 +12,7 @@ export interface MaintenanceMessageProps {
   impendingMessage: string;
 }
 
-const ImpendingMessage: FC<MaintenanceMessageProps> = (props) => {
+export const ImpendingMessage: FC<MaintenanceMessageProps> = (props) => {
   const replaceTokens = (str: string, mapObj: any) => {
     let re = new RegExp(Object.keys(mapObj).join('|'), 'g');
 
@@ -48,4 +48,3 @@ const ImpendingMessage: FC<MaintenanceMessageProps> = (props) => {
   );
 };
 
-export default ImpendingMessage;

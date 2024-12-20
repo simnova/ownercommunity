@@ -9,7 +9,7 @@ interface AhpSendMoneyFormProps {
   isAdmin: boolean;
 }
 
-const AhpSendMoneyFormTop = (props: any) => {
+export const AhpSendMoneyFormTop = (props: any) => {
   const {
     connectors: { connect }
   } = useNode();
@@ -22,7 +22,8 @@ AhpSendMoneyFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpSendMoneyForm: any = ({ amount, reason, isAdmin }: AhpSendMoneyFormProps) => {
+
+export const AhpSendMoneyForm: any = ({ amount, reason, isAdmin }: AhpSendMoneyFormProps) => {
   const {
     actions: {}
   } = useNode((state) => ({
@@ -84,5 +85,3 @@ AhpSendMoneyForm.craft = {
     padding: 0
   }
 };
-
-export { AhpSendMoneyForm, AhpSendMoneyFormTop };

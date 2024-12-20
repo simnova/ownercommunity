@@ -1,5 +1,5 @@
 import { theme } from 'antd'
-const customTheme=(themeType:string)=>{
+export const customTheme=(themeType:string)=>{
     const seedTokenValue=theme.defaultSeed
     let modifiedToken;
     if(themeType==="light"){
@@ -23,5 +23,3 @@ const customTheme=(themeType:string)=>{
     
     return modifiedToken
 }
-
-export default customTheme

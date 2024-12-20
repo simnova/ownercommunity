@@ -3,10 +3,10 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
 
-import usePayModal from '../../../../hooks/usePayModal';
+import { usePayModal } from '../../../../hooks/usePayModal';
 
 import { CreditCardDisplay } from './payment-instruments-list';
-import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
+import { useAddPaymentMethodModal } from '../../../../hooks/useAddPaymentMethodModal';
 import { useState } from 'react';
 
 type PaymentForm = {

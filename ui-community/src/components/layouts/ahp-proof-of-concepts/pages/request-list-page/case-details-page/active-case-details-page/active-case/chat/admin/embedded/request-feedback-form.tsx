@@ -9,7 +9,7 @@ interface RequestFeedbackFormProps {
   isAdmin: boolean;
 }
 
-const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
+export const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
   const [changesRequested] = useState(
     props.changesRequested || {
       updateAssignment: false,
@@ -89,5 +89,3 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
     </div>
   );
 };
-
-export default RequestFeedbackForm;

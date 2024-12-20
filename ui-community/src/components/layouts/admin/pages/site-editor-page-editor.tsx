@@ -16,7 +16,7 @@ import { Helmet } from 'react-helmet-async';
 
 const { Title } = Typography;
 
-const SiteEditorPageEditor: React.FC<any> = () => {
+export const SiteEditorPageEditor: React.FC<any> = () => {
   const {
     token: {
       colorTextBase
@@ -126,4 +126,3 @@ const SiteEditorPageEditor: React.FC<any> = () => {
     </>
   );
 };
-export default SiteEditorPageEditor;

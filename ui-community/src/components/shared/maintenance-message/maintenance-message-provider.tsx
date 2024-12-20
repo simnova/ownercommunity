@@ -6,7 +6,7 @@ import { useAuth } from 'react-oidc-context';
 import { FormatTimeCounter, IsInStorybookEnv } from '../../../constants';
 import { HandleLogout } from '../handle-logout';
 import { MaintenanceKickoutMessage } from './maintenance-kickout-message';
-import MaintenanceMessageContext from './maintenance-message-context';
+import { MaintenanceMessageContext } from './maintenance-message-context';
 
 export interface MaintenanceMessageInfo {
   impendingMaintenanceStartTimestamp: string;
@@ -22,7 +22,7 @@ export type MaintenanceMessageProps = {
   maintenanceInfo: MaintenanceMessageInfo;
 };
 
-const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
+export const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
   // const timeoutBeforeMaintenance = import.meta.env.VITE_TIMEOUT_BEFORE_MAINTENANCE ?? 120; //in seconds
   const auth = useAuth();
   const apolloClient = useApolloClient();
@@ -210,5 +210,3 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
     </MaintenanceMessageContext.Provider>
   );
 };
-
-export default MaintenanceMessageProvider;

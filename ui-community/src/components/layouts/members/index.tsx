@@ -20,7 +20,7 @@ import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
 import { PageLayoutProps } from '../admin';
 import { Member } from '../../../generated';
-import Payment from './pages/payment';
+import { Payment } from './pages/payment';
 
 export const Members: React.FC<any> = (_props) => {
 

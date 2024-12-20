@@ -15,7 +15,7 @@ import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { PaymentInfrastructureService } from '../app/infrastructure-services/payment';
 import { CybersourceImpl } from './payment/cybersource/impl';
 
-export class InfrastructureServicesBuilder implements InfrastructureServices{
+export class InfrastructureServicesBuilder implements InfrastructureServices {
   private _vercel: VercelInfrastructureService;
   private _contentModerator: ContentModeratorInfrastructureService;
   private _cognitiveSearch: CognitiveSearchInfrastructureService;
@@ -23,7 +23,7 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   private _payment: PaymentInfrastructureService;
   private _datastore: DatastoreInfrastructureService;
   private _maps: MapsInfrastructureService;
-  
+
   private constructor() {
     this._vercel = this.InitVercel();
     this._contentModerator = this.InitContentModerator();
@@ -49,7 +49,7 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
 
   public get payment(): PaymentInfrastructureService {
     return this._payment;
-  } 
+  }
 
   public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
@@ -58,7 +58,6 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   public get maps(): MapsInfrastructureService {
     return this._maps;
   }
-
 
   private InitContentModerator(): ContentModeratorInfrastructureService {
     const subscriptionKey = tryGetEnvVar('CONTENT_MODERATOR_SUBSCRIPTION_KEY');
@@ -96,13 +95,12 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   }
 
   private static _instance: InfrastructureServicesBuilder;
-  public static initialize(): void {
+  public static async initialize(): Promise<void> {
     if (InfrastructureServicesBuilder._instance) {
       throw new Error('InfrastructureServicesBuilder is already initialized');
     }
     InfrastructureServicesBuilder._instance = new InfrastructureServicesBuilder();
-
-
+    await InfrastructureServicesBuilder._instance._cognitiveSearch.initializeSearchClients();
   }
   public static getInstance(): InfrastructureServicesBuilder {
     if (!InfrastructureServicesBuilder._instance) {

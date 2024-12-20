@@ -35,9 +35,17 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
   }
 
   async initializeSearchClients(): Promise<void> {
-    const indexNames = this.client.listIndexesNames();
-    for await (const indexName of indexNames) {
-      this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+    try {
+      const indexNames = this.client.listIndexesNames();
+      for await (const indexName of indexNames) {
+        this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+      }
+    } catch (error) {
+      throw new Error(
+        `Failed to initialize search clients while listing indexes. This could be due to network issues or insufficient permissions.\nOriginal error: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   }
 

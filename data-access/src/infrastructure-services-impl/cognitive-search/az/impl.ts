@@ -9,8 +9,8 @@ export class AzCognitiveSearchImpl extends AzCognitiveSearch implements Cognitiv
    ** MANAGED_IDENTITY_CLIENT_ID: DefaultAzureCredentialOptions
    * 
    */  
-  constructor(searchKey: string, endpoint: string) {
-      super(searchKey,  endpoint);
+  constructor(endpoint: string) {
+      super( endpoint);
   }
 
   startup = async (): Promise<void> => {

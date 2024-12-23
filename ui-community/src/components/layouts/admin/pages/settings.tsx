@@ -15,7 +15,7 @@ export const Settings: React.FC<any> = () => {
   } = theme.useToken();
 
   const pages: RouteDefinition[] = [
-    { id: '1', link: 'general', path: 'general', title: 'General', icon: <BookOutlined />, element: <SettingsGeneral /> },
+    { id: '1', link: '', path: '', title: 'General', icon: <BookOutlined />, element: <SettingsGeneral /> },
     { id: '2', link: 'saml', path: 'saml', title: 'Saml', icon: <SettingOutlined />, element: <SettingsRoles /> }
   ];
 
@@ -54,7 +54,6 @@ export const Settings: React.FC<any> = () => {
           </Row>
           <Row style={{ width: '100%', padding: '24px 0px 0px 24px' }}>
             <Routes>
-              <Route path="/" element={<Navigate to="general" replace />} />
               {pages.map((page) => (
                 <Route key={page.id} path={page.path} element={page.element} />
               ))}

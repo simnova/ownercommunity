@@ -1,13 +1,12 @@
 import { BookOutlined, SettingOutlined } from '@ant-design/icons';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Col, Grid, Menu, Row, theme } from 'antd';
-
 import { SubPageLayout } from '../sub-page-layout';
 import { SettingsGeneral } from './settings-general';
 import { SettingsRoles } from './settings-roles';
 import { Helmet } from 'react-helmet-async';
 import { VerticalTabs, RouteDefinition } from '../../../shared/vertical-tabs';
-import { Link, Navigate, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 
 export const Settings: React.FC<any> = () => {
   const {

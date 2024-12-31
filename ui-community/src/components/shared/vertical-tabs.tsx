@@ -13,11 +13,12 @@ export interface RouteDefinition {
 
 export const VerticalTabs: React.FC<{ pages: RouteDefinition[] }> = ({ pages }) => {
   const location = useLocation();
+  const resolvedPaths = pages.map((x) => useResolvedPath(x.path).pathname);
   const convertedRoutes = useMemo(() => {
-    return pages.map((x) => {
-      return { id: x.id, path: useResolvedPath(x.path).pathname } as RouteObject;
+    return pages.map((x, index) => {
+      return { id: x.id, path: resolvedPaths[index] } as RouteObject;
     });
-  }, [pages]);
+  }, [pages, resolvedPaths]);
   const matchedPages = matchRoutes(convertedRoutes, location);
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
 

@@ -11,13 +11,20 @@ import { SiteEditor } from './site-editor';
 import { Roles } from './roles';
 import { Home } from './home';
 import { Members } from './members';
+import { Member } from '../../../../generated';
 
 interface HomeProps {}
 
+export interface PageLayoutProps {
+  path: string;
+  title: string;
+  icon: React.JSX.Element;
+  id: string | number;
+  parent?: string;
+  hasPermissions?: (member: Member) => boolean;
+}
+
 export const AdminPage: React.FC<HomeProps> = () => {
-  const casesRoutePath = useResolvedPath('cases');
-  const settingsRoutePath = useResolvedPath('settings');
-  const profileRoutePath = useResolvedPath('profile');
   const location = useLocation();
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -102,7 +109,7 @@ export const AdminPage: React.FC<HomeProps> = () => {
     serviceTickets: 'service-tickets/*'
   };
 
-  const pageLayouts = [
+  const pageLayouts: PageLayoutProps[] = [
     { path: pathLocations.home, title: 'Home', icon: <HomeOutlined />, id: 'ROOT' },
     {
       path: pathLocations.settings,

@@ -1,5 +1,5 @@
 import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/page-layout';
-import CmsPage from './cms-page';
+import { CmsPage } from './cms-page';
 import { Header } from './components/header';
 
 export const SectionLayout: React.FC<any> = () => {

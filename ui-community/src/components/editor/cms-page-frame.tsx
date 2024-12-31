@@ -22,6 +22,5 @@ export const CmsPageFrame: React.FC<IProps> = (props) => {
       {loading ? <div>Loading...</div> : <Frame data={props.layout}  />}
     </>
 
-      
     )
 }

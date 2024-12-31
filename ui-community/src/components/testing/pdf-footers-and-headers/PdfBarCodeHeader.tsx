@@ -55,4 +55,3 @@ export const PdfBarCodeHeader: React.FC<PdfHeaderProps> = () => {
     </>
   );
 };
-export default PdfBarCodeHeader;

@@ -9,7 +9,7 @@ interface TextProp {
 }
 
 
-const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
+export const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
   const { connectors: {connect,drag}, actions } = useNode((state) =>(
     {
       selected: state.events.selected,    
@@ -93,7 +93,3 @@ TextThing.craft = {
   }
 
 }
-
-export {
-  TextThing
-};

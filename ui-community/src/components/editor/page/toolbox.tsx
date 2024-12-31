@@ -78,7 +78,7 @@ export const Toolbox: React.FC<any> = () => {
           },
           {
             name: 'Card',
-            component: <CmsComponents.Card background="#ff00ff" />
+            component: <CmsComponents.Card bgColor="#ff00ff" />
           }
         ]
       }

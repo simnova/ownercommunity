@@ -1,6 +1,5 @@
-import useMaintenanceMessage from "./use-maintenance-message";
-import MaintenanceMessageProvider, {
-} from "./maintenance-message-provider";
+import { useMaintenanceMessage } from "./use-maintenance-message";
+import { MaintenanceMessageProvider } from "./maintenance-message-provider";
 
 export { useMaintenanceMessage };
 

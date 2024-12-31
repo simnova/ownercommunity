@@ -11,7 +11,7 @@ import './index.less';
 
 import { ConfigProvider } from 'antd';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
-import featureFlagConfig from './config/feature-flag-config';
+import { featureFlagConfig } from './config/feature-flag-config';
 
 import { CachePurgeProvider } from './contexts/components/CachePurgeContext';
 import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';

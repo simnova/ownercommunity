@@ -13,7 +13,7 @@ interface CustomerInfoFormSchema {
 
 interface WalletCustomerInfoProps {}
 
-const WalletCustomerInfo: React.FC<WalletCustomerInfoProps> = () => {
+export const WalletCustomerInfo: React.FC<WalletCustomerInfoProps> = () => {
   const [customerInfoForm] = Form.useForm<CustomerInfoFormSchema>();
 
   return (
@@ -77,4 +77,3 @@ const WalletCustomerInfo: React.FC<WalletCustomerInfoProps> = () => {
   );
 };
 
-export default WalletCustomerInfo;

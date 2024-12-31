@@ -55,4 +55,3 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = () => {
     </View>
   );
 };
-export default PdfDisclaimers;

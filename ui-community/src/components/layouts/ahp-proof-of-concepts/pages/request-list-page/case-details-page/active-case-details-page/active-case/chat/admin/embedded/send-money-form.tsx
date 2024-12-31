@@ -7,7 +7,7 @@ interface SendMoneyFormProps {
   isAdmin: boolean;
 }
 
-const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
+export const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
   const commonStyles = {
     padding: '10px',
     color: 'black',
@@ -32,5 +32,3 @@ const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
     </div>
   );
 };
-
-export default SendMoneyForm;

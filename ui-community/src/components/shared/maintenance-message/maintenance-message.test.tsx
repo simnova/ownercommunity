@@ -14,7 +14,7 @@ import { MemoryRouter } from 'react-router-dom';
 import MaintenanceMessageProvider from '.';
 import App from '../../../App';
 import * as LocalData from '../../../components/editor/page-layout';
-import featureFlagConfig from '../../../config/feature-flag-config';
+import { featureFlagConfig } from '../../../config/feature-flag-config';
 import { uiConfig } from '../../../config/odic-config';
 import { ThemeProvider } from '../../../contexts/ThemeContext';
 import FeatureFlagProvider from '../feature-flag-react-lite';

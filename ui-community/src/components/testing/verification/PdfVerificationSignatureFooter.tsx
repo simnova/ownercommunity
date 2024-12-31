@@ -41,4 +41,3 @@ export const PdfVerificationSignatureFooter: React.FC<PdfCredentialDetailsProps>
   );
 };
 
-export default PdfVerificationSignatureFooter;

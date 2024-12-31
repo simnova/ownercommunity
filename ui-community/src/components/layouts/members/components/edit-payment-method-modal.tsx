@@ -8,7 +8,7 @@ import { City, Country, State } from 'country-state-city';
 
 import dayjs from 'dayjs';
 
-import useEditPaymentMethodModal from '../../../../hooks/useEditPaymentMethodModal';
+import { useEditPaymentMethodModal } from '../../../../hooks/useEditPaymentMethodModal';
 
 interface EditPaymentMethodModalProps {
   onUpdate: (

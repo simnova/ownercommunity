@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
-import Transactions from './transactions';
+import { Transactions } from './transactions';
 import { MemberTransactionsDocument } from '../../../../generated';
 import { Descriptions, Empty, Skeleton } from 'antd';
 
 interface TransactionsContainerProps {}
 
-const TransactionsContainer: React.FC<TransactionsContainerProps> = () => {
+export const TransactionsContainer: React.FC<TransactionsContainerProps> = () => {
   const {
     data: transactions,
     error: transactionsError,
@@ -49,5 +49,3 @@ const TransactionsContainer: React.FC<TransactionsContainerProps> = () => {
     </>
   );
 };
-
-export default TransactionsContainer;

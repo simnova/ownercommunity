@@ -4,10 +4,10 @@ import { WalletContainer } from '../components/wallet.container';
 import { SubPageLayout } from '../sub-page-layout';
 import { CreditCardOutlined } from '@ant-design/icons';
 import { GrTransaction } from 'react-icons/gr';
-import TransactionsContainer from '../components/transactions.container';
+import { TransactionsContainer } from '../components/transactions.container';
 import { VerticalTabs, RouteDefinition } from '../../../shared/vertical-tabs';
 
-const Payment: React.FC = () => {
+export const Payment: React.FC = () => {
 
   const {
     token: { colorTextBase }
@@ -40,5 +40,3 @@ const Payment: React.FC = () => {
     </SubPageLayout>
   );
 };
-
-export default Payment;

@@ -58,4 +58,3 @@ export const PdfHeader: React.FC<PdfHeaderProps> = () => {
     </View>
   );
 };
-export default PdfHeader;

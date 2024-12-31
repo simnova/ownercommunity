@@ -7,7 +7,7 @@ import { AHPObjectRouteLayer, AHPRootRouteLayer } from '..';
 import { AHPObjectStatusRouteLayer } from '../pages/request-list-page';
 import { AHPActiveCaseDetailsLayer } from '../pages/request-list-page/case-details-page/active-case-details-page';
 
-const Breadcrumbs: React.FC = () => {
+export const Breadcrumbs: React.FC = () => {
   const location = useLocation();
 
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -58,4 +58,3 @@ const Breadcrumbs: React.FC = () => {
   return <Breadcrumb style={{ margin: '16px 0' }}>{breadcrumbItems}</Breadcrumb>;
 };
 
-export default Breadcrumbs;

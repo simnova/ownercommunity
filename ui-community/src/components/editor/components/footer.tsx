@@ -14,7 +14,7 @@ interface FooterProp {
 
 }
 
-const Footer: any = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
+export const Footer: any = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
   const {
     token: { colorTextBase }
   }=theme.useToken();
@@ -195,8 +195,4 @@ Footer.craft = {
   related:{
     settings: FooterSettings
   }
-}
-
-export {
-  Footer
 }

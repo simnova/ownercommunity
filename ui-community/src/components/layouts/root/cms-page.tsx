@@ -3,7 +3,7 @@ import { matchRoutes, useLocation } from 'react-router-dom';
 import * as CmsComponents from "../../editor/components/";
 import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/page-layout';
 
-const CmsPage: React.FC<any> = () => {
+export const CmsPage: React.FC<any> = () => {
   const [pageLayouts] = usePageLayouts();
   const location = useLocation();
   
@@ -26,5 +26,3 @@ const CmsPage: React.FC<any> = () => {
     </div>
   );
 }
-
-export default CmsPage;

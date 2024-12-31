@@ -2,7 +2,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Button } from 'antd';
 import { Fragment, useContext, useState } from 'react';
 import { ThemeContext } from '../ThemeContext';
-const ModalPopUp = () => {
+
+export const ModalPopUp = () => {
   const { currentTokens, setTheme } = useContext(ThemeContext);
   let [isOpen, setIsOpen] = useState(false);
 
@@ -104,5 +105,3 @@ const ModalPopUp = () => {
     </div>
   );
 };
-
-export default ModalPopUp;

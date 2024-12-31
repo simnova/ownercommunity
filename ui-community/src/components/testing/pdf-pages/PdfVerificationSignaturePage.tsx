@@ -3,12 +3,12 @@ import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import SealImage from '../test-images/SealImage.png';
-import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
-import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
-import PdfSignatureReason from '../pdf-signature/PdfSignatureReason';
-import PdfHeader from '../epic/PdfHeader';
-import PdfVerificationSignatureFooter from '../verification/PdfVerificationSignatureFooter';
-import PdfVerificationSignatureInformation from '../verification/PdfVerificationSignatureInformation';
+import { PdfSignatureArea } from '../pdf-signature/PdfSignatureArea';
+import { PdfSignatureInstructions } from '../pdf-signature/PdfSignatureInstructions';
+import { PdfSignatureReason } from '../pdf-signature/PdfSignatureReason';
+import { PdfHeader } from '../epic/PdfHeader';
+import { PdfVerificationSignatureFooter } from '../verification/PdfVerificationSignatureFooter';
+import { PdfVerificationSignatureInformation } from '../verification/PdfVerificationSignatureInformation';
 
 interface PdfTemplateProps {
   data: any;
@@ -46,4 +46,3 @@ export const PdfVerificationSignaturePage: React.FC<PdfTemplateProps> = (props) 
     </Document>
   );
 };
-export default PdfVerificationSignaturePage;

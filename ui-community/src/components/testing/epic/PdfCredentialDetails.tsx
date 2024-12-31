@@ -42,4 +42,3 @@ export const PdfCredentialDetails: React.FC<PdfCredentialDetailsProps> = (props)
     </View>
   );
 };
-export default PdfCredentialDetails;

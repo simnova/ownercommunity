@@ -5,8 +5,8 @@ import { Route, RouteObject, Routes, matchRoutes, useLocation, useNavigate, useP
 import { SiteEditorContainer } from "../components/site-editor.container";
 import { SubPageLayout } from "../sub-page-layout";
 import { SiteEditorFiles } from './site-editor-files';
-import SiteEditorPageEditor from "./site-editor-page-editor";
-import { PageTree } from "./site-editor-page-tree";
+import { SiteEditorPageEditor } from "./site-editor-page-editor";
+import { SiteEditorPageTree as PageTree } from "./site-editor-page-tree";
 import { Helmet } from 'react-helmet-async';
 import { useMemo } from 'react';
 

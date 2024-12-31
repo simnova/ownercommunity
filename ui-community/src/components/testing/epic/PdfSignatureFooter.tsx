@@ -40,4 +40,3 @@ export const PdfSignatureFooter: React.FC<PdfCredentialDetailsProps> = (props) =
   );
 };
 
-export default PdfSignatureFooter;

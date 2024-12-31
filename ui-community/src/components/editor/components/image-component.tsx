@@ -23,7 +23,7 @@ interface ImageProp {
   width: number;
 }
 
-const ImageComponent: any = ({ src, width }: ImageProp) => {
+export const ImageComponent: any = ({ src, width }: ImageProp) => {
   const { connectors: {connect, drag} } = useNode();
 
   return (
@@ -130,6 +130,3 @@ ImageComponent.craft = {
   }
 }
 
-export {
-  ImageComponent
-};

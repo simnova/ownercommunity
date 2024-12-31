@@ -2,7 +2,7 @@ import { Button, Layout, Space } from 'antd';
 import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { MenuComponent, PageLayoutProps } from '../shared/components/menu-component';
-import Breadcrumbs from './components/breadcrumbs';
+import { Breadcrumbs } from './components/breadcrumbs';
 const { Header, Content, Sider } = Layout;
 
 interface AHPPOCSectionLayoutProps {

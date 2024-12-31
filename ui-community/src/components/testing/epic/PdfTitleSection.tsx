@@ -61,4 +61,3 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
     </View>
   );
 };
-export default PdfTitleSection;

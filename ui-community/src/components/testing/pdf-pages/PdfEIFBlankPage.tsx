@@ -1,9 +1,9 @@
 import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
-import PdfEIFSection from '../eif/PdfEIFSection';
-import PdfBarCodeFooter from '../pdf-footers-and-headers/PdfBarCodeFooter';
-import PdfBarCodeHeader from '../pdf-footers-and-headers/PdfBarCodeHeader';
+import { PdfEIFSection } from '../eif/PdfEIFSection';
+import { PdfBarCodeFooter } from '../pdf-footers-and-headers/PdfBarCodeFooter';
+import { PdfBarCodeHeader } from '../pdf-footers-and-headers/PdfBarCodeHeader';
 
 interface PdfTemplateProps {
   data: any;
@@ -33,4 +33,3 @@ export const PdfEIFBlankPage: React.FC<PdfTemplateProps> = (props) => {
     </Document>
   );
 };
-export default PdfEIFBlankPage;

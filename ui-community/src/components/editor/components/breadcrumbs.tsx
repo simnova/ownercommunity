@@ -8,7 +8,7 @@ interface BreadcrumbsProps {
   homePageTitle?: string;
 }
 
-const Breadcrumbs = ({ separator, homePageTitle, ...props } : BreadcrumbsProps) => {
+export const Breadcrumbs = ({ separator, homePageTitle, ...props } : BreadcrumbsProps) => {
 
   const [pageLayouts] = usePageLayouts();
   if(!arePageLayoutsLoaded(pageLayouts)){
@@ -90,7 +90,3 @@ Breadcrumbs.craft = {
     settings: BreadcrumbsSettings
   }
 }
-
-export {
-  Breadcrumbs
-};

@@ -8,7 +8,7 @@ interface RequireAuthProps {
   forceLogin?: boolean;
 }
 
-const RequireAuth: React.FC<RequireAuthProps> = (props) => {
+export const RequireAuth: React.FC<RequireAuthProps> = (props) => {
   const auth = useAuth();
   const location = useLocation();
 
@@ -51,4 +51,3 @@ const RequireAuth: React.FC<RequireAuthProps> = (props) => {
     redirectUser();
   }
 };
-export default RequireAuth;

@@ -29,6 +29,8 @@ export interface PageLayoutProps {
 }
 
 export const Admin: React.FC<any> = (_props) => {
+
+  console.log("test")
   const params = useParams();
 
   const pathLocations = {

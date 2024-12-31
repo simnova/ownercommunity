@@ -23,7 +23,7 @@ import {
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput
 } from '../../../../generated';
-import usePayModal from '../../../../hooks/usePayModal';
+import { usePayModal } from '../../../../hooks/usePayModal';
 import { PaymentModalContainer } from './payment-modal.container';
 import { MemberChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/member/member-chat-messages.container';
 

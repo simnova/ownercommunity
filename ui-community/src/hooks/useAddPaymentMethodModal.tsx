@@ -6,10 +6,8 @@ interface AddPaymentMethodModalStore {
   onClose: () => void;
 }
 
-const useAddPaymentMethodModal = create<AddPaymentMethodModalStore>((set: any) => ({
+export const useAddPaymentMethodModal = create<AddPaymentMethodModalStore>((set: any) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false })
 }));
-
-export default useAddPaymentMethodModal;

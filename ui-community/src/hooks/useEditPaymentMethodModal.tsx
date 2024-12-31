@@ -10,7 +10,7 @@ interface EditPaymentMethodModalStore {
   setPaymentInstrument: (paymentInstrument: PaymentInstrument) => void;
 }
 
-const useEditPaymentMethodModal = create<EditPaymentMethodModalStore>((set: any) => ({
+export const useEditPaymentMethodModal = create<EditPaymentMethodModalStore>((set: any) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
@@ -19,4 +19,3 @@ const useEditPaymentMethodModal = create<EditPaymentMethodModalStore>((set: any)
   setPaymentInstrument: (paymentInstrument: PaymentInstrument) => set({ paymentInstrument })
 }));
 
-export default useEditPaymentMethodModal;

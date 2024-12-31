@@ -38,4 +38,3 @@ export const PdfBarCodeFooter: React.FC<PdfHeaderProps> = () => {
     </View>
   );
 };
-export default PdfBarCodeFooter;

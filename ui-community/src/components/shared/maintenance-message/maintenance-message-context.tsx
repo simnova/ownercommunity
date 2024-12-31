@@ -22,6 +22,5 @@ const initialContext = {
   maintenanceEndTimestamp: ''
 };
 
-const MaintenanceMessageContext = createContext<MaintenanceMessageInterface>(initialContext);
+export const MaintenanceMessageContext = createContext<MaintenanceMessageInterface>(initialContext);
 
-export default MaintenanceMessageContext;

@@ -12,7 +12,7 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
   return config;
 };
 
-const featureFlagConfig: FeatureFlagConfig = {
+export const featureFlagConfig: FeatureFlagConfig = {
   cache: 60 * 1000, //1 minute
   url: import.meta.env.VITE_FEATURE_FLAG_URL ?? "",
  
@@ -27,4 +27,3 @@ export const storybookFeatureFlagConfig: FeatureFlagConfig = {
   fallbackFlagValues: defaultValues,
   axiosRequestConfig: axiosHeaders
 };
-export default featureFlagConfig;

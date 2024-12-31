@@ -3,7 +3,7 @@ import ProLayout from '@ant-design/pro-layout';
 import { Grid, Menu } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import React, { useState } from 'react';
-import { Link, Route, Routes, useResolvedPath, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { ServiceTickets } from './service-tickets';
 import { Properties } from './properties';
 import { Settings } from './settings';

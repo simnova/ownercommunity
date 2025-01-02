@@ -13,6 +13,7 @@ type Community implements MongoBase {
   createdAt: DateTime
   updatedAt: DateTime
   userIsAdmin: Boolean
+  approvedVendors: [VendorUser]
 }
 
 type CommunityDomainResult {
@@ -58,6 +59,7 @@ input CommunityUpdateInput {
   domain: String
   whiteLabelDomain: String
   handle: String
+  approvedVendors: [ObjectID]
 }
 
 input CommunityBlobFileInput {

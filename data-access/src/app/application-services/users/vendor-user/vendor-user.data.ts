@@ -7,6 +7,7 @@ export interface VendorUserDataApi {
   getUserByExternalId(externalId : string): Promise<VendorUserData>;
   getUsers(): Promise<VendorUserData[]>;
 }
+
 export class VendorUserDataApiImpl
   extends CosmosDataSource<VendorUserData, AppContext>
   implements VendorUserDataApi {
@@ -22,8 +23,8 @@ export class VendorUserDataApiImpl
   async getUsers(): Promise<VendorUserData[]> {
     console.log(`getUsers:context${JSON.stringify(this.context.verifiedUser)}`);
     return this.model
-      .find({})
-      .exec();
+    .find()
+    .exec();
   }
-
+  
 }

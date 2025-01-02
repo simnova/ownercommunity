@@ -237,6 +237,7 @@ export enum CacheControlScope {
 
 export type Community = MongoBase & {
   __typename?: 'Community';
+  approvedVendors?: Maybe<Array<Maybe<VendorUser>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   domainStatus?: Maybe<CommunityDomainResult>;
@@ -326,6 +327,7 @@ export type CommunityPublicFileRemoveInput = {
 };
 
 export type CommunityUpdateInput = {
+  approvedVendors?: InputMaybe<Array<InputMaybe<Scalars['ObjectID']>>>;
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -1465,6 +1467,7 @@ export type ServiceTicket = MongoBase & {
   __typename?: 'ServiceTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
   assignedTo?: Maybe<Member>;
+  assignedVendor?: Maybe<VendorUser>;
   community: Community;
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
@@ -1575,6 +1578,7 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
+  assignedVendor?: InputMaybe<Scalars['ObjectID']>;
   description?: InputMaybe<Scalars['String']>;
   messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
   priority?: InputMaybe<Scalars['Int']>;
@@ -2835,6 +2839,7 @@ export interface ByteScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type CommunityResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Community'] = ResolversParentTypes['Community']> = ResolversObject<{
+  approvedVendors?: Resolver<Maybe<Array<Maybe<ResolversTypes['VendorUser']>>>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   domainStatus?: Resolver<Maybe<ResolversTypes['CommunityDomainResult']>, ParentType, ContextType>;
@@ -3800,6 +3805,7 @@ export type ServiceTicketResolvers<
 > = ResolversObject<{
   activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
   assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  assignedVendor?: Resolver<Maybe<ResolversTypes['VendorUser']>, ParentType, ContextType>;
   community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

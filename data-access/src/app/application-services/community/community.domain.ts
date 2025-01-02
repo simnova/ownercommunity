@@ -3,7 +3,7 @@ import { CommunityVisa } from "../../domain/contexts/community/community.visa";
 import { Community } from "../../domain/contexts/community/community/community";
 import { ReadOnlyDomainExecutionContext } from "../../domain/domain-execution-context";
 import { CommunityData } from "../../external-dependencies/datastore";
-import { CommunityDomainAdapter, EndUserConverter, CommunityConverter, CommunityRepository } from "../../external-dependencies/domain";
+import { CommunityDomainAdapter, EndUserConverter, CommunityConverter, CommunityRepository, VendorUserConverter } from "../../external-dependencies/domain";
 import { CommunityCreateInput, CommunityUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 import { ReadOnlyInfrastructureContext } from "../../init/infrastructure-context";
@@ -43,7 +43,16 @@ export class CommunityDomainApiImpl
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized');
     }
-
+    const vendorsList = []
+    if(community.approvedVendors){
+      const {approvedVendors} = community;
+      for(const approvedVendor of approvedVendors){
+        const vendor = await this._context.applicationServices.users.vendorUser.dataApi.getUserById(approvedVendor.id);
+        const vendorDo = new VendorUserConverter().toDomain(vendor, ReadOnlyInfrastructureContext(), ReadOnlyDomainExecutionContext());
+        vendorsList.push(vendorDo);
+      }
+    }
+    
     let result: CommunityData;
     await this.withTransaction(async (repo) => {
       let domainObject = await repo.get(community.id);
@@ -54,6 +63,7 @@ export class CommunityDomainApiImpl
       domainObject.Domain = (community.domain);
       domainObject.WhiteLabelDomain = (community.whiteLabelDomain);
       domainObject.Handle = (community.handle);
+      domainObject.ApprovedVendors = (vendorsList);
       result = (new CommunityConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;

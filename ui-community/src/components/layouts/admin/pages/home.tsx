@@ -4,6 +4,7 @@ import { theme } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CommunityDetailContainer } from '../components/community-detail.container';
 import { SubPageLayout } from '../sub-page-layout';
+import { useEffect } from 'react';
 
 
 export const Home: React.FC<any> = () => {
@@ -14,18 +15,21 @@ export const Home: React.FC<any> = () => {
   }=theme.useToken()
   const params = useParams();
   return (
-    <SubPageLayout fixedHeader={false} header={<PageHeader  
-    
-      title= {
-        <span style={{
-          color: colorTextBase
-        }}>Home</span>
-      }
-    />}>
-      <Helmet>
-        <title>Home - Admin</title>
-      </Helmet>
-      <CommunityDetailContainer data={{ id: params.communityId }} />
-    </SubPageLayout>
+    <>
+      {params.communityId !== null && (
+        <SubPageLayout fixedHeader={false} header={<PageHeader  
+          title={
+            <span style={{
+              color: colorTextBase
+            }}>Home</span>
+          }
+        />}>
+          <Helmet>
+            <title>Home - Admin</title>
+          </Helmet>
+          <CommunityDetailContainer data={{ id: params.communityId }} />
+        </SubPageLayout>
+      )}
+    </>
   );
 };

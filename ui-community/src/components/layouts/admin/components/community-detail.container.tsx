@@ -10,13 +10,14 @@ export const CommunityDetailContainer: React.FC<any> = (props) => {
     loading: communityLoading,
     error: communityError
   } = useQuery(AdminCommunityDetailContainerCommunityByIdDocument, {
-    variables: { id: props.data.id ?? '' }
-  });
+    variables: { id: props.data.id },
+      fetchPolicy: 'network-only'
+  },);
 
   return (
     <ComponentQueryLoader
       loading={communityLoading}
-      hasData={communityData}
+      hasData={communityData?.communityById}
       hasDataComponent={<CommunityDetail data={communityData?.communityById as AdminCommunityDetailContainerCommunityFieldsFragment} />}
       error={communityError}
     />

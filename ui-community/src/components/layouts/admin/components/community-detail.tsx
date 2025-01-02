@@ -10,10 +10,10 @@ export interface CommunityDetailProps {
 export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
 
   const whiteLabelDetails = () => {
-    if (props.data.whiteLabelDomain) {
+    if (props.data?.whiteLabelDomain) {
       return (
         <Descriptions.Item label="White Label Name">
-          <Text strong>{props.data.whiteLabelDomain}</Text>
+          <Text strong>{props.data?.whiteLabelDomain}</Text>
         </Descriptions.Item>
       );
     } else {
@@ -22,20 +22,20 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
   };
 
   const domainDetails = () => {
-    if (props.data.domain) {
+    if (props.data?.domain) {
       return (
         <Descriptions.Item label="Domain Name">
-          <Text strong>{props.data.domain}</Text>
+          <Text strong>{props.data?.domain}</Text>
         </Descriptions.Item>
       );
     }
   };
 
   const handleDetails = () => {
-    if (props.data.handle) {
+    if (props.data?.handle) {
       return (
         <Descriptions.Item label="Handle Name">
-          <Text strong>{props.data.handle}</Text>
+          <Text strong>{props.data?.handle}</Text>
         </Descriptions.Item>
       );
     } else {
@@ -65,10 +65,10 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
 
       <Descriptions column={1}>
         <Descriptions.Item label="Community ID">
-          <Text strong data-testid="community-id">{props.data.id}</Text>
+          <Text strong data-testid="community-id">{props.data?.id}</Text>
         </Descriptions.Item>
         <Descriptions.Item label="Community Name">
-          <Text strong data-testid="community-name">{props.data.name}</Text>
+          <Text strong data-testid="community-name">{props.data?.name}</Text>
         </Descriptions.Item>
         {whiteLabelDetails()}
         {domainDetails()}

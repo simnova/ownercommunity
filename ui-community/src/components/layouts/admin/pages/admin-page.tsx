@@ -200,13 +200,13 @@ export const AdminPage: React.FC<HomeProps> = () => {
     >
       <Content style={{ height: 'calc(100% - 55px)', overflowY: isMobile ? 'unset' : 'auto' }}>
         <Routes>
-          <Route path={pathLocations.home} element={<Home />} />
           <Route path={pathLocations.settings} element={<Settings />} />
           <Route path={pathLocations.siteEditor} element={<SiteEditor />} />
           <Route path={pathLocations.roles} element={<Roles />} />
           <Route path={pathLocations.members} element={<Members />} />
           <Route path={pathLocations.properties} element={<Properties />} />
           <Route path={pathLocations.serviceTickets} element={<ServiceTickets />} />
+          <Route path={pathLocations.home} element={<Home />} />
         </Routes>
       </Content>
     </ProLayout>

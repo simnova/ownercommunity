@@ -19,8 +19,8 @@ export const Admin: React.FC<any> = (_props) => {
   return (
     <BlobToLocalStorage communityId={params.communityId}>
       <Routes>
-        <Route path="/*" element={<SectionLayoutContainer />}>
-          <Route path="/*" element={<AdminPage />} />
+        <Route path="*" element={<SectionLayoutContainer />}>
+          <Route path="*" element={<AdminPage />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

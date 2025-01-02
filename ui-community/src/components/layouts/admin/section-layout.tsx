@@ -1,91 +1,62 @@
 import { Layout, theme } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { PageLayoutProps } from '.';
-import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
-import { MenuComponent } from '../shared/components/menu-component';
 import './section-layout.css';
-import { Member } from '../../../generated';
+import { Content } from 'antd/es/layout/layout';
 
-const { Sider, Header } = Layout;
+const { Header } = Layout;
 
-interface AdminSectionLayoutProps {
-  pageLayouts: PageLayoutProps[];
-  memberData: Member;
-}
+interface AdminSectionLayoutProps {}
 
-export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
+export const SectionLayout: React.FC<AdminSectionLayoutProps> = () => {
   const params = useParams();
-  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
-  const [isExpanded, setIsExpanded] = useState(!sidebarCollapsed);
   const {
     token: { colorBgContainer }
   } = theme.useToken();
 
   return (
-    <Layout className="site-layout" style={{ minHeight: '100vh' }}>
+    <Layout
+      // className="site-layout"
+      style={{
+        minHeight: '100vh',
+        width: '100vw',
+        overflowX: 'hidden',
+        overflowY: 'hidden'
+      }}
+    >
       <Header
         style={{
-          backgroundColor: colorBgContainer,
+          display: 'flex',
+          padding: '0 16px',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'fixed',
+          zIndex: 1000,
+          backgroundColor: colorBgContainer
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            gap: '10px'
-          }}
-        >
-          <div style={{ display: 'flex' }} className="allowBoxShadow">
-            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
-          </div>
-          <Link
-            className="allowBoxShadow"
-            to={`/community/${params.communityId}/member/${params.memberId}`}
-          >
-            View Member Site
-          </Link>
-
-          <LoggedInUserContainer autoLogin={true} />
-        </div>
+        <CommunitiesDropdownContainer data={{ id: params.communityId }} />
+        <Link className="allowBoxShadow" to={`/community/${params.communityId}/member/${params.memberId}`}>
+          View Member Site
+        </Link>
+        <LoggedInUserContainer autoLogin={true} />
       </Header>
-
-      <Layout hasSider={true}>
-        <Sider
-          theme="light"
-          className="site-layout-background"
-          collapsible
-          collapsed={!isExpanded}
-          onCollapse={() => handleToggler(isExpanded, setIsExpanded)}
+      <Layout
+        style={{
+          transform: 'translateY(60px)'
+        }}
+      >
+        <Content
           style={{
-            overflow: 'auto',
-            height: 'calc(100vh - 64px)',
-            position: 'relative',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            backgroundColor: colorBgContainer
-          }}
-        >
-          <div className="logo" />
-
-          <MenuComponent pageLayouts={props.pageLayouts} memberData={props.memberData} theme="light" mode="inline" />
-        </Sider>
-
-        <Layout
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: '1 auto',
-            overflowY: 'scroll',
-            height: 'calc(100vh - 64px)',
+            overflowX: 'hidden',
+            width: '100%'
           }}
         >
           <Outlet />
-        </Layout>
+        </Content>
       </Layout>
     </Layout>
   );

@@ -1,16 +1,13 @@
 import { useLazyQuery } from '@apollo/client';
-import { PageLayoutProps } from '.';
-import { Member, SectionLayoutContainerMemberByIdQueryDocument } from '../../../generated';
+import { SectionLayoutContainerMemberByIdQueryDocument } from '../../../generated';
 import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../ui/molecules/component-query-loader';
 import { SectionLayout } from './section-layout';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-interface SectionLayoutContainerProps {
-  pageLayouts: PageLayoutProps[];
-}
+interface SectionLayoutContainerProps {}
 
-export const SectionLayoutContainer = (props: SectionLayoutContainerProps) => {
+export const SectionLayoutContainer: FC<SectionLayoutContainerProps> = () => {
   const params = useParams();
 
   const [memberQuery] = useLazyQuery(SectionLayoutContainerMemberByIdQueryDocument);
@@ -20,7 +17,7 @@ export const SectionLayoutContainer = (props: SectionLayoutContainerProps) => {
 
   useEffect(() => {
     const getData = async () => {
-      try{
+      try {
         const {
           data: memberDataTemp,
           loading: memberLoadingTemp,
@@ -31,22 +28,14 @@ export const SectionLayoutContainer = (props: SectionLayoutContainerProps) => {
           }
         });
         setMemberData(memberDataTemp);
-      setMemberError(memberErrorTemp);
-      setMemberLoading(memberLoadingTemp);
-      }
-      catch(e){
-        console.error("Error fetching data in section layout: ", e);
+        setMemberError(memberErrorTemp);
+        setMemberLoading(memberLoadingTemp);
+      } catch (e) {
+        console.error('Error fetching data in section layout: ', e);
       }
     };
     getData();
   }, [params]);
 
-  return (
-    <ComponentQueryLoader
-      loading={memberLoading}
-      hasData={memberData}
-      hasDataComponent={<SectionLayout pageLayouts={props.pageLayouts} memberData={memberData?.member as Member} />}
-      error={memberError}
-    />
-  );
+  return <ComponentQueryLoader loading={memberLoading} hasData={memberData} hasDataComponent={<SectionLayout />} error={memberError} />;
 };

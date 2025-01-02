@@ -28,7 +28,8 @@ export const SiteEditor: React.FC<any> = () => {
     {id:'files', path:'files', title:'Files'}
   ]
 
-  const convertedRoutes = useMemo(() => pages.map((x) => {return {id: x.id, path: useResolvedPath(x.path).pathname} as RouteObject}), [pages]);
+  const resolvedPaths = pages.map((x) => useResolvedPath(x.path).pathname);
+  const convertedRoutes = useMemo(() => pages.map((x, index) => {return {id: x.id, path: resolvedPaths[index]} as RouteObject}), [pages, resolvedPaths]);
   const matchedPages = matchRoutes(convertedRoutes, location);
   const selectedPage = (matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : ['page-tree'])[0];
 

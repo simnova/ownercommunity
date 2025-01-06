@@ -37,12 +37,12 @@ export const PropertiesListSearchListingCards: React.FC<ListingCardsProps> = (pr
       <div className="mt-2 flex grid grid-col-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {props.properties.map((property: PropertyResult) => (
           <div key={property.id} className="group relative">
-            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
                 {generatePropertyBadges(property)}
                 <img
                   src={property.images?.[0] ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` : PropertyFallbackImage}
                   alt={property?.name ?? 'Property image not found'}
-                  className="rounded-md object-cover object-center lg:h-full sm:h-72 xs:h-64 w-full z-1"
+                  className="rounded-md object-cover object-center w-full h-full"
                 />
             </div>
             <div className="mt-4 flex justify-between">

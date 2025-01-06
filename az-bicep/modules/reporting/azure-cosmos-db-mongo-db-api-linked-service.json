@@ -1,0 +1,21 @@
+{
+    "name": "AzureCosmosDbMongoDbApiLinkedService",
+    "properties": {
+        "type": "CosmosDbMongoDbApi",
+        "typeProperties": {
+            "database": "reportingdb",
+            "connectionString": {
+                "type": "AzureKeyVaultSecret",
+                "secretName": "COSMOSDB-REPORTING-CONNECTION-STRING",
+                "store":{
+                    "referenceName": "AzureKeyVaultLinkedService",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        },
+        "connectVia": {
+            "referenceName": "AutoResolveIntegrationRuntime",
+            "type": "IntegrationRuntimeReference"
+        }
+    }
+}

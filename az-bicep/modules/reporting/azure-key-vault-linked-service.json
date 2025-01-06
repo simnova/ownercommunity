@@ -1,0 +1,14 @@
+{
+    "name": "AzureKeyVaultLinkedService",
+    "properties": {
+        "type": "AzureKeyVault",
+        "description": "Linked Service to Azure Key Vault",
+        "typeProperties": {
+            "baseUrl": "https://cxa-dev-kv-mg.vault.azure.net"
+        },
+        "connectVia": {
+            "referenceName": "AutoResolveIntegrationRuntime",
+            "type": "IntegrationRuntimeReference"
+        }
+    }
+}

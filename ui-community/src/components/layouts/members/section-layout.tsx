@@ -9,6 +9,7 @@ import { MembersSectionLayoutMemberForCurrentUserDocument } from '../../../gener
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
 const { Sider, Header } = Layout;
+const MOBILE_SCREEN_BREAKPOINT = 768;
 export const SectionLayout: React.FC<any> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(!sidebarCollapsed);
@@ -29,6 +30,24 @@ export const SectionLayout: React.FC<any> = (props) => {
 
     fetchData();
   }, []);
+
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < MOBILE_SCREEN_BREAKPOINT) { 
+      setIsExpanded(false);
+    } else {
+      setIsExpanded(true);
+    }
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  handleResize();
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
 
   const adminLink = () => {
       if (data?.memberForCurrentUser?.isAdmin !== null && data?.memberForCurrentUser?.isAdmin) {

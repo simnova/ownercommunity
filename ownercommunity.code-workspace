@@ -24,10 +24,10 @@
 	],
 	"settings": {
 		"debug.internalConsoleOptions": "neverOpen",
-		"github.copilot.chat.experimental.codeGeneration.instructions": [
+		"github.copilot.chat.codeGeneration.instructions": [
 			{
 				"file": "rules.md"
-			},
+			}
 		]
 	}
 }

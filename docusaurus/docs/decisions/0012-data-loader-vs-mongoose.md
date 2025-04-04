@@ -31,9 +31,10 @@ When querying MongoDB, we need to decide whether to use `apollo-datasource-mongo
 The decision is based on the following criteria:
 
 ### 1. If the function is **only used by resolvers**:
-   - **Check if the resulting array needs inner iterations**:
-     - **If yes** (e.g., field projection like `{ id: 1 }`, a datetime comparison such as `{ $lte: now }`, or nested field populate `find({}).populate(['applicant'])`), **use Mongoose APIs**.
-     - **If no**, **use `apollo-datasource-mongodb`**.
+   - **Check if the query requires processing or manipulation of the returned documents beyond simple retrieval**:
+     - **If yes with advanced operations such as field projection like `{ id: 1 }` or a datetime comparison such as `{ $lte: now }`**, use Mongoose APIs
+     - **If yes with nested field populate `find({}).populate(['applicant'])`**, **use `apollo-datasource-mongodb`**, and remove populate().
+     - **If no**, use `apollo-datasource-mongodb`.
 
 ### 2. If the function is **used in both resolvers and backend logic**:
    - **If no nested fields need to be populated**, **use `apollo-datasource-mongodb`**.
@@ -79,14 +80,18 @@ We will follow the structured approach outlined above to determine when to use `
 
 ## MORE INFORMATION
 
-- Decision Tree for choosing between `apollo-datasource-mongodb` and Mongoose APIs:
+- **Decision Tree for choosing between `apollo-datasource-mongodb` and Mongoose APIs**: The diagram illustrates the decision process for selecting the appropriate API based on query complexity and performance requirements.
+
 ![Decision Tree](./img/data-loader_mongoose.png)
-- Performance comparison between `apollo-datasource-mongodb` and Mongoose APIs:
-  - **Result has N documents with one nested field populated**:
+- **Performance comparison between `apollo-datasource-mongodb` and Mongoose APIs**:
+  - **Result has N documents with one nested field populated**: Compares data retrieval performance when executing queries that fetch multiple documents, each with one nested field populated.
 ![Performance Comparison 1](./img/performance-comparison1.png)
-  - **Result has 1 documents with no fields populated**:
+
+  - **Result has 1 document with no fields populated**: Highlights the baseline performance of both approaches when no nested data is included.
 ![Performance Comparison 2](./img/performance-comparison2.png)
-  - **Result has 1 documents with multiple nested fields populated**:
+
+  - **Result has 1 document with N nested fields populated**: Demonstrates the performance overhead when handling queries that return 1 document and require populating multiple nested fields.
 ![Performance Comparison 3](./img/performance-comparison3.png)
-  - **Time added by a redundant populate() call**:
+
+  - **Time added by a redundant populate() call**: Illustrates the additional time incurred by an unnecessary populate() operation, comparing the performance cost between the implementations.
 ![Performance Comparison 4](./img/performance-comparison4.png)

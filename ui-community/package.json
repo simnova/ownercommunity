@@ -30,6 +30,7 @@
     "browser-image-compression": "^1.0.17",
     "copy-to-clipboard": "^3.3.1",
     "country-state-city": "^3.2.1",
+    "crypto-hash": "^3.1.0",
     "dayjs": "^1.11.0",
     "dotenv": "^16.4.5",
     "graphql": "^16.3.0",
